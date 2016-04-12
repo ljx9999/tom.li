@@ -1,0 +1,51 @@
+ <table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+            <if condition="!empty($activities)">
+                <thead>
+                <tr>
+                    <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+                    <!--<th><input type="checkbox" id="check_all"/></th>-->
+                    <th>活动海报</th>
+                    <th>活动名称</th>
+                    <th>发布</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>管理</th>
+                </tr>
+                </thead>
+                 <else/>
+                    <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+                </if>
+                <tbody>
+                <foreach item="activity" name="activities">
+                    <tr>
+                        <td><input type="checkbox" id="activity_{$activity.id}" name="activity_checkbox"/></td>
+                        <td align="center" ><img src="__APP__/Uploads/{$activity.act_image}" width="100" height="100"></td>
+                        <td>{$activity.act_title}</td>
+                        <td>
+                            <if condition="($activity.status eq 1) ">
+                                开启
+                                <else/>
+                                关闭
+                            </if>
+                        </td>
+                        <td> {$activity.start_time|date="y-m-d",###}</td>
+                        <td>{$activity.end_time|date="y-m-d",###}</td>
+
+                        <td>
+                            <div class="formGroup">
+                                <a href="{:U('Admin/Activity/edit?id='.$activity['id'])}"
+                                   class="button button-rounded button-tiny button-flat-caution">编辑</a>
+                                <a href="javascript:deleteBillboard('{$activity.id}')"
+                                   class="button button-rounded button-tiny button-flat-caution"> 删除</a>
+                            </div>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>  
+            </table>
+        <script>
+            //选择所有
+            $('#check_all').click(function () {
+                $("input[name='activity_checkbox']").prop('checked', $(this).prop("checked"));
+            });
+        </script>

@@ -1,0 +1,37 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+    <thead>
+    <tr>
+        <!--<th ><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>-->
+        <th>商品编号</th>
+        <th>商品名称</th>
+        <th>分类</th>
+        <th>品牌</th>
+        <th>售价</th>
+        <th>库存</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <volist name="productList" id="product">
+        <tr >
+            <!--<td style="text-align:center;">-->
+                <!--<input type="checkbox" value="{$product.id}" name="goods_checkbox"/>-->
+            <!--</td>-->
+            <td id="product_number_{$product.id}">
+                {$product.product_number}
+            </td>
+            <td id="product_name_{$product.id}">{$product.product_name}</td>
+            <td id="categoryName_{$product.id}">{$product.categoryName}</td>
+            <td id="brandName_{$product.id}">{$product.brandName}</td>
+            <td id="product_price_{$product.id}">{$product.product_max_price}-{$product.product_min_price}</td>
+            <td id="product_score_{$product.id}">{$product.product_score}</td>
+            <td>
+                <input type="button" value="选择" id="sel_{$product.id}"  onclick="selectPInfo('{$product.id}');" class="button button-rounded button-tiny button-flat-caution">
+                <!--<a href="javascript:selectPInfo('{$product.id}');" id="" class="button button-rounded button-tiny button-flat-caution">选择</a>-->
+            </td>
+        </tr>
+    </volist>
+
+    </tbody>
+
+</table>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{$css_dir}/style.min.css">
+    <link rel="stylesheet" type="text/css" href="{$css_dir}/StarRating.css">
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/layer.m.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div id="titleString" class="title">简介</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+
+<div class="container">
+    <ul class="unstyled hotel-bar">
+        <li class="first"><a href="{:U('Worker/show?id='.$_GET['id'])}"  class="active">简介</a></li>
+        <li><a href="{:U('Worker/show_case?id='.$_GET['id'])}">案例</a></li>
+        <li><a href="{:U('Worker/show_review?id='.$_GET['id'])}">评价</a></li>
+    </ul>
+    <div class="container hotellistbg">
+        <div style="float:left">
+            <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp*温馨提示：</font></label><br>
+                <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp联系工人时请说：“您好，我是在滴滴装修上看到您的信息。”</font></label><br>
+
+            </div>
+</div>
+    <div id="hotelinfo" class="hotel-prompt ">
+        <div class="fl">
+            <img class="hotelimg" src="__APP__/Uploads/{$info.head_image}" onerror="javascript:this.src='__APP__/Uploads/worker.jpg';" width="100px" />
+            <if condition="$uid gt 0">
+            <a href="tel:{$info.mobile}">联系电话</a>
+             <if condition="$bj neq 'biaoji'"><a href="javascript:void(0)" onclick="ordered({$info.id})">立即下单</a></if>
+            <a  href="javascript:void(0)"  id="collect"><if condition="$info2['status'] eq 1">已收藏<else />收藏</if></a>
+            </if>
+        </div>
+
+        <div class="inline">
+            <dl>
+                <p><b>{$info.realname}</b> &nbsp;&nbsp;&nbsp;<a href="http://didifree.com/test.html"><img src="__APP__/Uploads/download.png" width="20" height="20"/></p>
+                <p><div id="star">
+                <span></span>
+                <ul>
+                    <for start="0" end="$info['level']">
+                    <li class="on"><a href="javascript:;">1</a></li>
+                   </for>
+                </ul>
+                <span></span>
+                <p></p><br>
+            </div></p>
+               <if condition="$info['identity'] eq 2">
+                <p> <span class="inline-style">年龄：{$info.age}岁</span> <span class="inline-style"> </span></p>
+                <p>  <span >工龄：{$info.work_life}年</span> </p>
+                <p>  <span >工种：{$info.type}</span> </p>
+               </if>
+                <p>地址：{$info.address}</p>
+                <p>简介：{$info.content}</p>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+</body>
+<script type="text/javascript">
+    $(function() {
+        $("#collect").click(function () {
+            var id = {$_GET['id']};
+            $.ajax({
+                url: '__APP__/Home/Worker/collectAct',
+                data: {'id': id},
+                dataType: 'json',
+                type: 'post',
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == 1) {
+                        if( $("#collect").html()=='已收藏'){
+                            $("#collect").html("收藏");
+                        }else{
+                            $("#collect").html("已收藏");
+                        }
+                    } else {
+                        $("#collect").html("收藏");
+                    }
+                }
+            });
+        });
+
+         $('input[type=checkbox]').change(function(){
+            $('#CheckAll').val($('input[type=checkbox]:checked').map(function(){return this.value}).get().join(','))
+        });
+    });
+function ordered(fid){
+var str="";
+    str+="<div title='提交需求' ><div id='dialog_answer_list'><div class='formGroup box'>";
+    str+="<p class='formGroup'><label for='community_name' class='labelTitle'>居住小区：</label> <input type='text' id='community_name' name='community_name' placeholder='请填写您居住的小区名称' ></p>";
+    str+="<p class='formGroup'><label for='userName' >您的称呼：</label><input type='text'id='userName' name='userName' placeholder='请填写您的称呼' value='{$userName}'></p>";
+    str+="<p class='formGroup'><label for='area' >房屋面积：</label><input type='text'id='area' name='area' placeholder='请填写您的房屋面积（平方米）'></p>"
+    str+="<p class='formGroup'><label for='house_type'>房屋户型：</label><select name='house_type' id='house_type' style='background: none repeat scroll 0 0 #F9F9F9;width:215px'><option value ='' >请选择你的户型</option><option value ='1室1厅1卫' >1室1厅1卫</option><option value ='2室1厅1卫'>2室1厅1卫</option><option value='3室1厅1卫'>3室1厅1卫</option><option value='2室2厅1卫'>2室2厅1卫</option><option value='3室2厅1卫'>3室2厅1卫</option><option value='4室2厅2卫'>4室2厅2卫</option></select></p>"
+    str+="<p class='formGroup'><label for='work_time' >期望工期：</label><input type='text' id='work_time' name='work_time' placeholder='请填写您期望的工期（月）'></p>";
+    str+="<p class='formGroup'><label for='budget' >装修预算：</label><input type='text' id='budget' name='budget' placeholder='填写您的装修预算' ></p>";
+    str+="<p class='formGroup'><label for='mobile' class='labelTitle' >联系电话：</label><input type='text' id='mobile' name='mobile' value='{$mobile}' readOnly/></p>";
+    str+="<p class='formGroup'>需求:<input type='checkbox' name='need' value='全包' id='quanbao'><label for='quanbao'>全包</label><input type='checkbox' name='need' id='banbao' value='半包' ><label for='banbao'>半包</label><input type='checkbox' name='need' id='youqi'  value='油漆'><label for='youqi'>油漆</label><input type='checkbox' name='need' id='shuidian' value='水电'><label for='shuidian'>水电</label><input type='checkbox' name='need' id='muzuo' value='木工'><label for='muzuo'>木工</label><input type='checkbox' name='need' id='nishui' value='泥瓦工'><label for='nishui'>泥瓦工</label><input type='checkbox' name='need' id='dabai' value='大白工'><label for='dabai'>大白工</label><input type='checkbox' name='need' id='ligong' value='力工'><label for='ligong'>力工</label><input type='checkbox' name='need' id='weixiu' value='维修工'><label for='weixiu'>维修工</label><input type='checkbox' name='need' id='qita' value='其他'><label for='qita'>其他</label>";
+    str+="<p class='formGroup'><label for='msg'>需求简述</label><textarea name='msg' cols='50' rows='5' id='msg'></textarea></p></div></div></div>";
+    str+="<input type='hidden' value='' name='needAll' id='CheckAll' />"
+   layer.open({
+        content:  str,
+        btn: ['确认', '取消'],
+        shadeClose: false,
+        fixed:false,
+        yes: function(){
+            var community_name = $('#community_name').val();
+            var userName = $('#userName').val();
+            var budget = $('#budget').val();
+            var mobile = $('#mobile').val();
+            var msg = $('#msg').val();
+            var house_type = $("#house_type").val();
+            var work_time = $("#work_time").val();
+            var CheckAll = $("#CheckAll").val();
+            $.ajax({
+            type: "POST",
+            url: "{:U('Home/Order/demand')}",
+            data: {'community_name':community_name,'userName':userName,'budget':budget,'mobile':mobile,'msg':msg,'CheckAll':CheckAll,'house_type':house_type,'work_time':work_time,'fid':fid},
+            dataType : "JSON",
+            success: function(jsonResult){
+                if(jsonResult.status == 1){
+                    layer.open({content: '请等待施工方响应', time: 5}); 
+                    location.reload(); 
+                }else{
+                    layer.open({content: '下单失败！', time: 5});
+                }
+
+            }
+        })
+        }, no: function(){
+            
+        }
+    });
+}
+
+
+</script>
+</html>

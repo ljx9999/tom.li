@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+    <script type="text/javascript" src="{$js_dir}/dialog.js"></script>
+</head>
+<body>
+<include file="Public/banner.inc"/>
+<include file="Public/nav.inc"/>
+
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxBillBoard" class="box disHide">
+            <h2>
+                答疑咨询列表
+                <span>Advice List</span>
+            </h2>
+            <hr/>
+
+            <!-- 内容开始 -->
+            <div class="formGroup">
+                <a href="javascript:void(0);" id="delete_btn"
+                   class="button button-rounded button-tiny button-flat-caution">批量删除</a>
+                <input name="keyword" id="search_keyword" type="text" placeholder="关键词" class="inputText widthSmall">
+                <input type="button" value="搜索" id="keyword_btn"
+                       class="button button-rounded button-flat-caution button-tiny">
+            </div>
+            <div class="space"></div>
+            <div class="space"></div>
+
+            <div id="tableBody">
+                <include file="Answer/billboard-table.inc"/>
+            </div>
+            <input type="hidden" id="last_page" value="{$last_page}">
+            <p id="pageBody">
+                {$page}
+            </p>
+        </div>
+    </div>
+</div>
+
+<include file="Public/footer.inc"/>
+<!--点击添加时显示会员信息的页面-->
+<div id="dialog_list" title="咨询答疑" style="display: none;" class="box">
+        <form id="answer_form" action="javascript:void(0);">
+            <div id="dialog_answer_list" style="display: ;">
+                <div class="formGroup box">
+                   <p class="formGroup">
+                        <label for="user_name" class="labelTitle" >会员名</label>
+                        <span id="user_name">小鑫</span>
+                    </p>
+                    <p class="formGroup">
+                        <label for="cats" class="labelTitle" >类别</label>
+                         <span id="cats">咨询</span>
+                    </p>
+                    <p class="formGroup">
+                        <label for="question" class="labelTitle" >咨询提问</label>
+                        <span style="width:70%" id="question_info">csgcscgusacsaucsacgsaigciscshchcsciscisa检测技术将将计就计长沙查删除洒出删除删除撒擦拭长撒从初三</span>
+                    </p>
+                    <p class="formGroup">
+                        <label for="question" class="labelTitle" >咨询提问</label>
+                        <textarea name="answer" cols="50" rows="5" id="answer_info"></textarea>
+                    </p>
+                    <input type="hidden" id="answer_id" value="">
+                </div>
+            </div>
+        </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        setInterval(function () {
+            $("#boxBillBoard").slideDown();
+        }, 300);
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+
+        $("#keyword_btn").on("click", function () {
+            var keyword = $("#search_keyword").val();
+            if (keyword == "" || keyword == null || keyword == "请输入搜索关键字") {
+                keyword = '';
+                jAlert("请输入搜索关键字！", "搜索提示");
+                return;
+            }
+
+            if (keyword.toUpperCase() == 'ALL') {
+                keyword = "";
+            }
+
+            $.post("{:U('Admin/Answer/ajaxSearch')}", {'keyword': keyword}, function (data) {
+                $("#tableBody").html(data.info.tabelBody);
+                $("#pageBody").html(data.info.pageBody);
+            });
+        });
+
+        $('#check_all').click(function () {
+            $("input[name='billboard_checkbox']").prop('checked', $(this).prop("checked"));
+        });
+
+        $('#delete_btn').click(function () {
+            var ids = new Array();
+            $("input[name='billboard_checkbox']:checked").each(function () {
+                var id = $(this).val();
+                ids.push(id);
+            });
+
+            if (ids.length < 1) {
+                jAlert("请选择要删除的信息", '删除提示消息');
+            } else {
+                jConfirm("请确认要删除的信息，删除后无法恢复", "确认消息", function (r) {
+                    if (r) {
+                        $.post("{:U('Admin/Answer/deleteAct')}", {'ids': ids}, function (data) {
+                            var status = data.status;
+                            var info = data.info;
+                            if (status) {
+                                if (r) {
+                                    location.reload();
+                                }
+                            } else {
+                                jAlert(info, "删除信息提示");
+                            }
+                        });
+                    } else {
+                    }
+                });
+            }
+        });
+        
+        //弹出回复框操作
+        $( ".answer" ).button() .click(function() {
+            var id = $(this).attr('item');
+            $.post("{:U('Admin/Answer/getMessage')}", {'id': id}, function (data) {
+                    var status = data.status;
+                    var info = data.info;
+                    if (status) {
+                          $('#user_name').html(info.user_name);  
+                          $('#cats').html(info.cat_name); 
+                           $('#answer_id').val(info.id);   
+                          $('#question_info').html(info.message);    
+                    } else {
+                        jAlert("网络错误，请稍后！", "提示消息");
+                    }
+                });
+            $( "#dialog_list" ).dialog( "open" );
+
+        });
+
+        //回复内容操作
+        $( "#dialog_list").show().dialog({
+            autoOpen: false,
+            modal: true,
+            width:701,
+            closeText: "",
+            dialogClass:'box',
+            buttons: {
+                "完成": function() {
+                    var id = $('#answer_id').val();
+                    var answer = $('#answer_info').val();
+                    $.post("{:U('Admin/Answer/ajaxSubAnswer')}", {'id': id,'answer':answer}, function (data) {
+                        var status = data.status;
+                        var info = data.info;
+                        if (status) {
+                            jAlert("回复成功！", "提示消息");  
+                            location.reload();
+                        } else {
+                            jAlert("网络错误，请稍后！", "提示消息");
+                        }
+                    });
+                    $( this ).dialog( "close" );
+                },
+                "取消": function() {
+                    $( this ).dialog( "close" );
+                }
+            },
+            close: function() {
+            }
+    });
+
+
+    });
+
+    /**
+     * AJAX分页处理
+     * @param url
+     */
+    function ajaxPage(url) {
+        if (url == undefined) {
+            return;
+        }
+        if ($.trim(url) == '') {
+            return;
+        }
+        var urlStr = $.trim(url);
+        var paraStr = "";
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType: "JSON",
+            success: function (jsonResult) {
+                $("#tableBody").html(jsonResult.info.tabelBody);
+                $("#pageBody").html(jsonResult.info.pageBody);
+            
+            }
+        });
+    }
+
+    /**
+     * AJAX分页处理
+     * @param url
+     */
+    function ajaxPageByGo(url, pid) {
+        if (url == undefined) {
+            return;
+        }
+        if ($.trim(url) == '') {
+            return;
+        }
+
+        var urlStr = $.trim(url);
+        urlStr = urlStr.replace(/%_p%/, $("#" + pid).val()); // "hxllx"
+
+        var paraStr = '';
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType: "JSON",
+            success: function (jsonResult) {
+                $("#tableBody").html(jsonResult.info.tabelBody);
+                $("#pageBody").html(jsonResult.info.pageBody);
+               
+            }
+        });
+    }
+
+
+   function hrefPageByGo(url,pid){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+        var last_page = $("#last_page").val();
+        var pageId = $("#"+pid).val();
+        if(pageId == ""){
+            return;
+        }
+        if(pageId > last_page || pageId<=0){
+            return;
+        }
+        var urlStr  = $.trim(url);
+        urlStr = urlStr.replace( /%_p%/, $("#"+pid).val()); // "hxllx"
+
+        location.href =urlStr;
+    }
+
+
+    function deleteBillboard(id) {
+        jConfirm("请确认要删除的信息，删除后无法恢复", "确认消息", function (r) {
+            if (r) {
+                $.post("{:U('Admin/Answer/deleteAct')}", {'id': id}, function (data) {
+                    var status = data.status;
+                    var info = data.info;
+                    if (status) {  
+                            location.reload();
+                    } else {
+                        jAlert(info, "删除提示消息");
+                    }
+                });
+            } else {
+            }
+        })
+    }
+
+    
+
+    function sortCallBack(jsonResult) {
+        $("#tableBody").html(jsonResult.info.tabelBody);
+        $("#pageBody").html(jsonResult.info.pageBody);
+        $.changeSortImage();
+    }
+</script>
+
+
+</body>
+</html>

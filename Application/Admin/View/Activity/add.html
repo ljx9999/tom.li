@@ -1,0 +1,279 @@
+<html>
+<head>
+    <include file="Public/header.inc"/>
+    <link rel="stylesheet" href="{$js_dir}/jqwidgets/styles/jqx.base.css" type="text/css"/>
+    <!--<script type="text/javascript" src="{$js_dir}/product.js"></script>-->
+    <title>促销活动增加</title>
+    <style>
+        .add_pro{
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<include file="Public/banner.inc"/>
+<include file="Public/nav.inc"/>
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxActivityAdd" class="box disHide">
+            <h2>促销活动增加<span>Activity Add</span></h2>
+            <hr>
+            <form action="{:U('Admin/Activity/ajaxAddActivity')}" method="post" id="activity_dataform">
+                <input type="hidden" name="ids" id="product_ids" value="">
+
+                <div class="box">
+                    <h4>基本信息</h4>
+                    <hr>
+                    <p class="formGroup">
+                        <label for="act_title" class="labelTitle"> 促销活动名称 </label>
+                        <input type="text" name="act_title" id="act_title" class="inputText widthNormal"/>
+                        <span id="title_error"></span>
+                    </p>
+                    <div class="formGroup">
+                        <label class="labelTitle">活动类型</label>
+                        <label class="disBlock labelCheckBox">
+                            <input type="radio" checked name="type" value="1" class="inputCheckBox">用工方首页轮播</label>
+                        <label class="disBlock labelCheckBox">
+                            <input type="radio" name="type" value="2" class="inputCheckBox">用工方活动</label>
+                         <label class="disBlock labelCheckBox">
+                            <input type="radio" name="type" value="4" class="inputCheckBox">施工方活动</label>
+                        <label class="disBlock labelCheckBox">
+                            <input type="radio" name="type" value="3" class="inputCheckBox">施工方首页轮播</label>
+                    </div>
+
+                    <div class="formGroup">
+                        <label class="labelTitle">发布</label>
+                        <label class="disBlock labelCheckBox">
+                            <input type="radio" checked name="status" value="1" class="inputCheckBox">是</label>
+                        <label class="disBlock labelCheckBox">
+                            <input type="radio" name="status" value="0" class="inputCheckBox">否</label>
+                    </div>
+                    <p class="formGroup">
+                        <label for="act_order" class="labelTitle" >排序</label>
+                        <input type="text" id="act_order" name="act_order" placeholder="只能数字, 从小到大"  class="inputText widthNormal"/>
+                    </p>
+
+                    <div id="sec_start_div" class="formGroup">
+                        <label for="start_time" class="labelTitle">开始时间</label>
+                        <input id="start_time" name="start_time" type="text" value="" placeholder="单击选择开始日期"
+                               class="datetimepicker inputText widthSmall">
+                    </div>
+                    <div id="sec_end_div" class="formGroup">
+                        <label for="end_time" class="labelTitle">结束时间</label>
+                        <input id="end_time" name="end_time" type="text" value="" placeholder="单击选择结束日期"
+                               class="datetimepicker inputText widthSmall">
+                    </div>
+
+                    <div class="formGroup">
+                        <label for="act_image" class="labelTitle">宣传海报上传 </label>
+                        <div>
+                            <img src="" id="preview-picture" style="display:block;"/>
+                            <input name="category_image" id="category_image" type="file" class="inputText widthNormal"/>
+                            <input name="act_image" id="act_image" type="hidden" value=""/>
+                            <input name="thumb_img" id="thumb_img" type="hidden" value=""/>
+                        </div>
+                    </div>
+                     <p class="formGroup">
+                        <label for="act_url" class="labelTitle" >活动链接</label>
+                        <input type="text" id="act_url" name="act_url" placeholder="活动链接"  class="inputText widthNormal"/>
+                    </p>
+
+                    <div class="formGroup">
+                        <h2> <font>图文详细介绍</font><span><span id="open" style="display:;cursor:pointer">+</span><span id="close" style="display: none;cursor:pointer">-</span></span></h2>
+                        <hr>
+
+                        <div class="formGroup disHide" id="product_describe_id">
+                            <label class="labelTitle"></label>
+                            <!--<script id="editor" type="text/plain"></script>-->
+                            <textarea name="act_description" id="editor"></textarea>
+
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="formGroup">
+                    <input type="submit"  value="确认" class="button button-rounded button-flat-caution button-tiny"/>
+                    <!--<input type="submit" id="sub_button" value="确认" class="button button-rounded button-flat-caution button-tiny"/>-->
+
+                    <a href="{:U('index')}" class="button button-rounded button-tiny button-flat">返回</a>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxcombobox.js"></script>
+<script type="text/javascript" src="{$js_dir}/jquery-ui-timepicker-addon.js"></script>
+
+<script type="text/javascript">
+    var pro_ids = new Array();
+    $(document).ready(function () {
+        //富文本编辑器
+        editor = beditor.new('editor', 'admin');
+
+        $("#p_add_info").hide();
+        setInterval(function () {
+            $("#boxActivityAdd").slideDown();
+        }, 300);
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+
+        //绑定类型切换
+        $("input[name='rule']").on('ifClicked', function () {
+            var id = $(this).val();
+            raleAttributeFun(id);
+        });
+        
+        $('#category_image').change(function(){
+
+            ajaxFileUpload($(this).attr('id'));
+        });
+
+
+          //日期选择器
+        $(".datetimepicker").datetimepicker({
+            changeYear: true,
+            dateFormat: "yy-mm-dd",
+            minDate: new Date()
+
+        });
+
+
+        $('#activity_dataform').validate({
+            errorPlacement: function(error, element) {
+                error.appendTo(element.parent());
+            },
+            rules: {
+                title: {
+                    required: true,
+                    remote: {
+                        url: "{:U('Admin/Activity/ajaxCheckName')}",
+                        type: "post",
+                        data: {
+                            title: function () {
+                                return $("#title").val();
+                            }
+                        }
+                    }
+                },
+                rule1:{
+                     required: true
+                },
+                search_key:{
+                    required: true
+                },
+                description: "required"
+
+            },
+            messages: {
+                title:{
+                    
+                    remote: jQuery.format("重复活动名称")
+                },
+                
+            },
+
+            submitHandler: function (form) {
+                $(form).ajaxSubmit(function (jsonResult) {
+                     if(jsonResult.status){
+                        jAlert("促销活动添加成功",'新增活动提示',function(r){
+                            if(r){
+                                location.href = jsonResult.url;
+                            }
+                        })
+                    }else{
+                        jAlert(jsonResult.info,'新增促销提示');
+                    }
+                })
+            }
+        });
+
+
+        
+
+
+        var countriesCat = eval('{$categoryJsonStr}');
+        var countriesBrand = eval('{$brandJsonStr}');
+
+
+
+        $("#keyword_btn").on("click",function(){
+            var keyword = $("#search_keyword").val();
+            if(keyword == "" || keyword == null || keyword=="请输入搜索关键字"){
+            }
+
+            if(keyword.toUpperCase() == 'ALL'){
+                keyword = "";
+            }
+
+            $.post("{:U('ajaxActivityProduct')}", {'keyword': keyword }, function (data) {
+                $("#dialog_product_list_table").html(data.info.tabelBody);
+                $("#product_page").html(data.info.pageBody);
+            });
+        });
+    });
+
+    $(function () {
+        $("#open").click(function(){
+            $(this).hide();
+            $("#close").show();
+            $("#product_describe_id").slideDown();
+        });
+        $("#close").click(function(){
+            $(this).hide();
+            $("#open").show();
+            $("#product_describe_id").slideUp();
+        });
+    });
+
+ function ajaxFileUpload($id) {
+
+        var fileId = $id;
+        $.ajaxFileUpload({
+            url: "{:U('Admin/Thumb/upload')}",
+            secureuri: false,
+            fileElementId: fileId,
+            dataType: 'json',
+            complete: function (data, status) {
+
+            },
+            success: function (data, status) {
+
+                if(fileId == 'category_image'){
+                    $('#preview-picture').prop("src","__APP__/Uploads/"+ data.data.savepath + 'm_' + data.data.savename);
+                    $('#act_image').val(data.data.savepath + data.data.savename);
+                    $('#thumb_img').val(data.data.savepath + 'm_' + data.data.savename);
+                }
+
+                $('#'+fileId).change(function(){
+                    ajaxFileUpload($(this).attr('id'));
+                });
+            },
+            error: function (data, status, e) {
+                alert("上传失败");
+            }
+        })
+        return false;
+    }
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!-- 功能模块 -->
+<div id="btnStart"></div>
+
+<div id="boxModule" class="box1 ">
+
+        <a href="__APP__/Admin/Employer/index" class="button button-rounded button-flat-caution button-tiny">用工方管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         <a href="__APP__/Admin/Worker/index" class="button button-rounded button-flat-caution button-tiny">施工方管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         <a href="__APP__/Admin/Activity/index" class="button button-rounded button-flat-caution button-tiny">活动管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         <a href="__APP__/Admin/Category/index" class="button button-rounded button-flat-caution button-tiny">分类管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         <a href="__APP__/Admin/Product/index" class="button button-rounded button-flat-caution button-tiny">材料管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         <a href="__APP__/Admin/Answer/index" class="button button-rounded button-flat-caution button-tiny">答疑管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         <a href="__APP__/Admin/Evaluate/index" class="button button-rounded button-flat-caution button-tiny">评价管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         <a href="__APP__/Admin/Order/index" class="button button-rounded button-flat-caution button-tiny">订单管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="__APP__/Admin/Weber/index" class="button button-rounded button-flat-caution button-tiny">网站管理</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+       <!--  <a href="__APP__/Admin/Finance/index" class="button button-rounded button-flat-caution button-tiny">财务管理</a> -->
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{:U('/Admin/Login/logout')}" class="button button-rounded button-flat-caution button-tiny">退出</a>
+</div><!--/search-->
+<!-- 功能模块 -->
+<!--<div id="boxStart" class="box1">-->
+<div id="left" class="box box1">
+    <ul class="kwicks kwicks-horizontal">
+            <!-- <if condition="$navObj['conName'] eq  $menu['id']">
+                <li class="module powerTip on "  id="{$menu.css}"><a href="javascript:dumpTo('{$menu.id}','{$menu.url}');" class="fonticon fonticon-{$menu.icon}">{$menu.title}</a></li>
+                <else /></if> -->
+                <li class="module powerTip"><a href="__APP__/Admin/Employer/index" class="fonticon ">用工方管理</a></li>
+                <li class="module powerTip"><a href="__APP__/Admin/Worker/index" class="fonticon ">施工方管理</a></li>
+                <li class="module powerTip"><a href="__APP__/Admin/Activity/index" class="fonticon ">活动管理</a></li>
+                <li class="module powerTip"><a href="__APP__/Admin/Product/index" class="fonticon ">材料管理</a></li>
+                <li class="module powerTip"><a href="__APP__/Admin/Category/index" class="fonticon ">分类管理</a></li>
+                <li class="module powerTip"><a href="__APP__/Admin/Answer/index" class="fonticon ">答疑管理</a></li>
+                <li class="module powerTip"><a href="__APP__/Admin/Evaluate/index" class="fonticon ">评价管理</a></li>
+                <li class="module powerTip"><a href="__APP__/Admin/Order/index" class="fonticon ">订单管理</a></li>
+				 <li class="module powerTip"><a href="__APP__/Admin/Weber/index" class="fonticon ">网站管理</a></li>
+               <!--  <li class="module powerTip"><a href="__APP__/Admin/Finance/index" class="fonticon ">财务管理</a></li> -->
+            
+        <li></li>
+    </ul>
+
+    <button id="sideBClose" class="fonticon fonticon-left-open sidebar_close"></button>
+    <!--<hr>-->
+</div><!--/search-->
+
+<style>
+#btnStart {
+    width: 32px;
+    height: 32px;
+    background: url({$images_dir}/btnStart.jpg);
+    cursor: pointer;
+    position: absolute;
+}
+#boxStart {
+    margin-top: 32px;
+    width: 510px;
+    box-shadow: 3px 3px 5px #666;
+}
+#left{
+    position: relative;
+    width: 140px;
+    border-radius: 0 5px 5px 0;
+    margin: 20px 0 0;
+    padding: 10px 0 40px;
+}
+#boxModule {
+    padding-left: 50px;
+}
+</style>
+
+<script>
+$(document).ready(function(){
+	var $left = $('#left').on('click', '#sideBClose', function(){
+		$left.stop().animate({
+			marginLeft: '-141px'
+		});
+	});
+	$('#btnStart').on('click', function(){
+		$left.stop().animate({
+			marginLeft: '0'
+		});
+	});
+});
+</script>

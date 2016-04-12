@@ -1,0 +1,177 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+    <if condition="!empty($productList)">
+    <thead>
+    <tr>
+        <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+        <th>辅料主图</th>
+        <th>
+            <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('product_number','sortCallBack')" title="升序">
+                辅料编号
+                <img src="{$images_dir}/desc.gif"  class='product_number' style="cursor: pointer; border: 0;" title="排序">
+            </a>
+        </th>
+        <th>
+            <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('product_name','sortCallBack')" title="升序">
+                辅料名称
+                <img src="{$images_dir}/desc.gif"  class='product_name' style="cursor: pointer; border: 0;" title="排序">
+            </a>
+        </th>
+        <th>分类</th>
+        <th>参考价</th>
+        <th>品牌</th>
+        <th>产地</th>
+        <th>
+            <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('product_order','sortCallBack')" title="升序">
+                排序
+                <img src="{$images_dir}/desc.gif"  class='product_order' style="cursor: pointer; border: 0;" title="排序">
+            </a>
+        </th>
+        <th>
+            <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('product_status','sortCallBack')" title="升序">
+                上架状态
+                <img src="{$images_dir}/desc.gif"  class='product_status' style="cursor: pointer; border: 0;" title="排序">
+            </a>
+        </th>
+        <th>
+            <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('is_hot','sortCallBack')" title="升序">
+                推荐
+                <img src="{$images_dir}/desc.gif"  class='is_hot' style="cursor: pointer; border: 0;" title="排序">
+            </a>
+        </th>
+        <th>管理</th>
+    </tr>
+    </thead>
+    <tbody >
+    <volist name="productList" id="product" empty="没有商品信息" >
+        <tr>
+             <td >
+                 <input type="checkbox" value="{$product.id}" name="product_checkbox"/>
+
+             </td>
+             <td>
+                <span class="goods_list" title="hello tooltip "><img src="__APP__/Uploads/{$product.product_image}" width="100" height="80"></span>
+            </td>
+            <td>
+                <span id="{$product.id}" class="goods_list" title="hello tooltip {$product.id}">{$product.product_number}</span>
+            </td>
+            <td>
+                <span id="getAttr_{product.id}">{$product.product_name}</span>
+            </td>
+            <td>
+                {$product.cat_name|default="未选择分类"}
+            </td>
+            <td>
+                {$product.product_price}
+            </td>
+            <td>
+                {$product.product_brand}
+            </td>
+            <td>
+                {$product.product_place}
+            </td>
+            <td>
+                <span style="cursor: pointer;" class="edit_input " id="span_order_{$product.id}" name="order_{$product.id}">{$product.listorder}</span>
+                <span>
+                    <input type="input" class="inputOrder" id="input_order_{$product.id}"  value="{$product.listorder}" style="display: none;">
+                </span>
+            </td>
+            <td align="center" style="width: 70px;">
+                <span class="oclick_change"  id="status_{$product.status}_{$product.id}">
+                    <img style="width: 50px;" src="{$images_dir}/status{$product.status}.png"/>
+                </span>
+            </td>
+            <td align="center">
+                <span class="oclick_change" id="recommend_{$product.recommend}_{$product.id}">
+                    <img style="width: 50px;" src="{$images_dir}/status{$product.recommend}.png"/>
+
+                </span>
+            </td>
+            <td>
+                <div class="formGroup">
+                    <a href="{:U('Admin/Product/edit?id='.$product['id'])}" class="button button-rounded button-tiny button-flat-caution">编辑</a>
+                    <a href="javascript:deleteProduct('{$product.id}');"  class="button button-rounded button-tiny button-flat-caution"> 删除</a>
+                </div>
+
+            </td>
+        </tr>
+    </volist>
+    
+    </tbody>
+<else />
+    <span style="display:block;margin:0 auto;width:500px;">没有符合搜索条件的商品</span>
+    </if>
+
+</table>
+<script type="text/javascript">
+
+    $(".tableList .oclick_change").click(function(){
+        var oldIdStr = $(this).attr('id');
+        var paramKey    = oldIdStr.split('_')[0];
+        var oldValue    = oldIdStr.split('_')[1];
+        var productId   = oldIdStr.split('_')[2];
+        var newValue    = ((oldValue==1)?0:1);
+        var newIdStr = paramKey+"_"+newValue+"_"+productId;
+        $(this).attr('id',newIdStr);
+        var urlStr = "{:U('Admin/Product/ajaxDynamicModify')}";
+        var paramStr = "product_id="+productId;
+        paramStr += "&"+paramKey+"="+newValue;
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paramStr,
+            dataType : "JSON",
+            success: function(jsonResult){
+                if(jsonResult.status){
+                    var imageSrc = jsImagesDir+"/"+"status"+newValue+".png";
+                    var imageHtmlStr = "<img style='width: 50px;' src='"+imageSrc+"'/>";
+                    $("#"+newIdStr).html(imageHtmlStr);
+                }else{
+                    jAlert(jsonResult.info ,"修改失败");
+                }
+            }
+        });
+    });
+
+    $(".tableList .edit_input").click(function(){
+        var keyStr = $(this).attr('name');
+        $(this).hide();
+        $("#input_"+keyStr).show().focus().change(function(){
+            var idObj = $(this).attr('id').split("_");
+            var productId = idObj[2];
+            var paramKey = idObj[1];
+            var newValue = $(this).val();
+
+            var keyStr = paramKey+"_"+productId;
+
+            var urlStr = "{:U('Admin/Product/ajaxDynamicModify')}";
+            var paramStr = "product_id="+productId;
+            paramStr += "&"+paramKey+"="+newValue;
+            $.ajax({
+                type: "POST",
+                url: urlStr,
+                data: paramStr,
+                dataType : "JSON",
+                success: function(jsonResult){
+                    if(jsonResult.status){
+                        $("#input_"+keyStr).hide();
+                        $("#span_"+keyStr).show()
+                        $("#span_"+keyStr).html(newValue);
+                    }else{
+                        jAlert(jsonResult.info ,"修改失败");
+                    }
+                }
+            });
+        });
+
+        $("#input_"+keyStr).on('blur',function(){
+            var idObj = $(this).attr('id').split("_");
+            var productId = idObj[2];
+            var paramKey = idObj[1];
+            var keyStr = paramKey+"_"+productId;
+            $("#input_"+keyStr).hide();
+            $("#span_"+keyStr).show()
+        });
+
+    });
+
+</script>

@@ -1,0 +1,64 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+    <if condition="!empty($userList)">
+        <thead>
+        <tr>
+            <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+            <th>
+            <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('level','sortCallBack')"
+                   title="升序">
+                    星级
+                    <img src="{$images_dir}/desc.gif" class='level' style="cursor: pointer; border: 0;" title="排序">
+                </a>
+            </th>
+            <th>用户名/公司名</th>
+            <th>手机</th>
+            <th>身份</th>
+            <th>状态</th>
+            <th>
+                <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('regtime','sortCallBack')"
+                   title="升序">
+                    注册日期
+                    <img src="{$images_dir}/desc.gif" class='regtime' style="cursor: pointer; border: 0;" title="排序">
+                </a>
+            </th>
+            <th>地区</th>
+            <th>备注</th>
+            <th>管理</th>
+        </thead>
+        <else/>
+        <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+    </if>
+    <tbody>
+    <volist name="userList" id="content">
+        <tr>
+            <td>
+                <input type="checkbox" value="{$content.id}" name="content_checkbox"/>
+            </td>
+            <td>{$content.level}星用户</td>
+            <td>
+                <span class="content_list" id="{$content.userid}" title="hello tooltip {$content.userid}"><if condition="!empty($content['company_name'])">{$content.company_name}<else/>{$content.realname} </if></span>
+            </td>
+            <td>{$content.mobile}</td>
+            <td><if condition="$content['identity'] eq 1">工长<elseif condition="$content['identity'] eq 2"/>个人<else/>公司</if></td>
+            <td>
+                <span style="color:#F00"><if condition="$content['status'] eq 10">审核通过<elseif condition="$content['status'] eq 20"/>审核未通过<else/>未审核</if></span>
+            </td>
+            <td>{$content.regtime|date="y-m-d",###}</td>
+            <td>{$content.town}</td>
+            <td>{$content.msg}</td>
+            <td>
+                <div class="formGroup">
+                    <a href="{:U('detail?id='.$content["id"])}"
+                       class="button button-rounded button-tiny button-flat-caution">详情</a>
+                    <a href="javascript:deleteContent('{$content.id}');"
+                       class="button button-rounded button-tiny button-flat-caution"> 删除</a>
+                    <a href="{:U('edit?id='.$content["id"])}"
+                       class="button button-rounded button-tiny button-flat-caution"> 编辑</a>
+                </div>
+
+            </td>
+        </tr>
+    </volist>
+
+    </tbody>
+</table>

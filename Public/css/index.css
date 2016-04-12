@@ -1,0 +1,169 @@
+/*********************
+File:     index.css
+Title:    首页专用样式
+Version:  2013-09-17
+Author:   Ray
+**********************/
+
+.dock {
+    padding: 0 1%;
+    margin: 5px 0 15px;
+}
+
+.dock ul {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.dock ul li {
+    width: 23%;
+    float: left;
+    margin: 0 1%;
+}
+
+.dock ul li a {
+    color: #fff !important;
+   text-shadow: 0 0 0 #000;
+    font-size: 14px;
+    padding: 55px 0 10px;
+    display: block;
+    border-radius: 5px;
+}
+
+#shortcutCategories {
+    background: url(../images/icoCategories.png) center 15px no-repeat #21a3ee;
+    background-size: 30px 30px;
+}
+#shortcutOrder {
+    background: url(../images/icoOrder.png) center 15px no-repeat #fa4949;
+    background-size: 40px 30px;
+}
+#shortcutFav {
+    background: url(../images/icoFav.png) center 15px no-repeat #91d820;
+    background-size: 33px 33px;
+}
+#shortcutMember {
+    background: url(../images/icoMember.png) center 15px no-repeat #f58915;
+    background-size: 35px 32px;
+}
+
+
+
+.mainCategories {
+    padding: 0 2%;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+.mainCategories a.title {
+    width: 30%;
+    display: block;
+    height: 70px;
+    font-size: 12px;
+    color: #fff;
+    text-shadow: 0 1px 0 #000;
+    font-weight: normal;
+    padding: 10px 0;
+}
+
+.mainCategories a.title h3 {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.mainCategories a.img {
+    width: 70%;
+    display: block;
+    height: 90px;
+}
+
+.mainCategories a.img img {
+    width: 100%;
+    height: 90px;
+}
+
+.subCategories {
+    padding: 0 2%;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.subCategories ul {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+}
+
+.subCategories li {
+    display:inline-block;
+    list-style: none;
+
+}
+
+.subCategories li a {
+    display: block;
+    text-align: center;
+    line-height: 34px;
+    border: 1px solid #e5e5e5;
+    font-size: 14px;
+    /*border-right: 0;*/
+    background: #fff;
+    padding: 0 5px;
+}
+
+.subCategories li:last-child a {
+    border-right: 1px solid #e5e5e5;
+}
+
+.productList {
+    overflow: hidden;
+    margin: 0 2% 15px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+}
+
+.productList ul {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.productList ul li {
+    width: 29.3%;
+    float: left;
+    margin: 0 2%;
+}
+
+.productList ul li a {
+    display: block;
+    font-size: 12px;
+}
+
+.productList ul li a img {
+    width: 100%;
+    border: 1px solid #e5e5e5;
+}
+
+.productList h3 {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    line-height: 20px;
+    height: 20px;
+    padding: 0 4px;
+    margin-bottom: 5px;
+    color: #dd0000;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.productList h3 span {
+    font-size: 14px;
+    color: #999;
+    line-height: 20px;
+    margin-left: 10px;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+</head>
+<body>
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxRoleAccess" class="box disHide">
+            <h2>
+                权限设置
+                <span>Role Access</span>
+            </h2>
+            <hr />
+
+            <div class="space"></div>
+            <!-- 访问授权 -->
+            <div class="tab-pane in">
+                <form action="{:U('AuthManager/addGroupRules')}" enctype="application/x-www-form-urlencoded" method="POST" id="roleAccessFormId">
+                    <volist name="node_list" id="node" >
+
+                        <dl class="checkmod box">
+                            <h4>{$node.title}权限</h4>
+                            <hr>
+                            <dt class="hd">
+                                <label class="checkbox  labelCheckBox">
+                                    <input class="auth_rules rules_all inputCheckBox" type="checkbox" name="rules[]" value="<?php echo $main_rules[strtolower($node['url'])] ?>">{$node.title}管理
+                                </label>
+                            </dt>
+                            <dd class="bd">
+                                <volist name="node['child']" id="child" >
+                                    <div class="rule_check box">
+                                        <div class="formGroup">
+                                            <label class="checkbox  labelCheckBox" title='{$child.tip}'>
+                                                <input class="auth_rules rules_row inputCheckBox" type="checkbox" name="rules[]" value="<?php echo $auth_rules[strtolower($child['url'])] ?>"/>{$child.title}列表
+                                            </label>
+                                        </div>
+                                        <notempty name="child['operator']">
+                                           <span class="child_row">
+                                                <div class="formGroup">
+                                                    <volist name="child['operator']" id="op">
+
+                                                        <label class="checkbox  labelCheckBox" title='{$op.tip}'>
+                                                            <input class="auth_rules inputCheckBox" type="checkbox" name="rules[]" value="<?php echo $auth_rules[strtolower($op['url'])] ?>"/>{$op.title}
+                                                        </label>
+
+                                                    </volist>
+                                                </div>
+
+                                               <label class="checkbox  labelCheckBox disHide" >
+                                                   <input class="auth_rules inputCheckBox"  type="checkbox" />
+                                               </label>
+                                           </span>
+
+                                        </notempty>
+                                    </div>
+                                </volist>
+                            </dd>
+                        </dl>
+                    </volist>
+
+                    <input type="hidden" name="id" value="{$this_group.id}" />
+                    <button type="submit" class="button button-rounded button-flat-caution button-tiny btn submit-btn ajax-post " target-form="auth-form">确 定</button>
+                    <button class="btn btn-return button button-rounded button-tiny button-flat" onclick="javascript:history.back(-1);return false;">返 回</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript" charset="utf-8">
+
+    //<!-- jQuery动画效果 -->
+    $(document).ready(function(){
+
+        setInterval(function(){
+            $("#boxRoleAccess").slideDown();
+        },300);
+
+
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+
+    });
+
+    +function($){
+
+        var rules = [{$this_group.rules}];
+
+    $('.auth_rules').each(function(){
+        if( $.inArray( parseInt(this.value,10),rules )>-1 ){
+//                $(this).prop('checked',true);
+
+            $(this).iCheck('check');
+        }
+        if(this.value==''){
+            $(this).closest('span').remove();
+        }
+    });
+
+    //全选节点
+    $('.rules_all').on('ifClicked',function(){
+//            $(this).closest('dl').find('dd').find('input').prop('checked',this.checked);
+        if(!this.checked){
+            $(this).closest('dl').find('dd').find('input').iCheck('check');
+        }else{
+            $(this).closest('dl').find('dd').find('input').iCheck('uncheck');
+        }
+    });
+    $('.rules_row').on('ifClicked',function(){
+        if(!this.checked){
+            $(this).closest('.rule_check').find('.child_row').find('input').iCheck('check');
+        }else{
+            $(this).closest('.rule_check').find('.child_row').find('input').iCheck('uncheck');
+        }
+//            $(this).closest('.rule_check').find('.child_row').find('input').prop('checked',this.checked);
+    });
+
+    $('select[name=group]').change(function(){
+        location.href = this.value;
+    });
+    //导航高亮
+    }(jQuery);
+
+
+    $("#roleAccessFormId").validate({
+        submitHandler: function(form){
+            $(form).ajaxSubmit(function (data) {
+                var status = data.status;
+                if(status){
+                    jConfirm(data.info,'权限设置提示',function(r){
+                        location.href = "{:U('/Admin/AuthManager/index')}";
+                    })
+
+                }else{
+                    jAlert(data.info ,'权限设置提示');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

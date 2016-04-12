@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+</head>
+<body id="SignIn">
+
+<!-- 登录表单 -->
+<form id="formSignIn" class="disHide" method="post" action="{:U('Admin/Login/userLogin')}">
+
+    <!-- 左半部 -->
+    <div class="posLeft">
+        <h1>登录 Sign In</h1>
+        <p>请填写您的管理员身份信息：</p>
+        <input type="text" name="username" id="username" placeholder="用户名" required class="disBlock inputText widthMini">
+        <input type="password" name="password" placeholder="密码" required class="disBlock inputText widthMini">
+    </div><!--/posLeft-->
+
+    <!-- 右半部 -->
+    <div class="posRight">
+        <input type="submit" value="登录 Sign In" class="disBlock inputSubmit">
+        <label class="disBlock labelCheckBox powerTip" title="下次不需要输入密码直接登录"><input type="checkbox" name="autoSignIn" value="autoSignIn" class="inputCheckBox"> 记住我的登录信息</label>
+    </div><!--/posRight-->
+
+</form><!--/formSignIn-->
+
+
+<!--<div id="footer">-->
+    <!--Tieson iMall Verion 1.0.0 Beta 天向互联出品<br>专为Google Chrome设计, 亦兼容以下浏览器：Mozilla Firefox, Microsoft IE9+, Apple Safari-->
+<!--</div>-->
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        setTimeout(function(){
+            $("#formSignIn").slideDown();
+            $("#username").focus();
+        },0);
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_polaris',
+            radioClass: 'iradio_polaris',
+            increaseArea: '-10' // optional
+        });
+        <!-- 调用表单提示工具PowerTip -->
+        $('.powerTip').powerTip({ placement: 's' });
+
+
+        $("#formSignIn").validate({
+            submitHandler: function (form) {
+
+                var urlStr  ="{:U('Admin/Login/userLogin')}";
+                var paraStr = $("#formSignIn").serialize();
+
+                urlStr+="?"+new Date().getTime(); //解决360浏览器问题
+
+                $.ajax({
+                    type: "POST",
+                    url: urlStr,
+                    data: paraStr,
+                    dataType : "JSON",
+                    success: function(data){
+
+                        var status = data.status;
+                        var info = data.info;
+                        if (status){
+                            if (info.refer){
+                                location.href=info.refer;
+                            }else{
+                                location.href="__APP__/Admin/";
+                            }
+                        }else{
+                            alert(data.info);
+                        }
+                    }
+                });
+            },
+            errorPlacement: function (error, element) {
+                id = 'v_' + element.attr('id');
+                ($('#' + id)).html(error);
+            }
+
+        });
+    });
+
+</script>
+
+</body>
+</html>

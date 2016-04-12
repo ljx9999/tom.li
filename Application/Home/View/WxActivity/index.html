@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>家装钜惠</title>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content= "" />
+    <meta name="viewport" content="width=device-width,initial-scale= 1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="http://fastued2.jia.com/js/mobile/autoFize.js"></script>
+    <link rel="shortcut icon" href="http://m.jia.com/Public/img//wap/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="http://fastued1.jia.com/css/mobile/head.css" />
+    <link rel="stylesheet" type="text/css" href="http://fastued1.jia.com/css/mobile/wxStore/promotion.css?v=2015091702" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="popmask popmaskw"></div>
+<header class="header" style="display:none;">
+    <a href="javascript:void(0);" class="backtohis pl" onclick="javascript:window.history.back();">返回</a>
+    <h2 class="header_title">家装大礼包</h2>
+    <a href="http://m.jia.com/" class="home pr"></a>
+</header>
+<div class="furniture-pd">
+    <!--未领券-->
+    <section class="qijia-cooper">
+        <img src="http://fastued3.jia.com/image/mobile/wxStore/sales-top.jpg" />
+        <div class="sales-ul">
+            <img src="http://fastued3.jia.com/image/mobile/wxStore/qijia-logo.png">
+            <p class="sales-content"><span class="qijia-title">滴滴装修</span></p>
+            <p class="sales-content">与黄晓明联手为您奉上大礼包</p>
+        </div>
+    </section>
+    <section class="gift-form" style="">
+        <div class="phone-box">
+            <div class="login-box">
+                <input type="number" placeholder="请输入手机号" class="form-input" name="phone_num" maxlength="11" id="mobile" name="mobile" >
+            </div>
+            <div class="login-box login-get">
+                <input type="number" placeholder="请输入短信验证码" class="form-input" name="sms_code" id="sms_code">
+                <a href="javascript:;"  class="get_code"  id="send_sms">发送验证码</a>
+            </div>
+            <p class="get_btn_par"><a href="javascript:;" class="btn-checkmore getCouponBtn" id="sub_info">马上领取</a></p>
+        </div>
+        <p class="rules">
+            <a href="http://m.jia.com/mall/jzj/hbgz.html" class="rules-a" >活动规则</a>
+        </p>
+    </section>
+    <!--领券成功-->
+    <section class="promotion-suc wap-suc" style="display:none;">
+        <div class="success-top">
+            <p class="title">恭喜您,已成功领取<br>5888元现金券</p>
+            <p class="info">现金券已放入绑定账户<br><label id="getPhoneOver"></label><br>可随时在齐家个人中心查看</p>
+        </div>
+        <div class="btn-box">
+            <a href="javascript:;" class="btn-settlement get-share" tjjj="wap.promotion.index.share">查看优惠券</a>
+        </div>
+    </section>
+    <p class="getr-num">已有201位网友领取过啦</p>
+    <div class="qrcodeBox" style="">
+        <p class="start-title"><span>关注服务号，有机会获50元微信现金红包</span></p>
+        <p class="qrcode-img">
+            <img src="http://fastued3.jia.com/image/mobile/wxStore/promotion-qrcode.png">
+        </p>
+        <p class="txt">
+    扫码关注，即有机会获得现金红包<br>
+            先到先得，领完为止~<br>
+        </p>
+    </div>
+
+    <section class="more-people">
+        <h3 class="start-title"><span>看看哪些小伙伴领到券啦</span></h3>
+        <ul class="sales-ul">
+        </ul>
+        <p class="btn-pd"><a href="javascript:;" class="btn-checkmore">已有201位网友领取过啦</a></p>
+    </section>
+
+</div>
+
+
+
+</footer>
+
+<div class="furniture-popup getcoupon-popup" id="getSuccess">
+    <h1 class="resign-suc"><i class="suc-logo"></i>报名成功！</h1>
+</div>
+<input type="hidden" id="userMobile" value="">
+<div id="skip_login" style="display:none;"></div>
+<div class="commonLoading"></div>
+</body>
+<script>
+    $(document).ready(function() {
+       //发送验证码
+        $('#send_sms').click(function(){
+            var phone_obj = $('input[name="mobile"]');
+            var send_obj = $('#send_sms');
+            var val = phone_obj.val();
+            var sends = send_obj.val();
+            if(sends == "重新发送"){
+                //30秒后重新启动发送按钮
+                start_sms_button(send_obj);
+                $.ajax({
+                    url:'__APP__/Home/Login/smsCode',
+                    data:{'mobile':val},
+                    dataType:'json',
+                    type:'post',
+                    beforeSend:function(){
+                    },
+                    complete:function(){
+                    },
+                    success:function(data){
+                        console.log(data);
+                        if(data.status!=undefined && (data.status == 'ok' || data.status == 'error')){
+                            //alert(data.msg);
+                        }
+                    }
+                });
+            }else{
+                if(val){
+                    checkSmsCode();     
+                }else{
+                    alert('手机号不能为空');
+                }
+            }
+        })
+     }); 
+
+    function start_sms_button(obj){
+        var count = 1 ;
+        var sum = 30;
+        var i = setInterval(function(){
+            if(count > 30){
+                obj.attr('disabled',false);
+                obj.val('重新发送');
+                clearInterval(i);
+            }else{
+                obj.val('剩余'+parseInt(sum - count)+'秒');
+            }
+            count++;
+        },1000);
+    }
+
+    function checkSmsCode(){
+        var send_obj = $('#send_sms');
+        var mobile = $("#mobile").val();    
+        start_sms_button(send_obj);
+        $.ajax({
+            url:'__APP__/Home/Login/smsCode',
+            data:{'mobile':mobile},
+            dataType:'json',
+            type:'post',
+            beforeSend:function(){
+
+            },
+            complete:function(){
+
+            },
+            success:function(data){
+                console.log(data);
+                if(data.status!=undefined && (data.status == 'ok' || data.status == 'error')){
+                    //alert(data.msg);
+                }
+            },
+            
+        });                        
+    } 
+</script>
+<script>
+
+  wx.config({
+    debug: true,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+    jsApiList: [
+      'addCard'
+    ]
+  });
+  wx.ready(function () {
+    // 在这里调用 API
+    document.querySelector('#sub_info').onclick = function () {
+        wx.addCard({
+          cardList: [
+            {
+              cardId: "pwZuzuHaXa2CS8T-cqMKduz_O0Y8",
+              cardExt: '{"code": "", "openid": "","timestamp": "<?php echo $signPackage["timestamp"];?>","signature":"<?php echo $signPackage["signature"];?>"}'
+            }
+          ],
+          success: function (res) {
+            alert('已添加卡券：' + JSON.stringify(res.cardList));
+          },
+        });
+    };
+  });
+ </script>
+</html>

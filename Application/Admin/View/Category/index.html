@@ -1,0 +1,162 @@
+<html>
+<head>
+    <include file="Public/header.inc"/>
+
+
+    <script type="text/javascript">
+        var rootURL = '__APP__';
+    </script>
+
+    <script type="text/javascript" src="{$js_dir}/category.js"></script>
+
+</head>
+
+
+<body>
+<include file="Public/nav.inc" />
+<!-- 功能模块 -->
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxCategoryList" class="box disHide">
+            <h2>
+                分类列表
+                <span>Category List</span>
+            </h2>
+            <hr />
+            <div class="space"></div>
+
+
+            <!-- 内容开始 -->
+            <div class="formGroup">
+                <a href="javascript:void(0);" id="btn_new" class="button button-rounded button-flat-caution button-tiny">添加</a>
+                <a href="javascript:void(0);" id="btn_delete" class="button button-rounded button-tiny button-flat-caution">批量删除</a>
+                    <input name="keyword" id="keyword" type="text" placeholder="关键词" class="inputText widthSmall">
+                    <input type="button" value="搜索" id="btn-search" class="button button-rounded button-flat-caution button-tiny">
+                
+            </div>
+            <div class="space"></div>
+
+
+            <div id="list_body">
+                <include file="Category/category-table.inc"/>
+            </div>
+             <p id="pageBody">
+                {$page}
+            </p>
+        </div>
+       
+    </div>
+</div>
+    <include file="Public/footer.inc"/>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //向下滑动
+
+        setInterval(function(){
+            $("#boxStartModule").slideDown();
+        },200);
+        setInterval(function(){
+            $("#boxModule").slideDown();
+        },300);
+        setInterval(function(){
+            $("#boxCategoryList").slideDown();
+        },400);
+
+
+        $('#check_all').click(function () {
+            $("input[name='cat_checkbox']").prop('checked', $(this).prop("checked"));
+        });
+        $(".tableList tbody tr td :checkbox").click(function(){
+            var trObj = $(this).parent('td').parent('tr:first');
+            var trClassName = $(trObj).attr('class');
+            var trIdStr = $(trObj).attr("id");
+
+            var trCalssFirst = trClassName.split(" ")[0];
+            var trCalssNames = trCalssFirst.split("_");
+
+            // trCalssNames[3] =  parseInt(trCalssNames[3]) + 1;
+            var i = 0
+                , temp
+                , nextAll = trObj.nextAll()
+                , $t
+                ;
+            
+            while( true ){
+                if( i >= nextAll.length ){
+                    break;
+                }
+                $t = nextAll.eq(i);
+                temp = $t.attr('class').split('_');
+
+                if( parseInt( temp[3] ) > trCalssNames[3] ){
+                    $t.find('input[name="cat_checkbox"]').prop('checked', $(this).prop('checked'));
+                }
+                else{
+                    break;
+                }
+                i++;
+            }
+            // trCalssNames[4] = trIdStr;
+            // var trClassNamestr = trCalssNames.join("_");
+
+            // $("."+trClassNamestr +" input[name='cat_checkbox']").prop('checked', $(this).prop("checked"));
+        });
+
+        $(".tableList tbody tr td").click(function(){
+            var typea = $(this).find('a');
+            if(typea.length > 0){  //管理按钮区不执行事件
+                return ;
+            }
+            if($(this).is(':first-child')){  //多选区不执行事件
+                return ;
+            }
+            var parentTRIdStr = $(this).parent('tr:first').attr("id");
+            var parentTRClass = $(this).parent('tr:first').attr("class");
+            var optionStr = 1;
+
+            var parentTRIdList = parentTRIdStr.split("_");
+
+            var parentTRId  = parentTRIdList[0];
+            var hideMake = parentTRIdList[1];
+
+
+            if(hideMake == undefined || hideMake == null || hideMake == "" || hideMake < 1 ){
+                optionStr = 0;
+            }
+
+            showAndHide(parentTRId,parentTRClass,optionStr);
+
+            $(this).parent('tr:first').attr("id",parentTRId+"_"+ ((optionStr)?0:1));
+
+        });
+
+    });
+
+
+    function showAndHide(parentTRId,parentTRClass,optionStr){
+
+        var parentClassList  = parentTRClass.split("_");
+        var childClass  = parentClassList[0]+"_"+parentClassList[1]+"_"+parentClassList[2]+"_"+(parseInt(parentClassList[3])+1)+"_"+parentTRId;
+        $("."+childClass).each(function(){
+            var parentTRId = $(this).attr("id");
+            var parentTRClass = $(this).attr("class");
+
+            showAndHide(parentTRId,parentTRClass,optionStr);
+
+            if(optionStr >0){
+                $(this).show();
+            }else{
+                $(this).hide();
+            }
+        });
+
+        return ;
+
+    }
+</script>
+</body>
+</html>

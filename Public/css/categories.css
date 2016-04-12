@@ -1,0 +1,23 @@
+/*********************
+File:     categories.css
+Title:    类目列表页样式
+Version:  2013-09-18
+Author:   Ray
+**********************/
+
+ul#categoriesList li {
+    outline: 1px solid #ccc;
+    height: 120px;
+    line-height: 120px;
+    font-size: 14px;
+    float: left;
+    width: 50%;
+}
+
+ul#categoriesList li a {
+    display: block;
+    height: 120px;
+    line-height: 120px;
+    background: url(../images/bgCategories.jpg) top repeat-x #fff;
+}
+

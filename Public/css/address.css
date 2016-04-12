@@ -1,0 +1,32 @@
+/* CSS Document */
+
+
+
+/*************************
+列表样式
+*************************/
+
+#pageAddress .list {
+    text-align: center;
+}
+#pageAddress .list li {
+	overflow: hidden;
+	border: 1px solid #ddd;
+	padding: 3%;
+    background: #fff;
+    margin: 3%;
+}
+
+#pageAddress .list li .date {
+    font-size: 12px;
+    color: #aaa;
+}
+
+#pageAddress .list li * {
+	text-align: left;
+}
+
+#pageAddress .list li h3 {
+	color: #000;
+	font-size: 14px;
+}

@@ -1,0 +1,225 @@
+<html>
+<head>
+<include file="Public/header.inc"/>
+<style>
+.edui-editor{
+	z-index: 100 !important;
+}
+</style>
+</head>
+<body  >
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+<div id="main">
+<!-- 中栏 -->
+<div id="center"  >
+
+<div id="boxProductAdd" class="box disHide">
+<h2>辅料添加<span>Product Add</span></h2>
+<hr>
+<form action="{:U('Admin/Product/addAct')}" method="post" id="cat_dataform">
+<!-- Input Text -->
+<div class="box">
+    <h3>基本信息</h3>
+    <hr>
+    <div class="formGroup">
+        <label for="product_name" class="labelTitle">辅料名称</label>
+        <input id="product_name" name="product_name" type="text" value="" placeholder="辅料名称" class="inputText widthNormal" required>
+    </div>
+    <div class="formGroup">
+        <label for="product_number" class="labelTitle">辅料编号</label>
+        <input id="product_number" name="product_number" type="text" value="" placeholder="辅料编号" class="inputText widthNormal" required>
+    </div>
+
+    <div class="formGroup">
+        <label for="category_name"  class="labelTitle">所属分类:</label>
+        <input id="category_name" type="text" name="category_name"  class="inputText widthNormal" placeholder="双击选择商品分类"/>
+        <input id="product_cats" type="hidden" name="product_cats"  required/>
+    </div>
+     <div class="formGroup">
+        <label for="product_brand" class="labelTitle">辅料品牌</label>
+        <input id="product_brand" name="product_brand" type="text" value="" placeholder="辅料品牌" class="inputText widthNormal" required>
+    </div>
+     <div class="formGroup">
+        <label for="product_place" class="labelTitle">辅料产地</label>
+        <input id="product_place" name="product_place" type="text" value="" placeholder="辅料产地" class="inputText widthNormal" required>
+    </div>
+     <div class="formGroup">
+        <label for="product_price" class="labelTitle">辅料参考价格</label>
+        <input id="product_price" name="product_price" type="text" value="" placeholder="辅料参考价格" class="inputText widthNormal" required>
+    </div>
+    <div class="formGroup">
+        <label class="labelTitle">是否上架</label>
+        <div class="make-switch switch-mini" style="height: 21px;" data-on="danger" data-on-label="上架" data-off-label="下架">
+            <input type="checkbox" checked name="status" value="1">
+        </div>
+    </div>
+
+    <div class="formGroup">
+        <label class="labelTitle">是否推荐</label>
+        <div class="make-switch switch-mini" data-on="danger" style="height: 21px;" data-on-label="是" data-off-label="否">
+            <input type="checkbox" checked name="recommend" value="1">
+        </div>
+    </div>
+    <div class="formGroup">
+        <label for="product_merchant" class="labelTitle">商户名称</label>
+        <input id="product_merchant" name="product_merchant" type="text" value="" placeholder="商户名称" class="inputText " required>
+    </div>
+    <div class="formGroup">
+        <label for="address" class="labelTitle">所在地</label>
+        <input id="address" name="address" type="text" value="" placeholder="所在地" class="inputText ">
+    </div>
+    <div class="formGroup">
+        <label for="product_mobile" class="labelTitle">联系电话</label>
+        <input id=" product_mobile" name="  product_mobile" type="text" value="" placeholder="联系电话" class="inputText ">
+    </div>
+    <div class="formGroup">
+        <label for="product_spec" class="labelTitle">规格</label>
+        <input id="product_spec" name="product_spec" type="text" value="" placeholder="规格" class="inputText widthNormal">
+    </div>
+     <p class="formGroup">
+                <label for="listorder" class="labelTitle" >排序</label>
+                <input type="text" id="listorder" name="listorder" placeholder="只能数字, 从小到大"  class="inputText widthNormal"/>
+    </p>
+</div>
+<hr>
+<div class="box">
+    <h2> <font>图文详细介绍</font><span><span id="open" style="display:;cursor:pointer">+</span><span id="close" style="display: none;cursor:pointer">-</span></span></h2>
+    <hr>
+
+    <div class="formGroup disHide" id="product_describe_id">
+        <label class="labelTitle"></label>
+        <script id="editor" type="text/plain"></script>
+    </div>
+</div>
+
+
+<hr>
+
+<div class="formGroup">
+    <label for="category_image" class="labelTitle"> 辅料图片上传 </label>
+    <div>
+        <img src="" id="preview-picture" style="display:block;"/>
+        <input name="category_image" id="category_image" type="file" class="inputText widthNormal"/>
+        <input name="product_image" id="product_image" type="hidden" value=""/>
+        <input name="thumb_img" id="thumb_img" type="hidden" value=""/>
+    </div>
+</div>
+
+<hr>
+<!-- Input Buttons -->
+<div class="formGroup">
+    <input type="submit" value="确定" class="button button-rounded button-flat-caution button-tiny">
+    <!--<a href="#" class="button button-rounded button-flat-caution button-tiny">确定</a>-->
+    <a href="javascript:void(0)" id="backLink" class="button button-rounded button-tiny button-flat">返回</a>
+</div>
+</form>
+</div>
+</div>
+
+</div>
+
+<script type="text/javascript" src="{$js_dir}/jquery.jpage.js"></script>
+
+<script>
+
+var x = jQuery("#center").position().left + jQuery("#center").outerWidth();
+
+var catAttributeJsonObj = {};
+
+$(document).ready(function(){
+
+    setInterval(function(){
+        $("#boxProductAdd").slideDown();
+    },300);
+
+    $('input.inputCheckBox').iCheck({
+        checkboxClass: 'icheckbox_flat-red',
+        radioClass: 'iradio_flat-red',
+        increaseArea: '-10' // optional
+    });
+
+
+    $("#backLink").click(function(event) {
+        event.preventDefault();
+        history.back(1);
+    });
+
+    $('#category_image').change(function(){
+
+            ajaxFileUpload($(this).attr('id'));
+    });
+
+});
+
+$(function () {
+    editor = beditor.new('editor', 'admin');
+    $("#combobox").combobox();
+    category.init(0);
+
+});
+
+
+$("#cat_dataform").validate({
+    submitHandler: function(form){
+        editor.sync();
+
+        $(form).ajaxSubmit(function (data) {
+            var status = data.status;
+            if(status){
+                jAlert('添加成功','添加商品提示',function(r){
+                    location.href = data.url;
+                })
+            }else{
+                jAlert(data.info ,'添加商品提示');
+            }
+        });
+    }
+})
+
+
+$(function () {
+    $("#open").click(function(){
+        $(this).hide();
+        $("#close").show();
+        $("#product_describe_id").slideDown();
+    });
+    $("#close").click(function(){
+        $(this).hide();
+        $("#open").show();
+        $("#product_describe_id").slideUp();
+    });
+});
+function ajaxFileUpload($id) {
+
+    var fileId = $id;
+    $.ajaxFileUpload({
+        url: "{:U('Admin/Thumb/upload')}",
+        secureuri: false,
+        fileElementId: fileId,
+        dataType: 'json',
+        complete: function (data, status) {
+
+        },
+        success: function (data, status) {
+
+            if(fileId == 'category_image'){
+                $('#preview-picture').prop("src","__APP__/Uploads/"+ data.data.savepath + 'm_' + data.data.savename);
+                $('#product_image').val(data.data.savepath + data.data.savename);
+                 $('#thumb_img').val(data.data.savepath + 'm_' + data.data.savename);
+            }
+
+            $('#'+fileId).change(function(){
+                ajaxFileUpload($(this).attr('id'));
+            });
+        },
+        error: function (data, status, e) {
+            alert("上传失败");
+        }
+    })
+    return false;
+}
+</script>
+</body>
+</html>

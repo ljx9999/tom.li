@@ -1,0 +1,19 @@
+/**********************
+File:     touchslider.css
+Title:    滑动焦点图片样式
+Version:  2013-09-17
+Author:   Ray
+**********************/
+
+/* swipe */
+.swipe{overflow:hidden;position:relative;}
+.swipe ul{
+    -webkit-transition:left 800ms ease-in 0;
+    -moz-transition:left 800ms ease-in 0;
+    -o-transition:left 800ms ease-in 0;
+    -ms-transition:left 800ms ease-in 0;
+    transition:left 800ms ease-in 0;
+}
+.swipe #pagenavi{position:absolute;left:0;bottom:10px;text-align:center;width:100%;}
+.swipe #pagenavi a{width:14px;height:14px;line-height:99em;background:#b5b5b5;-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;margin:0 4px;overflow:hidden;cursor:pointer;display:inline-block;*display:inline;*zoom:1;}
+.swipe #pagenavi a.active{background:#C80002;}

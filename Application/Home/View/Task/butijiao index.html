@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <script type="text/javascript" src="{$js_dir}/layer.m.js"></script>
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index_gz')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">投标大厅</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<!---->
+<div class="container hotellistbg">
+    <div style="float:left">
+            <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp*温馨提示：</font></label>
+             </div>
+            <div style="float:left">
+                <label><font size="2px" face="SimHei">1.业主会根据您填写的竞标信息考虑是否与您合作</font></label><br>
+                <label><font size="2px" face="SimHei">2.若您被业主选中，则会在“我的订单”中提示</font></label>
+            </div>
+    <ul class="unstyled hotellist" id="my_task">
+
+    </ul>
+</div>
+<div class="container hotellistbg">
+    <ul class="unstyled hotellist" id="container">
+       
+    </ul>
+    <div class="nodata"></div>
+</div>
+
+
+<div class="footer">
+    <div class="gezifooter">
+        <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+    </div>
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript">
+function tishi(uid,demand_id){
+    layer.open({
+        title: [
+            '投标提示',
+            'background-color:#8DCE16; color:#fff;'
+        ],
+        content: '您确认投标吗？',
+        btn: ['确认', '取消'],
+        shadeClose: false,
+        fixed:false,
+        yes: function(){
+            $.post("{:U('Home/Task/ajaxSubTask')}", {'uid': uid,'demand_id':demand_id}, function (data) {
+                if (data.status) {;
+                    layer.open({content: '投标成功！', time: 1}); 
+                    location.reload(); 
+                } else {
+                     layer.open({content: '投标失败！', time: 1}); 
+                }
+            });
+        }, no: function(){
+            
+        }
+    
+});
+   
+}
+
+        $(document).ready(function () {
+             $.ajax({
+                type: "POST",
+                url: "{:U('Home/Task/getMyTask')}",
+                data: {'page': 0},
+                dataType : "Json",
+                success:function(jsonResult){
+                    if(jsonResult.info){
+                    var myStr = "";
+                    var myHtmlStr ="";
+                    $.each(jsonResult.info,function(index,array){ 
+                        myStr+="<li><div><h3>"+array['community_name']+"<span style='float: right'>招工中</span></h3><hr><dl><p>装修小区："+array['community_name'];
+                        myStr+="<p>发布时间: "+array['add_time']+"</p>";
+                        myStr+="<p>预算: "+array['budget']+"</p>";
+                        myStr+="<p>房主："+array['userName']+"</p>";
+                        myStr+="<p>手机："+array['mobile']+"</p>";
+                        myStr+="<p>需求："+array['needAll']+"</p>";
+                        myStr+="<p>备注："+array['msg']+"</p>";
+                        myStr+="</dl><hr>";
+                        if(array['baojia'] == 1){
+                            myStr+="<img src='{$img_dir}/tb.png'/>";
+                        }else{
+                            myStr+="<button type='button' style='margin: 0  0 10px 5px;width:70px;height:28px;background-color:#ED6100' class='answer' onclick='tishi("+array['userid']+","+array['id']+")'><font color='#FFFFFF' face='Microsoft YaHei' size='3px'><B>竞&nbsp&nbsp标</B></font></button>";
+                        }
+                    });
+                    $('#my_task').append(myStr);
+                }     
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "{:U('Home/Task/ajaxGetTaskList')}",
+                data: {'page': 0},
+                dataType : "Json",
+                success:function(jsonResult){
+                    if(jsonResult.info){
+                    var str = "";
+                    var htmlStr ="";
+                    $.each(jsonResult.info,function(index,array){ 
+                        str+="<li><div><h3>"+array['community_name']+"<span style='float: right'>招工中</span></h3><hr><dl><p>装修小区："+array['community_name'];
+                        str+="<p>发布时间: "+array['add_time']+"</p>";
+                        str+="<p>预算: "+array['budget']+"</p>";
+                        str+="<p>房主："+array['userName']+"</p>";
+                        str+="<p>手机："+array['mobile']+"</p>";
+                        str+="<p>需求："+array['needAll']+"</p>";
+                        str+="<p>备注："+array['msg']+"</p>";
+                        str+="</dl><hr>";
+                        if(array['baojia'] == 1){
+                            str+="<img src='{$img_dir}/tb.png'/>";
+                        }else{
+                            str+="<button type='button' style='margin: 0  0 10px 5px;width:70px;height:28px;background-color:#ED6100' class='answer' onclick='tishi("+array['userid']+","+array['id']+")'><font color='#FFFFFF' face='Microsoft YaHei' size='3px'><B>竞&nbsp&nbsp标</B></font></button>";
+                        }
+                    });
+                    $('#container').append(str);
+                    }else{
+                        $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>没有更多信息了</b></div></li>"); 
+                        return false; 
+                    }       
+
+
+                }
+            });
+            var winH = $(window).height(); //页面可视区域高度 
+            var i = 1; //设置当前页数 
+            $(window).scroll(function () { 
+                var scrollTop = $(this).scrollTop();
+                var scrollHeight = $(document).height();
+                var windowHeight = $(this).height();
+                if (scrollTop + windowHeight == scrollHeight) {
+                    $.ajax({
+                    type: "POST",
+                    url: "{:U('Home/Task/ajaxGetTaskList')}",
+                    data: {'page': i},
+                    dataType : "JSON",
+                    success: function(jsonResult){
+                    if(jsonResult.info.length){
+                    var str = "";
+                    var htmlStr ="";
+                    $.each(jsonResult.info,function(index,array){ 
+                        str+="<li><div><h3>"+array['community_name']+"<span style='float: right'>招工中</span></h3><hr><dl><p>装修小区："+array['community_name'];
+                        str+="<p>发布时间: "+array['add_time']+"</p>";
+                        str+="<p>预算: "+array['budget']+"</p>";
+                        str+="<p>房主："+array['userName']+"</p>";
+                        str+="<p>手机："+array['mobile']+"</p>";
+                        str+="<p>需求："+array['needAll']+"</p>";
+                        str+="<p>备注："+array['msg']+"</p>";
+                        str+="</dl><hr>";
+                        if(array['baojia'] == 1){
+                            str+="<img src='{$img_dir}/tb.png'/>";
+                        }else{
+                            str+="<button type='button' style='margin: 0  0 10px 5px;width:70px;height:28px;background-color:#ED6100'  class='answer' onclick='tishi("+array['userid']+","+array['id']+")'><font color='#FFFFFF' face='Microsoft YaHei' size='3px'><B>竞&nbsp&nbsp标</B></font></button>";
+                        }
+                    });
+                    $('#container').append(str);
+                     i++; 
+                    }else{
+                        $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>没有更多信息了</b></div></li>"); 
+                        return false; 
+                    }         
+
+
+                    }
+                });
+
+               
+        } 
+        });
+ });
+</script>

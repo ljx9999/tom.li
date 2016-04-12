@@ -1,0 +1,74 @@
+/*********************
+File:     item.css
+Title:    产品详细页样式
+Version:  2013-09-18
+Author:   Ray
+**********************/
+
+
+.basicInfo {
+    padding: 10px;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+h1 {
+    font-weight: bold;
+    text-align: left;
+    font-size: 18px;
+}
+
+.price {
+    text-align: left;
+    font-size: 18px;
+    color: #dd0000;
+}
+
+.oldPrice{
+    text-align: left;
+    text-decoration: line-through;
+    color: #999;
+}
+
+.specification {
+    background: #ddd;
+    padding: 2px;
+    border: 1px solid #ccc;
+    margin: 0 10px 10px;
+    overflow: hidden;
+}
+
+.action {
+    margin: 0 10px 10px;
+    overflow: hidden;
+    padding: 2px 2px;
+}
+
+#btnCart {
+    background: #21a3ee;
+    color: #fff;
+    width: 49%;
+    float: left;
+    padding: 5px 0;
+    text-shadow: none;
+    margin-right: 2%;
+}
+
+#btnBuy {
+    background: #dd0000;
+    color: #fff;
+    width: 49%;
+    float: left;
+    padding: 5px 0;
+    text-shadow: none;
+}
+
+.description {
+    overflow: hidden;
+    padding: 2px 0;
+    margin: 0 10px 10px;
+
+}
+
+
+

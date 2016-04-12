@@ -1,0 +1,72 @@
+
+<input id="fileupload" type="file" name="files[]" data-url="{:U('Home/Thumb/uploadMultiple')}" multiple class="inputText widthNormal">
+
+<ul id="photo_content" style="margin-top: 10px;"></ul>
+<script src="{$js_dir}/jquery.ui.widget.js"></script>
+<script src="{$js_dir}/jquery.iframe-transport.js"></script>
+<script src="{$js_dir}/jquery.fileupload.js"></script>
+<script>
+
+    $(document).ready(function () {
+        //绑定删除按钮
+        $(document).on("click", ".btn_del", function () {
+
+            var id = $(this).parent('div:first').attr('id').split('_')[1];
+            var that = $("#image_"+id);
+            $.get("{:U('Home/Thumb/ajaxDeleteImageAct')}", { 'id': id }, function () {
+                that.remove();
+            });
+        });
+
+        //绑定更新title
+        $(document).on("blur", ".image_title", function () {
+
+          //  var that = $(this).parent('li');
+            console.log($(this).parent('div:first'));
+            var id = $(this).parent('div:first').attr('id').split('_')[1];
+
+            var title = $(this).val();
+
+            $.post("{:U('Home/Thumb/ajaxSaveImageTitle')}", { 'id': id , 'title' : title}, function () {
+
+            });
+        });
+        //绑定更新title
+        $(document).on("blur", ".image_order", function () {
+
+          //  var that = $(this).parent('li');
+            var id = $(this).parent('div:first').attr('id').split('_')[1];
+            var order = $(this).val();
+
+            if(isNaN(order)){
+                alert('排序必须为数字!')
+                $(this).val('');
+                $(this).focus();
+                return;
+            }
+
+            $.post("{:U('Home/Thumb/ajaxSaveImageOrder')}", { 'id': id , 'order' : order}, function () {
+
+            });
+        });
+
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                $.each(data.result.data, function (index, file) {
+                    $('#photo_content').append("<li id='image_" + file.image_id + "'> " +
+                            "<div class='box'>"+
+                            "<div style='float: left'>"+
+                            "<img src='__APP__/Uploads/" + file.savepath + "/m_" + file.savename + "' /> " +
+                            "</div><div style='float: left;margin-left: 20px;' class='formGroup' id='imagediv_"+file.image_id+"'>"+
+                            "<input style=' margin-left: 5px;' type='radio' name='is_cover' class='is_cover_radio' id='_"+file.image_id+"'  value='"+file.image_id+"'> <label for='_"+file.image_id+"'>设置为封面</label></br>"+
+                            "标题： <input type='text' class='image_title  inputText' /> </br>" +
+                            "排序： <input type='text' class='image_order  inputText' /> </br>" +
+                            "<input type='hidden' name='images[]' value='" + file.image_id + " '> " +
+                            "<a class='btn_del button button-rounded button-flat-caution button-tiny' href='javascript:void(0)' >删除</a> </div></div></li>");
+                });
+            }
+        });
+
+    });
+</script>

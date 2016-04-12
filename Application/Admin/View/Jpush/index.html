@@ -1,0 +1,82 @@
+<html>
+<head>
+<include file="Public/header.inc"/>
+</head>
+<body  >
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+<div id="main">
+<!-- 中栏 -->
+<div id="center"  >
+
+<div id="boxProductAdd" class="box">
+<h2>推送消息</h2>
+<hr>
+
+<!-- Input Text -->
+<div class="box">
+    <h3>推送信息</h3>
+    <hr>
+    <div class="formGroup">
+        <label for="s_message" class="labelTitle">推送内容：</label>
+        剩余<span id="textCount">5</span>个字<br /> 
+        <input id="s_message" name="s_message" type="text" value="" placeholder="推送内容" class="inputText widthNormal"  onkeyup="words_deal();">
+    </div>
+</div>
+<hr>
+
+
+<!-- Input Buttons -->
+<div class="formGroup">
+    <input type="button" value="确定" class="button button-rounded button-flat-caution button-tiny" id="backLink">
+    <!--<a href="#" class="button button-rounded button-flat-caution button-tiny">确定</a>-->
+    <a href="javascript:void(0)" id="backLink" class="button button-rounded button-tiny button-flat">返回</a>
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+<script>
+// function words_deal() 
+// { 
+//     var curLength=$("#s_message").val().length; 
+//     if(curLength>58*3) 
+//     { 
+//       alert("超过字数限制" ); 
+//     }
+// } 
+
+
+
+$(document).ready(function(){
+
+    $("#backLink").click(function() {
+        var message = $('#s_message').val();
+        var urlStr = "{:U('Admin/Jpush/send_message')}";
+        var paraStr =  "message="+message;
+         $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType : "JSON",
+            success: function(jsonResult){  
+                if(jsonResult == "succ" ){
+                    jAlert('推送成功！','提示信息');
+                }else{
+                    jAlert('地址无效','提示消息');
+                }
+            }
+        });
+        
+    });
+
+ 
+});
+
+</script>
+</body>
+</html>

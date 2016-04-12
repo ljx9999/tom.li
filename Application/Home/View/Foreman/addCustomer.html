@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/ajaxfileupload.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index_gz')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">添加客户</div>
+    <a href="{:U('Home/Foreman/index')}" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+
+
+<div class="container width90">
+    <div class="vip">
+        <div class="center-top2">
+            <span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<input type="text" name="user_name"  value="" id="user_name" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" placeholder="输入客户姓名"></span>
+            <span>电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话：<input type="text" name="mobile" id="mobile"  placeholder="输入电话号"  style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px"  ></span>
+            <span>小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：<input type="text" name="address" id="address" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" placeholder="输入小区名称"></span>
+            <span>总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：<input type="text" name="total_fee" id="total_fee" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" placeholder="输入项目总价"></span>
+           <span>
+            <span>工&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期：<input type="text" name="protect_time" id="protect_time" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" placeholder="输入项目工期"></span>
+           <span>
+            备&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp注：  <textarea  type="text"  class="input" name="msg" id="msg" style="background: none repeat scroll 0 0 #F9F9F9;" /></textarea>
+             </span>
+            <button type="button" class="btn-large green button width100" onclick="return checkForm();">保存</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+</html>
+<script type="text/javascript">
+    function  checkForm(){
+        var user_name = $("#user_name").val();
+        var mobile = $("#mobile").val();
+        var address = $("#address").val();
+        var total_fee = $("#total_fee").val();
+        var protect_time = $("#protect_time").val();
+        var msg = $('#msg').val();
+
+        if(user_name == '') {
+            alert('请输入客户姓名！');
+            return false;
+        }
+        if(mobile == '') {
+            alert('请输入客户手机号！');
+            return false;
+        }
+        if(address == '') {
+            alert('请输入客户小区！');
+            return false;
+        }
+        if(total_fee == '') {
+            alert('请输入项目总价！');
+            return false;
+        }
+        if(protect_time == '') {
+            alert('请输入项目工期！');
+            return false;
+        }
+        
+        $.ajax({
+            type: "POST",
+            url: "{:U('Home/Foreman/addCustomerAct')}",
+            data: {'user_name': user_name,'mobile': mobile,'address': address,'total_fee': total_fee,'protect_time':protect_time,'msg':msg},
+            dataType : "JSON",
+            success: function(jsonResult){
+                if(jsonResult.status==1){
+                    alert(jsonResult.info);
+                    window.location.href="__APP__/Home/Foreman/customerManage";
+                }else{
+                    alert(jsonResult.info);
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>

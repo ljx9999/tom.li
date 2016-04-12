@@ -1,0 +1,195 @@
+.header {
+    background: #6ac134 none repeat scroll 0 0;
+    height: 60px;
+    position: relative;
+    width: 100%;
+}
+
+.header .home {
+    color: #ffffff;
+    display: block;
+    left: 0;
+    padding: 13px 20px;
+    position: absolute;
+}
+
+.header .title {
+    color: #fff;
+    font-family: "微软雅黑";
+    font-size: 1.5em;
+    height: 22px;
+    line-height: 1.5em;
+    margin: 0 auto;
+    max-width: 200px;
+    padding: 0.7em 0;
+    text-align: center;
+    vertical-align: middle;
+    width: 200px;
+}
+
+.header .back {
+    color: #ffffff;
+    display: block;
+    padding: 13px 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.header-icon-home {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.header-icon-home img {
+    width: 24px;
+    height: 24px;
+}
+
+.header-icon-return {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+.header-icon-return img {
+    width: 24px;
+    height: 24px;
+}
+
+.container {
+    margin: 0 auto;
+    width: 100%;
+}
+
+ul.unstyled,
+ol.unstyled {
+    list-style: outside none none;
+    margin-left: 0;
+}
+
+.hotel-bar {
+    border-left: 1px solid #c5c5c5;
+    height: 2.9em;
+    overflow: hidden;
+}
+
+.hotel-bar li {
+    color: #027160;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    height: 2.8em;
+    line-height: 2.8em;
+    position: relative;
+    text-align: center;
+    width: 33.3%;
+}
+
+.hotel-bar li a {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #c5c5c5;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: #666;
+    display: block;
+    width: 100%;
+    height: 2.8em;
+    line-height: 2.8em;
+}
+
+.hotel-bar a.active {
+    background: #32b16c none repeat scroll 0 0;
+    color: #ffffff;
+}
+
+.nc {
+    width: 100%;
+    clear: both;
+    overflow: hidden;
+}
+
+.shop {
+    width: 49%;
+    float: left;
+    margin: 5px 0.5% 0 0.5%;
+}
+
+.shop img {
+    width: 200px;
+    height: 200px;
+}
+
+#ti {
+}
+
+#myModal img {
+    width: 100%;
+}
+
+#myModal p {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.reveal-modal-bg {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    z-index: 100;
+    display: none;
+    top: 0;
+    left: 0;
+}
+
+.reveal-modal {
+    visibility: hidden;
+    top: 100px;
+    width: 100%;
+    background: #eee;
+    position: fixed;
+    z-index: 101;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+    -box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+    height: 300px;
+    overflow: auto;
+}
+
+.reveal-modal span {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.reveal-modal .close-reveal-modal {
+    font-size: 22px;
+    line-height: .5;
+    top: 8px;
+    height: 24px;
+    line-height: 24px;
+    color: #aaa;
+    text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
+    font-weight: bold;
+    cursor: pointer;
+    text-align: right;
+    float: right;
+}
+
+.reveal-modal h2 {
+    font-size: 18px;
+    color: #990000;
+    padding: 0 0 20px 0;
+}
+
+.reveal-modal p {
+    padding: 0 0 15px 0;
+}

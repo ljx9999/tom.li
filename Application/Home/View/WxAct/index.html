@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>家装钜惠</title>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content= "" />
+    <meta name="viewport" content="width=device-width,initial-scale= 1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://fastued1.jia.com/css/mobile/head.css" />
+    <link rel="stylesheet" type="text/css" href="http://fastued1.jia.com/css/mobile/wxStore/promotion.css?v=2015091702" />
+   <style>
+      .promotion-suc{background:#d33333 url("__ROOT__/Application/Home/Public/images/success-bg.jpg") 0 0 no-repeat; background-size:100%;}
+      .qrcodeBox .qrcode-img::before {
+       content: "";position:absolute;top:8%;right:-45%;height:68%;width:50%;background: url("__ROOT__/Application/Home/Public/images/fox-right.png") 0 0 no-repeat; background-size:100%;z-index:3;}
+    </style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+         <div class="popmask popmaskw"></div>
+<header class="header" style="display:none;">
+    <a href="javascript:void(0);" class="backtohis pl" onclick="javascript:window.history.back();">返回</a>
+    <h2 class="header_title">家装大礼包</h2>
+    
+</header>
+<div class="furniture-pd">
+    <!--未领券-->
+    <section class="qijia-cooper">
+        <img src="{$img_dir}/top.png" />
+        <div class="sales-ul">
+            <img src="{$img_dir}/new_logo.png">
+            <p class="sales-content"><span class="qijia-title">滴滴装修</span></p>
+            <p class="sales-content">钜惠来袭 空前让利</p>
+        </div>
+    </section>
+  
+    <section class="gift-form" style="" id="info_form">
+      <input type="hidden" name="openId" id="openId" value="{$openId}">
+        <div class="phone-box">
+           <div class="login-box">
+                <input type="text" placeholder="请输入你的称呼" class="form-input" name="userName" id="userName">
+            </div>
+            <div class="login-box">
+                <input type="text" placeholder="请输入你的房屋面积（平）" class="form-input" name="area" id="area">
+            </div>
+            <div class="login-box">
+                <input type="number" placeholder="请输入手机号" class="form-input" maxlength="11" id="mobile" name="mobile" >
+            </div>
+            <p class="get_btn_par"><a href="javascript:;" class="btn-checkmore getCouponBtn" id="batchAddCard" name="batchAddCard">马上预约 享好礼</a></p>
+        </div>
+        
+    </section>
+    <p class="getr-num">已有5638位网友预约过啦</p>
+    <div class="qrcodeBox" style="">
+        <p class="start-title"><span>关注服务号，有机会获20元微信现金红包</span></p>
+        <p class="qrcode-img">
+            <img src="{$img_dir}/erweima.png">
+        </p>
+        <p class="txt">
+    扫码关注，即有机会获得现金红包<br>
+            先到先得，领完为止~<br>
+        </p>
+    </div>
+    <p class="qrcode-img">
+            <img src="{$img_dir}/wx_foot.jpg">
+    </p>
+     <a href="tel:4008083603"><img src="{$img_dir}/tel.jpg"></a>
+</div>
+
+
+
+</footer>
+
+<div class="furniture-popup getcoupon-popup" id="getSuccess">
+    <h1 class="resign-suc"><i class="suc-logo"></i>报名成功！</h1>
+</div>
+<input type="hidden" id="userMobile" value="">
+<div id="skip_login" style="display:none;"></div>
+<div class="commonLoading"></div>
+ <script>
+    document.querySelector('#batchAddCard').onclick = function () {
+      var mobile = $('#mobile').val();
+      if(validatemobile(mobile)){
+          var userName = $('#userName').val();
+          var area = $("#area").val();
+            $.ajax({
+                type: "POST",
+                url: "__APP__/Home/wxAct/getInfos",//http://www.didifree.com/didifree/Home
+                data:{"mobile":mobile,"userName":userName,"area":area},
+                dataType : "JSON",
+                success: function(obj){ 
+                  if(obj.status == 0){
+                    alert(obj.info);
+                  }else{ 
+                    alert(obj.info);
+                    window.location.href="__APP__/Home/Home/index";
+                  } 
+                }     
+             });
+      }else{
+          alert('请输入正确的手机号！');
+      }
+    }
+
+</script>
+          <script>
+            
+
+             function validatemobile(mobile)
+            {
+                var isMobile=/^(?:13\d|15\d|18\d)\d{5}(\d{3}|\*{3})$/;
+                if(!isMobile.test(mobile)){
+                    return false;
+                }else{
+                   return true;
+                }
+            }
+          </script>
+    </body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>滴滴装修</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{$js_dir}/jquery.cityselect.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">个人资料</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+
+
+<div class="container width90">
+    <div class="vip">
+        <form action="" method="post" id="user_dataform">
+        <div class="center-top2">
+            <span>真实姓名：<input name="realname" id="realname" value="{$info.realname}" type="text"></span>
+            <span>微信昵称：<input name="nickname" id="nickname" value="{$info.nickname}" type="text"></span>
+            <span>手机号码：<input name="mobile" id="mobile" value="{$info.mobile}" type="text" readOnly></span>
+            <span></span>
+            <span>电子邮箱：<input name="email" id="email" value="{$info.email}" type="text"></span>
+            <span></span>
+            <span>
+            所在地区
+            <div id='address'>
+                <select name="address[prov]" id="select-native-14" class="prov" style="width:30%;"></select>
+                <select name="address[city]" id="select-native-15" class="city" style="width:30%;"></select>
+                <select name="address[dist]" id="select-native-16" class="dist" style="width:30%;"></select>
+            </div>
+            </span>
+            <span></span>
+            <button type="submit" class="btn-large green button width100">提交</button>
+        </div>
+        </form>
+    </div>
+</div>
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+</body>
+<script type="text/javascript">
+         var jsDir = '{$js_dir}';
+         function checkForm() {
+            var realname = $("#realname").val();
+            var nickname = $('#nickname').val();
+            var mobile = $('#mobile').val();
+            var email = $('#email').val();
+            var city = $('#select-native-15').val();
+            var prov = $('#select-native-14').val();
+            var town = $('#select-native-16').val();
+            $.ajax({
+                type: "POST",
+                url: "{:U('Home/User/editAct')}",
+                data: {'realname': realname,'nickname':nickname,'mobile':mobile,'email':email,'city':city,'prov':prov,'town':town},
+                dataType : "JSON",
+                success: function(obj){
+                    if(obj.status==1){
+                        alert(obj.info);
+                        window.location.href="__APP__/Home/User/index";
+                    }else if(obj.status==2){
+                        alert(obj.info);
+                        window.location.href="__APP__/Home/FrontBase/LoginOut";
+                    }else{
+                        alert(obj.info);
+                    }
+                }
+            });
+        }
+ $(document).ready(function(){
+        $('#user_dataform').validate({
+            rules: {
+                realname: {
+                    required: true,
+                    isChinese: true    
+                },
+                mobile: {
+                    required: true,
+                    isMobile:true
+                },
+                email:{
+                    required:true,
+                    email:true
+                },
+                city: {
+                    required: true,
+                    isChinese: true    
+                },
+            },
+            messages: {
+                realname:'请输入您的姓名',
+                mobile:'请输入您的手机号',
+                email:'请输入您的邮箱',
+                city:'请输入您所在的城市',
+            },
+            submitHandler: function(form){
+                  checkForm();
+            }
+        });
+
+        // 匹配汉字  
+        jQuery.validator.addMethod("isChinese", function(value, element) {       
+             return this.optional(element) || /^[\u4e00-\u9fa5]+$/.test(value);       
+        }, "请输入汉字"); 
+        //手机号验证
+        jQuery.validator.addMethod("isMobile", function(value, element) {    
+          var length = value.length;    
+          return this.optional(element) || (length == 11 && /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value));    
+        }, "请填写手机号。");
+
+        var provStr = '{$info.prov}';
+        var cityStr = '{$info.town}';
+        var distStr = '{$info.town_add}';
+          //地区选择控件
+        $("#address").citySelect({
+            prov:(provStr != '')?provStr:"辽宁",
+            city:(cityStr != '')?cityStr:"大连",
+            dist:(distStr != '')?distStr:"中山",
+            nodata:"none"
+        });
+
+    });
+
+    
+
+</script>
+</html>

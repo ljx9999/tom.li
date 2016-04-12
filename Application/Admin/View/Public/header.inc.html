@@ -1,0 +1,183 @@
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="{$css_dir}/admin/signin.css" rel="stylesheet">
+    <link href="{$css_dir}/admin/basic.css" rel="stylesheet">
+    <link href="{$css_dir}/admin/desktop.css" rel="stylesheet" type="text/css">
+
+    <!--[if lt IE 9]>
+    <script>document.location.href="{:U('Index/incompatible')}";</script>
+    <![endif]-->
+
+    <!-- JS LIB -->
+
+    <!-- jquery 1.9.1 lib-->
+    <script type="text/javascript" src="{$js_dir}/jquery-1.9.1.js"></script>
+
+    <!-- ajaxfileupload lib -->
+    <script type="text/javascript" src="{$js_dir}/ajaxfileupload.js"></script>
+
+    <!-- jauery form lib -->
+    <script type="text/javascript" src="{$js_dir}/jquery.form.js"></script>
+
+    <!-- jquery ui lib -->
+    <link href="{$css_dir}/smoothness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" media="all"
+          charset="utf-8"/>
+    <script type="text/javascript" charset="utf-8" src="{$js_dir}/jquery-ui-1.10.3.custom.min.js"></script>
+
+    <!-- jquery UI Datapicker Chinese Language Pack -->
+    <script type="text/javascript" charset="utf-8" src="{$js_dir}/jquery.ui.datepicker-zh-CN.js"></script>
+
+    <!-- jquery validate js  -->
+    <script type="text/javascript" src="{$js_dir}/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{$js_dir}/jquery.validate.zh-cn.js"></script>
+    <script type="text/javascript" src="{$js_dir}/additional-methods.js"></script>
+
+    <!-- baidu ueditor js lib -->
+    <script type="text/javascript">
+        window.UEDITOR_HOME_URL = "__APP__/Public/ueditor/";
+        window.SITE_URL = "__APP__";
+        jsDir = '{$js_dir}';
+        jsImagesDir = '{$images_dir}';
+        jsUploadDir = '{$uploads_dir}';
+        $_backUrl = "{:U('goBack','backIndex=1')}";
+    </script>
+
+    <style>
+        .progressBar{
+            position:absolute;
+            z-index:100;
+            width:165px;
+            height:25px;
+            line-height:15px;
+            /*border:2px solid #569cd2;*/
+            padding-left:20px;
+            /*background:#ffffff;*/
+        }
+        .progressBar_img{
+            position:relative;
+            float:left;
+            margin-top:4px;
+            margin-right:5px;
+        }
+        .progressBar_word{
+            position:relative;
+            float:left;
+            line-height:25px;
+        }
+        .box_bot_squre{
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index:4;
+            -moz-opacity: 0.4;
+            opacity:.40;
+            filter: alpha(opacity=40);
+        }
+        .tableList th a{
+            color: #FFFFFF;
+        }
+        .picimage {
+             position: absolute;
+             width: 200px;
+             height: 150px;
+             display: none;
+             margin-left: 40px;
+         }
+        .select_li,.oclick_change{
+            cursor: pointer;
+        }
+        .tieson{
+            background-color: #e1e1e1;
+        }
+
+        .pageDocument{
+            padding: 5px;
+            background: #f7f7f7;
+            border: 1px solid #eee;
+            margin-right: 3px;
+        }
+        .pageHover{
+            color: #d11611;
+            font-weight: bold;
+        }
+
+
+    </style>
+
+
+    <script type="text/javascript" charset="utf-8" src="__APP__/Public/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__APP__/Public/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__APP__/Public/ueditor/lang/zh-cn/zh-cn.js"></script>
+  
+
+
+    <!-- colorpicker js lib -->
+    <link rel="stylesheet" href="{$js_dir}/colorpicker/css/colorpicker.css" type="text/css" />
+    <script type="text/javascript" src="{$js_dir}/colorpicker/js/colorpicker.js"></script>
+
+    <!-- jquery ui alert  -->
+    <script src="{$js_dir}/jquery.alert.js" type="text/javascript"></script>
+    <link href="{$css_dir}/jquery.alert.css" rel="stylesheet" type="text/css" media="screen" />
+
+    <!-- mbiz public js lib-->
+    <script type="text/javascript" src="{$js_dir}/mbiz.js"></script>
+
+    <!-- jquery.ui.combobox.js lib-->
+    <script type="text/javascript" src="{$js_dir}/jquery.ui.combobox.js"></script>
+    <!-- jquery.import.js lib-->
+    <script type="text/javascript" src="{$js_dir}/jquery.import.js"></script>
+
+
+    <!-- jquery.spectrum.js lib-->
+    <script type="text/javascript" src='{$js_dir}/spectrum/spectrum.js'></script>
+    <link  type="text/css" rel='stylesheet' href='{$js_dir}/spectrum/spectrum.css' />
+
+    <!-- jquery.colorPricker.js lib-->
+    <script type="text/javascript" src="{$js_dir}/jquery.colorPricker.js"></script>
+
+
+    <link href="{$js_dir}/icheck/skins/all.css?v=0.9.1" rel="stylesheet">
+    <script src="{$js_dir}/icheck/jquery.icheck.min.js?v=0.9.1"></script>
+    <!-- 表单提示插件 PowerTip -->
+    <link rel="stylesheet" type="text/css" href="{$js_dir}/powertip/css/jquery.powertip.css">
+    <script type="text/javascript" src="{$js_dir}/powertip/jquery.powertip.js"></script>
+
+    <link rel="stylesheet" href="{$js_dir}/Buttons/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{$js_dir}/Buttons/css/buttons.css">
+    <!-- 开关样式插件 Bootstrap Switch -->
+    <link href="{$js_dir}/switch-master/static/stylesheets/bootstrap-switch.css" rel="stylesheet" type="text/css">
+    <script src="{$js_dir}/switch-master/static/js/bootstrap-switch.js"></script>
+    <!-- 固定效果插件 jQuery.Pin -->
+    <script src="{$js_dir}/jquery.pin.js"></script>
+
+    <!--手风琴效果插件-->
+    <script type="text/javascript" src="{$js_dir}/jquery.kwicks-2.2.0.js"></script>
+
+    <link rel="stylesheet" href="{$js_dir}/Avgrund-master/css/avgrund.css">
+    <script type="text/javascript" src="{$js_dir}/Avgrund-master/js/avgrund.js"></script>
+                <!--弹窗特效开始-->
+    <link rel="stylesheet" type="text/css" href="{$js_dir}/ModalWindowEffects/css/component.css" />
+    <script src="{$js_dir}/ModalWindowEffects/js/modernizr.custom.js"></script>
+
+    <script src="{$js_dir}/jquery.mbiz.tableSort.js"></script>
+    <!--弹窗特效结束-->
+
+    <title></title>
+
+     <script type="text/javascript">
+    //     $(document).ready(function(){
+    //         /**
+    //          * 添加表格行鼠标移动变色样式
+    //          */
+    //         $("body").on({
+    //             mouseover: function(){
+    //                 $(this).addClass("tieson");
+    //             }
+    //             , mouseout: function(){
+    //                 $(this).removeClass("tieson");
+    //             }
+    //         }, '.tableList tbody tr');
+    //     });
+     </script>

@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$js_dir}/zepto.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString" style="font-size:20px">找施工方</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<!--*下拉菜单 *-->
+<div id="headerfilter-bar">
+    <ul class="nav" style="margin-bottom:0;">
+            <li>
+                <a href="{:U('Worker/index?type=0')}" <if condition="$type eq 0 "> class='active' </if>>
+                <span><img src="{$img_dir}/company-icon.png" style="margin: 0px 0px 5px 0px">&nbsp&nbsp公司</span>
+                </a>
+            </li><li>
+            <a href="{:U('Worker/index?type=2')}" <if condition="$type eq 2 "> class='active' </if>>
+                <span><img src="{$img_dir}/personal-icon.png" style="margin: 0px 0px 5px 0px">&nbsp个人</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<if condition="$type eq 2 ">
+<div class="container">
+    <ul class="unstyled hotel-bar">
+        <li class="first">
+            <select onchange="self.location.href=options[selectedIndex].value" >
+                  <option >选择工龄</option>
+                  <option value ="{:U('Worker/index?type=2&year=6')}">6年以上</option>
+                  <option value ="{:U('Worker/index?type=2&year=5')}">5年</option>
+                  <option value="{:U('Worker/index?type=2&year=4')}">4年</option>
+                  <option value="{:U('Worker/index?type=2&year=3')}">3年</option>
+                  <option value="{:U('Worker/index?type=2&year=2')}">2年</option>
+                  <option value="{:U('Worker/index?type=2&year=1')}">1年</option>
+            </select>
+        </li>
+        <li>
+            <select onchange="self.location.href=options[selectedIndex].value"  >
+                <option >选择工种</option>
+                  <option value ="{:U('Worker/index?type=2&work_type=工长')}">工长</option>
+                  <option value ="{:U('Worker/index?type=2&work_type=油漆工')}">油漆工</option>
+                  <option value="{:U('Worker/index?type=2&work_type=水电工')}">水电工</option>
+                  <option value="{:U('Worker/index?type=2&work_type=木工')}">木工</option>
+                  <option value="{:U('Worker/index?type=2&work_type=泥瓦工')}">泥瓦工</option>
+                  <option value="{:U('Worker/index?type=2&work_type=大白工')}">大白工</option>
+                  <option value="{:U('Worker/index?type=2&work_type=力工')}">力工</option>
+                  <option value="{:U('Worker/index?type=2&work_type=维修工')}">维修工</option>
+                  <option value="{:U('Worker/index?type=2&work_type=设计师')}">设计师</option>
+                  <option value="{:U('Worker/index?type=2&work_type=其他')}">其他</option>
+            </select>
+        </li>
+        <li>
+                <select onchange="self.location.href=options[selectedIndex].value" >
+             <option >选择星级</option>
+              <option value ="{:U('Worker/index?type=2&level=5')}">5星</option>
+              <option value="{:U('Worker/index?type=2&level=4')}">4星</option>
+              <option value="{:U('Worker/index?type=2&level=3')}">3星</option>
+              <option value="{:U('Worker/index?type=2&level=2')}">2星</option>
+              <option value="{:U('Worker/index?type=2&level=1')}">1星</option>
+         </select>
+     </li>
+    </ul>
+</div>
+
+</if>
+<!---->
+<br/>
+<div class="container hotellistbg">
+    <div style="margin-top:-20px">温馨提示：</div>
+    <p><span><img src='{$img_dir}/s.png'></span> &nbsp;&nbsp;&nbsp;有此标识的施工人员已实名认证</p>
+    <p><span><img src='{$img_dir}/b.png'></span> &nbsp;&nbsp;&nbsp;有此标识的施工人员已缴保证金</p>
+    <p><span><img src='{$img_dir}/j.png'></span> &nbsp;&nbsp;&nbsp;有此标识的施工人员是平台强烈推荐的哦~</p>
+    <p><span><img src='{$img_dir}/z.png'></span> &nbsp;&nbsp;&nbsp;有此标识的施工人员会给您相应的折扣哦~</p>
+    <ul class="unstyled hotellist" id="container" style="font-size:16px">
+
+    
+    </ul>
+</div>
+<div class="nodata"></div>
+<input type="hidden" id="type" value="{$type}">
+<input type="hidden" id="size" value="{$size}">
+<input type="hidden" id="year" value="{$year}">
+<input type="hidden" id="level" value="{$level}">
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;font-size:14px">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var type =$('#type').val();
+        var size =$('#size').val();
+        var year =$('#year').val();
+        var level =$('#level').val();
+        $.ajax({
+            type: "POST",
+            url: "{:U('Home/Worker/ajaxGetWorkerList')}",
+            data: {'page': 0,'type':type,'sizes':size,'years':year,'level':level},
+            dataType : "JSON",
+            success: function(jsonResult){
+                var obj = eval( "(" + jsonResult + ")" );
+                if(obj.length > 0){
+                    var str = "";
+                    var htmlStr ="";
+                    $.each(obj,function(index,array){
+                        str+="<li><a href='__APP__/Worker/show?id="+array['id']+"'>";
+                        str+="<img class='hotelimg fl' src='__APP__/Uploads/"+array['head_image']+"' onerror=\"javascript:this.src='__APP__/Uploads/worker.jpg';\" /> ";
+                        str+="<div class='inline'>";
+                        str+="<dl>";
+                        if(array['identity'] == 2||array['identity'] == 1){
+                            str+="<dt><span>"+ array['realname']+"</span>&nbsp;<sapn>";
+                            if(array['is_real'] == 1){
+                                str+="<img src='{$img_dir}/s.png'>";
+                            }
+                            if(array['is_discout'] == 1){
+                                str+="<img src='{$img_dir}/z.png'>";
+                            }
+                            if(array['is_recommend'] == 1){
+                                str+="<img src='{$img_dir}/j.png'>";
+                            }
+                            if(array['is_security'] == 1){
+                                str+="<img src='{$img_dir}/b.png'>";
+                            }
+                        str+="</span></dt>";
+                        }else if(array['identity'] == 0){
+                            str+="<dt>公司名：<span>"+ array['company_name']+"</span>&nbsp;<sapn>";
+                            if(array['is_real'] == 1){
+                                str+="<img src='{$img_dir}/s.png'>";
+                            }
+                            if(array['is_discout'] == 1){
+                                str+="<img src='{$img_dir}/z.png'>";
+                            }
+                            if(array['is_recommend'] == 1){
+                                str+="<img src='{$img_dir}/j.png'>";
+                            }
+                            if(array['is_security'] == 1){
+                                str+="<img src='{$img_dir}/b.png'>";
+                            }
+                        str+="</span></dt>";
+                            str+="<dt>地址："+array['address']+"</dt>";
+                        }
+                        if(array['identity'] == 2||array['identity'] == 1){
+                            str+="<dt>工龄："+array['work_life']+"年 </dt>"+"<dt>工种："+array['type']+"<dt>星级：";
+                           for(a=0;a<array['level'];a++){
+                                str+="<img src='{$img_dir}/star-level.png' style='width:15px;height:15px'>";
+                            }
+                            str+="</dt></for></div>"      
+
+                        }
+
+                        str+="</dl></a></div>";
+                        str+=" <div class='clear'></div></li>";
+                    });
+                    $('#container').append(str);
+                }else{
+                    $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>没有更多信息了</b></div></li>");
+                    return false;
+                }
+
+
+            }
+        });
+        var winH = $(window).height(); //页面可视区域高度
+        var i = 1; //设置当前页数
+        $(window).scroll(function () {
+            // var pageH = $(document.body).height();
+            // var scrollT = $(window).scrollTop(); //滚动条top
+            // var aa = (pageH-winH-scrollT)/winH;
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+            if (scrollTop + windowHeight == scrollHeight) {
+                $.ajax({
+                    type: "POST",
+                    url: "{:U('Home/Worker/ajaxGetWorkerList')}",
+                    data: {'page': i,'type':type,'sizes':size,'years':year,'level':level},
+                    dataType : "JSON",
+                    success: function(jsonResult){
+                        var obj = eval( "(" + jsonResult + ")" );
+                        if(obj.length > 0){
+                            var str = "";
+                            var htmlStr ="";
+                            $.each(obj,function(index,array){
+                                str+="<li><a href='__APP__/Worker/show?id="+array['id']+"'>";
+                                str+="<img class='hotelimg fl' src='__APP__/Uploads/"+array['head_image']+"' onerror=\"javascript:this.src='__APP__/Uploads/worker.jpg';\"/>";
+                                str+="<div class='inline'>";
+                                str+="<dl>";
+                                if(array['identity'] == 2||array['identity'] == 1){
+                                       str+="<dt><span>"+ array['realname']+"</span>&nbsp;<sapn>";
+                                        if(array['is_real'] == 1){
+                                            str+="<img src='{$img_dir}/s.png'>";
+                                        }
+                                        if(array['is_discout'] == 1){
+                                            str+="<img src='{$img_dir}/z.png'>";
+                                        }
+                                        if(array['is_recommend'] == 1){
+                                            str+="<img src='{$img_dir}/j.png'>";
+                                        }
+                                        if(array['is_security'] == 1){
+                                            str+="<img src='{$img_dir}/b.png'>";
+                                        }
+                                        str+="</span></dt>";
+                                }else if(array['identity'] == 0){
+                                    str+="<dt>公司名：<span>"+ array['company_name']+"</span>&nbsp;<sapn>";
+                                    if(array['is_real'] == 1){
+                                        str+="<img src='{$img_dir}/s.png'>";
+                                    }
+                                    if(array['is_discout'] == 1){
+                                        str+="<img src='{$img_dir}/z.png'>";
+                                    }
+                                    if(array['is_recommend'] == 1){
+                                        str+="<img src='{$img_dir}/j.png'>";
+                                    }
+                                    if(array['is_security'] == 1){
+                                        str+="<img src='{$img_dir}/b.png'>";
+                                    }
+                                    str+="</span></dt>";
+                                    str+="<dt>地址："+array['address']+"</dt>";
+                                }
+                                if(array['identity'] == 2||array['identity'] == 1){
+                                    str+="<dt>工龄："+array['work_life']+"年 </dt>"+
+                                    "<dt>工种："+array['type']+"<dt>星级：";
+                                    
+                                    for(a=0;a<array['level'];a++){
+                                        str+="<img src='{$img_dir}/star-level.png' style='width:15px;height:15px'>";
+                                    }
+
+                                    str+="</dt></for></div>"  
+                                }
+                                str+="</dl></a></div>";
+                                str+=" <div class='clear'></div></li>";
+                            });
+                            $('#container').append(str);
+                            i++;
+                        }else{
+                            $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>没有更多信息了</b></div></li>");
+                            return false;
+                        }
+
+
+                    }
+                });
+
+
+        }
+        });
+
+    });
+</script>
+</html>

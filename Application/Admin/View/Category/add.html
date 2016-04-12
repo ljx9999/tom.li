@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+    <script type="text/javascript" src="{$js_dir}/category.js"></script>
+</head>
+<body id="Desktop" >
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center"  >
+        <div id="boxCategoryAdd" class="box disHide">
+            <h2>分类添加<span>Category Add</span></h2>
+            <hr>
+<form action="{:U('Admin/Category/addAct')}" method="post" id="cat_dataform">
+            <p class="formGroup">
+                <label for="catname" class="labelTitle">分类名称</label>
+                <input id="cat_name" type="text" name="cat_name" placeholder="分类名称" class="inputText widthNormal"/>
+            </p>
+
+            <p class="formGroup">
+                <label class="labelTitle">上级分类</label>
+                <input name="pid" id="pid" value='{$parentObj.id}' type="hidden">
+                {$parentObj.cat_name}
+            </p>
+
+            <div class="formGroup">
+                <label class="labelTitle">状态</label>
+                <div class="make-switch switch-mini" data-on="danger" data-on-label="启用" data-off-label="禁用">
+                    <input type="checkbox" checked="checked" id="status" name="status" value="1"/>
+                </div>
+            </div>
+
+            <p class="formGroup">
+                <label for="listorder" class="labelTitle" >排序</label>
+                <input type="text" id="listorder" name="listorder" placeholder="只能数字, 从小到大"  class="inputText widthNormal"/>
+            </p>
+            <div class="formGroup">
+                <label for="category_image" class="labelTitle"> 分类图片上传 </label>
+                <div>
+                    <img src="" id="preview-picture" style="display:block;"/>
+                    <input name="category_image" id="category_image" type="file" class="inputText widthNormal"/>
+                    <input name="img_src" id="img_src" type="hidden" value=""/>
+                    <input name="thumb_img" id="thumb_img" type="hidden" value=""/>
+                </div>
+            </div>
+
+            <div class="formGroup">
+                <input  type="submit" value="确认" class="button button-rounded button-flat-caution button-tiny"/>
+                <!--<input  type="reset" value="重置" class="button button-rounded button-tiny button-flat"/>-->
+                <a href="{:U('index')}" class="button button-rounded button-tiny button-flat">返回</a>
+            </div>
+</form>
+        </div>
+    </div>
+</div>
+
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript" >
+
+    // <!-- 调用多选框样式插件iCheck -->
+    $(document).ready(function(){
+
+        setInterval(function(){
+            $("#boxCategoryAdd").slideDown();
+        },300);
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+
+
+        $('#advert_image,#category_image').change(function(){
+
+            ajaxFileUpload($(this).attr('id'));
+        });
+
+
+
+        $('#cat_dataform').validate({
+            rules: {
+                catname: {
+                    required: true,
+                    maxlength: 30
+                },
+                listorder: {
+                    required: true,
+                    digits:true
+                },
+                description: "required"
+            },
+            messages: {
+                catname: {
+                    maxlength: "不超过30个字符"
+                },
+                listorder: {
+                    digits: "必须整数"
+                },
+            },
+            submitHandler: function(form){
+
+                $(form).ajaxSubmit(function (data) {
+                    var status = data.status;
+                    if(status){
+                        jAlert('添加成功','添加分类提示',function(r){
+                            location.href = data.url;
+                        })
+
+                    }else{
+                        jAlert(data.info ,'添加分类提示');
+                    }
+                });
+            }
+        });
+
+    });
+
+
+    function ajaxFileUpload($id) {
+
+        var fileId = $id;
+        $.ajaxFileUpload({
+            url: "{:U('Admin/Thumb/upload')}",
+            secureuri: false,
+            fileElementId: fileId,
+            dataType: 'json',
+            complete: function (data, status) {
+
+            },
+            success: function (data, status) {
+
+                if(fileId == 'category_image'){
+                    $('#preview-picture').prop("src","__APP__/Uploads/"+ data.data.savepath + 'm_' + data.data.savename);
+                    $('#img_src').val(data.data.savepath +  data.data.savename);
+                    $('#thumb_img').val(data.data.savepath + 'm_' + data.data.savename);
+                }
+
+                $('#'+fileId).change(function(){
+                    ajaxFileUpload($(this).attr('id'));
+                });
+            },
+            error: function (data, status, e) {
+                alert("上传失败");
+            }
+        })
+        return false;
+    }
+</script>
+</body>
+</html>

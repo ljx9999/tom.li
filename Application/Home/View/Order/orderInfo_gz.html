@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+
+
+    <style type="text/css">
+
+    .scroll{
+        width:40px;
+        height:40px;
+        background:#64BFAE;
+        color:#fff;
+        line-height:40px;
+        text-align:center;
+        position:fixed;
+        right:30px;
+        bottom:50px;
+        cursor:pointer;
+        font-size:14px;
+    }
+    </style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="__APP__/Home/Home/index_gz" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">我的订单</div>
+    <a href="__APP__/Home/Home/index_gz" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<!---->
+<div class="container hotellistbg">
+        <div class="container hotellistbg">
+        <div style="float:left">
+            <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp*温馨提示：</font></label><br>
+                <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp1.中标后请尽快与业主取得联系</font></label><br>
+                <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp2.请点击“详情”查看具体的订单信息</font></label><br>
+                <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp3.如工作已完成，请点击申请验收及尾款</font></label>
+            </div>
+</div></div>
+<div class="container hotellistbg">
+    <ul class="unstyled hotellist">
+        <if condition="$info neq ''">
+        <foreach name="info" item="vo">
+            <li>
+                <div>
+                    <h3>订单号：{$vo.order_number}<span style="float: right">订单申请</span></h3>
+                    <hr>
+                    <form name="form">
+                    <dl>
+                        <dd>小区：<span>{$vo.sub.community_name}</span></dd>
+                        <dd>房主：<span>{$vo.sub.userName}</span></dd>
+                        <dd>预算：<span>{$vo.sub.budget}</span></dd>
+                        <dd>联系电话：<span>{$vo.sub.mobile}</span></dd>
+                        <dd>需求：<span>{$vo.sub.needAll}</span></dd>
+                        <dd>备注：<span>{$vo.sub.msg}</span></dd>  
+                        <dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                        <dd><if condition="$vo['status'] eq 1">
+                            <img src="{$img_dir}/zb.png"/>
+                            <elseif condition="$vo['status'] eq 5" />
+                            <img src="{$img_dir}/yfdj.png"/></br>
+                            <elseif condition="$vo['status'] eq 10" />
+                            <img src="{$img_dir}/yssf.png"/></br>
+                            <button type="button" style="margin: 10px  0 10px 0px;width:150px;height:28px;background-color:#ED6100" class="sub" id="{$vo.id}" item_id="{$vo.sub.mobile}"><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>申请验收及尾款</B></font></button></button>
+                            <elseif condition="$vo['status'] eq 15" />
+                            <img src="{$img_dir}/ysz.png"/>
+                            <elseif condition="$vo['status'] eq 20"  />
+                            <img src="{$img_dir}/jq.png"/>
+                            <elseif condition="$vo['status'] eq 25"  />
+                            <img src="{$img_dir}/complete.png"/>
+                            <elseif condition="$vo['status'] eq 30"  />
+                            <img src="{$img_dir}/chedan.png"/>
+                            <elseif condition="$vo['status'] eq 35"  />
+                            <img src="{$img_dir}/yichedan.png"/>
+                            <else/>
+                            <img src="{$img_dir}/ddqx.png"/>
+                            </if>
+                             <button type="button" onclick="showDetail('{$vo.id}');" style="margin: 10px  0 10px 5px;width:70px;height:28px;background-color:#ED6100" ><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>详&nbsp&nbsp情</B></font></button>
+                        </dd>
+                         </dl>
+                    </form>
+                </div>
+                <div class="clear"></div>
+            </li>
+        </foreach>
+            <else />
+            <li><div style="text-align: center; margin:30px 0 30px 0"><b>暂无订单信息！</b></div></li>
+            </if>
+    </ul>
+</div>
+
+
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+<script type="text/javascript">
+      $(document).ready(function(){
+        $(".parentid").bind("click",function(){
+            var id =  $(this).attr("id").split("_")[1];
+            var quote = $('#data_'+id).val();
+             $.ajax({
+                 url:'__APP__/Home/Order/orderQuoto',
+                 data:{id:id,quote:quote},
+                 dataType:'json',
+                 type:'post',
+                 success:function(data){
+                     console.log(data);
+                    var id = data['id'];
+                     if(data.info==1){
+                         $('#quote_'+id).attr("disabled",true);
+                         alert('提交成功！');
+                     }else{
+                         alert('提交失败！');
+                     }
+                 }
+             });
+        });
+
+        $(".sub").click(function(){ 
+            if(confirm("确定已完工，申请验收吗？"))
+            {
+                var id = $(this).attr('id');
+                var mobile = $(this).attr('item_id');
+                $.ajax({
+                 url:'__APP__/Home/Order/orderDone',
+                 data:{'id':id,'mobile':mobile},
+                 dataType:'json',
+                 type:'post',
+                 success:function(data){
+                    //var obj = eval( "(" + data + ")" );
+                    if(data.status == 1){
+                        alert('申请成功！');
+                        location.reload();
+                    }else{
+                        alert('申请失败！');
+                        location.reload();
+                    }
+                 }
+             });
+                    
+            }
+            else
+            {
+                location.reload();
+            }
+        })
+      });
+
+
+    function showDetail(id){
+        location.href = '__APP__/Home/Order/detail?id='+id;
+    }
+</script>
+    <div class="scroll" id="scroll" style="display:none;">
+        顶部
+    </div>
+    <script type="text/javascript">
+    $(function(){
+        showScroll();
+        function showScroll(){
+            $(window).scroll( function() { 
+                var scrollValue=$(window).scrollTop();
+                scrollValue > 100 ? $('div[class=scroll]').fadeIn():$('div[class=scroll]').fadeOut();
+            } );    
+            $('#scroll').click(function(){
+                $("html,body").animate({scrollTop:0},200);  
+            }); 
+        }
+    })
+    </script>
+</html>

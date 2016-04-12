@@ -1,0 +1,350 @@
+/*********************
+File:     basic.css
+Title:    基本全局通用样式
+Version:  2013-09-12
+Author:   Ray
+**********************/
+
+
+
+
+/*********************
+基本标签样式
+**********************/
+
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 12px;
+    font-family: arial, "微软雅黑";
+    text-decoration: none;
+    color: black;
+    line-height: 20px;
+}
+
+body {
+    background: white;
+}
+
+div, ul {
+    overflow: hidden;
+}
+
+img {
+    border: 0;
+}
+
+:focus {
+    outline: none;
+}
+
+body {
+    background: #e5e5e5;
+}
+
+h2 {
+    color: #444;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+h2 span {
+    margin-left: 10px;
+    color: #d11611;
+    font-size: 18px;
+    font-family: "segoe ui light";
+    font-weight: normal;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+strong {
+	color: #d11611;
+}
+
+
+
+/*********************
+全局通用样式 - 定位
+**********************/
+
+
+.posLeft {
+    float: left;
+}
+
+.posRight {
+    float: right;
+}
+
+
+/*********************
+全局通用样式 - 表单
+**********************/
+
+.inputText {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+}
+
+.inputSubmit {
+    padding: 0 15px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.inputButton {
+    padding: 0 15px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.labelCheckBox {
+    line-height: 30px;
+}
+
+.form .labelTitle {
+    margin: 0 10px 0 0;
+    color: #888;
+}
+
+.form li {
+    margin: 10px 0;
+}
+
+
+/*********************
+全局通用样式 - 布局
+**********************/
+
+
+
+.disBlock {
+    display: block;
+}
+
+.disSpace {
+    margin: 10px;
+}
+
+.disHide {
+    display: none;
+}
+
+.preload {
+	width: 0;
+	height: 0;
+	visibility: hidden;
+}
+
+/*********************
+全局通用样式 - 格式
+**********************/
+
+.widthNormal {
+    width: 400px;
+}
+
+.widthMini {
+    width: 200px;
+}
+
+.widthMicro {
+    width: 50px;
+}
+
+
+/*********************
+全局通用框架
+**********************/
+
+#footer {
+    text-align: center;
+    margin: 30px 0;
+    clear: both;
+}
+
+#header {
+    background: url(./images/bgHeader.jpg) #d11611;
+    z-index: 1000;
+}
+
+#header h1 {
+    font-size: 18px;
+    color: #fff;
+    font-weight: normal;
+    padding: 15px 20px;
+}
+
+#bar {
+    background: #444;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+#bar a {
+	margin: 0 5px;
+	float: right;
+}
+
+#main {
+    padding: 20px;
+}
+
+#center .box {
+	padding: 20px;
+}
+
+#left {
+    width: 220px;
+    float: left;
+    margin: 0 20px 0 0;
+}
+
+#right {
+    width: 220px;
+    float: right;
+    margin: 0 0 0 20px;
+}
+
+.box {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px #ddd;
+    padding: 20px 20px 10px 20px;
+    margin: 0 0 20px 0;
+	border: 1px solid #ddd;
+}
+
+.box:hover {
+	border: 1px solid #ffc7c7;
+	box-shadow: 0 0 15px #fee4e4 inset;
+}
+
+.module {
+    text-align: center;
+    float: left;
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+	transition-property: box-shadow border;
+	transition-duration: 0.3s;
+	overflow: hidden;
+}
+
+.module:hover {
+    background: #f9f9f9;
+    box-shadow: 1px 1px 4px #eee;
+    border: 1px solid #e7e7e7;
+}
+
+.module:active {
+    box-shadow: 1px 1px 4px #ddd inset;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+
+
+.module > a {
+    padding: 45px 0 0;
+    width: 70px;
+    height: 25px;
+    text-align: center;
+    display: block;
+	float: left;
+}
+
+.module > div {
+	margin: 0 0 0 80px;
+}
+
+.module > div a {
+	display: block;
+	padding: 2px 10px;
+	float: left;
+    border-radius: 5px;
+    border: 1px solid #fff;
+	transition-property: box-shadow background color border;
+	transition-duration: 0.3s;
+	overflow: hidden;
+	background: #fff;
+	margin: 24px 5px 0;
+    border: 1px solid #e7e7e7;
+}
+
+.module > div a:hover {
+    box-shadow: 1px 1px 4px #eee;
+	background: #d11611;
+	color: #fff;
+    border: 1px solid #d11611;
+}
+
+.module:hover > a {
+	color: #d11611;
+}
+
+#moduleUser > a {
+    background: url(./images/module/user.png) 20px 10px no-repeat;
+	transition-property: background;
+	transition-duration: 0.3s;
+}
+#moduleOrder > a {
+    background: url(./images/module/order.png) 20px 10px no-repeat;
+	transition-property: background;
+	transition-duration: 0.3s;
+}
+#moduleProduct > a {
+    background: url(./images/module/product.png) 20px 10px no-repeat;
+	transition-property: background;
+	transition-duration: 0.3s;
+}
+#moduleSetting > a {
+    background: url(./images/module/setting.png) 20px 10px no-repeat;
+	transition-property: background;
+	transition-duration: 0.3s;
+}
+#moduleReport > a {
+    background: url(./images/module/report.png) 20px 10px no-repeat;
+	transition-property: background;
+	transition-duration: 0.3s;
+}
+#moduleContent > a {
+    background: url(./images/module/content.png) 20px 10px no-repeat;
+	transition-property: background;
+	transition-duration: 0.3s;
+}
+
+#moduleUser > a:hover {
+    background: url(./images/module/user_a.png) 20px 10px no-repeat;
+}
+#moduleOrder > a:hover {
+    background: url(./images/module/order_a.png) 20px 10px no-repeat;
+}
+#moduleProduct > a:hover {
+    background: url(./images/module/product_a.png) 20px 10px no-repeat;
+}
+#moduleSetting > a:hover {
+    background: url(./images/module/setting_a.png) 20px 10px no-repeat;
+}
+#moduleReport > a:hover {
+    background: url(./images/module/report_a.png) 20px 10px no-repeat;
+}
+#moduleContent > a:hover {
+    background: url(./images/module/content_a.png) 20px 10px no-repeat;
+}

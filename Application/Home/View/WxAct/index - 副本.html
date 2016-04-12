@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>家装钜惠</title>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content= "" />
+    <meta name="viewport" content="width=device-width,initial-scale= 1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+</head>
+<body>
+<div class="popmask popmaskw"></div>
+<header class="header" style="display:none;">
+    <a href="javascript:void(0);" class="backtohis pl" onclick="javascript:window.history.back();">返回</a>
+    <h2 class="header_title">家装大礼包</h2>
+    <a href="http://m.jia.com/" class="home pr"></a>
+</header>
+<div class="furniture-pd">
+   
+            <p class="get_btn_par"><a href="javascript:;" class="btn-checkmore getCouponBtn" id="sub_info">马上领取</a></p>
+      
+  </div>
+</body>
+<script>
+    $(document).ready(function() {
+        var targetUrl = location.href.split("#")[0];
+        $.ajax({
+            type: "POST",
+            url: "http://www.didifree.com/didifree/Home/WxActivity/getWechats?targetUrl="+targetUrl,
+            dataType : "JSON",
+            success: function(obj){ 
+                alert(obj.url);
+                wx.config({
+                    debug: true,
+                    appId: obj.appId,
+                    timestamp: obj.timestamp,
+                    nonceStr: obj.nonceStr,
+                    signature: obj.signature,
+                    jsApiList: [
+                      'addCard'
+                    ]
+                  });
+                  wx.ready(function () {
+                    // 在这里调用 API
+                    document.querySelector('#sub_info').onclick = function () {
+                        wx.addCard({
+                          cardList: [
+                            {
+                                cardId: "pwZuzuHaXa2CS8T-cqMKduz_O0Y8",
+                                cardExt: '{"code": "", "openid": "","timestamp": "'+obj.timestamp+'","signature":"'+obj.signature+'"}'
+                            },
+
+                            {
+                                cardId: "pwZuzuETixQXd1mAPfF1ylir3lkM",
+                                cardExt: '{"code": "", "openid": "","timestamp": "'+obj.timestamp+'","signature":"'+obj.signature+'"}'
+                            }
+                          ],
+                          success: function (res) {
+                            alert('已添加卡券：' + JSON.stringify(res.cardList));
+                          },
+                        });
+                    };
+                  });
+             }
+        });
+       //发送验证码
+        $('#send_sms').click(function(){
+            var phone_obj = $('input[name="mobile"]');
+            var send_obj = $('#send_sms');
+            var val = phone_obj.val();
+            var sends = send_obj.val();
+            if(sends == "重新发送"){
+                //30秒后重新启动发送按钮
+                start_sms_button(send_obj);
+                $.ajax({
+                    url:'__APP__/Home/Login/smsCode',
+                    data:{'mobile':val},
+                    dataType:'json',
+                    type:'post',
+                    beforeSend:function(){
+                    },
+                    complete:function(){
+                    },
+                    success:function(data){
+                        console.log(data);
+                        if(data.status!=undefined && (data.status == 'ok' || data.status == 'error')){
+                            //alert(data.msg);
+                        }
+                    }
+                });
+            }else{
+                if(val){
+                    checkSmsCode();     
+                }else{
+                    alert('手机号不能为空');
+                }
+            }
+        })
+     }); 
+
+    function start_sms_button(obj){
+        var count = 1 ;
+        var sum = 30;
+        var i = setInterval(function(){
+            if(count > 30){
+                obj.attr('disabled',false);
+                obj.val('重新发送');
+                clearInterval(i);
+            }else{
+                obj.val('剩余'+parseInt(sum - count)+'秒');
+            }
+            count++;
+        },1000);
+    }
+
+    function checkSmsCode(){
+        var send_obj = $('#send_sms');
+        var mobile = $("#mobile").val();    
+        start_sms_button(send_obj);
+        $.ajax({
+            url:'__APP__/Home/Login/smsCode',
+            data:{'mobile':mobile},
+            dataType:'json',
+            type:'post',
+            beforeSend:function(){
+
+            },
+            complete:function(){
+
+            },
+            success:function(data){
+                console.log(data);
+                if(data.status!=undefined && (data.status == 'ok' || data.status == 'error')){
+                    //alert(data.msg);
+                }
+            },
+            
+        });                        
+    } 
+</script>
+
+</html>

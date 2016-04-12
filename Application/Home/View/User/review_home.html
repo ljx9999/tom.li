@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .scroll{
+        width:40px;
+        height:40px;
+        background:#64BFAE;
+        color:#fff;
+        line-height:40px;
+        text-align:center;
+        position:fixed;
+        right:30px;
+        bottom:50px;
+        cursor:pointer;
+        font-size:14px;
+    }
+    </style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+<body>
+<div class="header">
+    <a href="__APP__/Home/Home/index" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">招标管理</div>
+    <a href="__APP__/Home/Home/index" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<!---->
+<div class="container hotellistbg">
+    <div class="container hotellistbg">
+    <div style="float:left">
+            <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp*温馨提示：</font></label><br>
+                <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp1.请仔细核查竞标信息后再选标</font></label><br>
+                <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp2.可以删除不满意的竞标信息，以方便您的选择</font></label>
+            </div>
+        </div>
+    <ul class="unstyled hotellist" id="container">
+        
+    </ul>
+    <div class="nodata"></div> 
+</div>
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+</html>
+<script type="text/javascript">
+var img_dir = "{$img_dir}";
+$(document).ready(function () {
+    $.ajax({
+        type: "POST",
+        url: "{:U('Home/User/getReviewInfo')}",
+        dataType : "JSON",
+        async :false,
+        success: function(obj){
+            //var obj = eval( "(" + jsonResult + ")" );
+            if(obj){
+                var str = "";
+                var htmlStr ="";
+                $.each(obj,function(index,array){ 
+                        str+="<li><div><h3><span>投标详情</span></h3><hr><dl>";
+                        str+="<dd>报价："+array['quote']+"元</dd>";
+                        str+="<dd>工期："+array['work_time']+"天</dd>";
+                        str+="<dd>联系人："+array['worker_name']+"</dd>";
+                        if(array['have_order'] == 1 && array['feedback_id'] == array['id']){
+                            str+="<img src='"+img_dir+"/ydb.png'/>";
+                        }else if(array['have_order'] == 1){
+                            str+="<img src='"+img_dir+"/wzb.png'/>";
+                        }else{
+                            str+="<button type='button' style='margin: 10px  0 10px 5px;width:70px;height:28px;background-color:#ED6100' class='answer' item_id='"+array['id']+"'><font color='#FFFFFF' face='Microsoft YaHei' size='3px'><B>下订单</B></font></button>";
+                        } 
+                        str+=" <button type='button' style='margin: 10px  0 10px 5px;width:70px;height:28px;background-color:#ED6100' onclick='delInfo("+array['id']+")'><font color='#FFFFFF' face='Microsoft YaHei' size='3px'><B>删&nbsp&nbsp除</B></font></button>";
+                        str+="<a href='__APP__/Worker/show?bj=biaoji&id="+array['fid']+"&programid="+array['programid']+"'><button type='button' style='margin: 10px  0 10px 5px;width:120px;height:28px;background-color:#ED6100'><font color='#FFFFFF' face='Microsoft YaHei' size='3'><B>投标者信息</B></font></button> </a>";
+                        str+=" </div><div class='clear'></div></li>";
+                });
+                $('#container').append(str);
+            }else{
+                $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>暂时没有投标信息</b></div></li>"); 
+                return false; 
+               
+            }       
+
+
+        }
+    });
+
+
+    $(".answer").on("click",function(){
+        if(confirm("确认选中此标？"))
+            {
+        $(this).unbind('click');
+        var id=$(this).attr('item_id');
+         $.ajax({
+            type: "POST",
+            url: "{:U('Home/User/ajaxSubOrder')}",
+            data:  {'id': id},
+            dataType : "JSON",
+            success: function(jsonResult){
+                if(jsonResult.status==1){
+                     alert('下单成功，即将跳转至付款页面');
+                     window.location.href="__APP__/Home/Order/orderInfo";
+                }else{
+                    alert('下单失败');
+                }
+
+            }
+        });
+     }
+    })
+    
+});
+
+function delInfo(id){
+    if(confirm("确认删除该条竞标信息？")){
+         $.ajax({
+            type: "POST",
+            url: "{:U('Home/User/ajaxDelFeed')}",
+            data:  {'id': id},
+            dataType : "JSON",
+            success: function(jsonResult){
+                if(jsonResult.status==1){
+                    alert('删除成功！');
+                    location.reload();
+                }else{
+                    alert('删除失败！'); 
+                }
+
+            }
+        });
+     }
+}
+
+function orderPay(){
+    location.href = '__APP__/Home/Order/orderInfo';
+}
+</script>
+    <div class="scroll" id="scroll" style="display:none;">
+        顶部
+    </div>
+    <script type="text/javascript">
+    $(function(){
+        showScroll();
+        function showScroll(){
+            $(window).scroll( function() { 
+                var scrollValue=$(window).scrollTop();
+                scrollValue > 100 ? $('div[class=scroll]').fadeIn():$('div[class=scroll]').fadeOut();
+            } );    
+            $('#scroll').click(function(){
+                $("html,body").animate({scrollTop:0},200);  
+            }); 
+        }
+    })
+    </script>

@@ -1,0 +1,42 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+    <if condition="!empty($list)">
+        <thead>
+        <tr>
+            <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+            <th>姓名</th>
+            <th>邮箱地址</th>
+			<th>电话</th>
+            <th>项目名称</th>
+            <th>建议</th>
+            <th>状态</th>
+            <th>管理</th></tr>
+        </thead>
+        <else/>
+        <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+    </if>
+    <tbody>
+       <volist name="list" id="billboard" empty="">
+        <tr>
+            <td style="text-align:center;">
+                <input type="checkbox" value="{$billboard.id}" name="billboard_checkbox"/>
+            </td>
+            <td style="text-align:center;">{$billboard.name}</td>
+            <td style="text-align:center;">{$billboard.e_mail}</td>
+			<td style="text-align:center;">{$billboard.number}</td>
+			<td style="text-align:center;width:180px" title="{$billboard.message}">{$billboard.address}</td>
+            <td style="text-align:center;width:180px" title="{$billboard.message}">{$billboard.project}</td>
+            <td style="text-align:center;width:180px" title="{$billboard.answer}">{$billboard.suggestion}</td>
+           <td style="text-align:center;">
+                <div class="formGroup">
+                    <if condition="$billboard['status'] eq 0"><a href="#"
+                       class="button button-rounded button-tiny button-flat-caution answer" item="{$billboard.id}">回复</a></if>
+                    <a href="javascript:deleteBillboard('{$billboard.id}');"
+                       class="button button-rounded button-tiny button-flat-caution"> 删除</a>
+                </div>
+
+            </td>
+        </tr>
+    </volist>
+
+    </tbody>
+</table>

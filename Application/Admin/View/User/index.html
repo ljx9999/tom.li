@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+</head>
+<body>
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxProductList" class="box disHide">
+            <h2>
+                 管理员列表
+                <span>Admin List</span>
+            </h2>
+            <hr />
+            <div class="space"></div>
+
+            <!-- 内容开始 -->
+            <div class="formGroup">
+                <a href="{:U('add')}"  class="button button-rounded button-flat-caution button-tiny">添加</a>
+                <a href="javascript:void(0);" id="delete_btn" class="button button-rounded button-tiny button-flat-caution">批量删除</a>
+                <input name="keyword" id="search_keyword" type="text" placeholder="关键词" class="inputText widthSmall">
+                <input type="button" value="搜索" id="keyword_btn" class="button button-rounded button-flat-caution button-tiny">
+                <!--<input type="button" id="search_btn" class="md-trigger button button-rounded button-tiny button-flat-caution" data-modal="modal-16" value="筛选">-->
+            </div>
+            <div class="space"></div>
+
+            <div id="tableBody">
+                <include file="User/admin-table.inc"/>
+            </div>
+
+            <p id="pageBody">
+                {$page}
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="box" id="product_search" style="display: none;">
+    <div class="md-content">
+        <h2>筛选<span>Filters</span></h2>
+        <hr />
+        <form id="product_search_form" >
+            <div id="filterDiv">
+                <div class="formGroup">
+                    <label for="product_name" class="labelTitle">名称</label>
+                    <input name="product_name" id="product_name" type="text" class="inputText widthNormal" />
+                </div>
+                <p class="formGroup">
+                    <label class="labelTitle">售价</label>
+                    <input style="width: 90px;" id="min_price" name="min_price" class="inputText"> ~
+                    <input style="width: 90px;" name="max_price" id="max_price" class="inputText">
+                </p>
+                <p class="formGroup">
+                    <label class="labelTitle">库存</label>
+                    <input style="width: 90px;" name="s_product_stock" id="s_product_stock"  class="inputText"> ~
+                    <input name="e_product_stock" id="e_product_stock" style="width: 90px;"  class="inputText">
+                </p>
+
+                <div class="formGroup">
+                    <label class="labelTitle">是否上架</label>
+                    <label class="disBlock labelCheckBox" >
+                        <input type="radio" name="product_status" value="" class="inputCheckBox" checked="checked" >全部</label>
+                    <label class="disBlock labelCheckBox" >
+                        <input type="radio" name="product_status" value="1" class="inputCheckBox"  >是</label>
+                    <label class="disBlock labelCheckBox">
+                        <input type="radio" name="product_status" value="0" class="inputCheckBox">否</label>
+                </div>
+                <p class="formGroup">
+                    <label class="labelTitle">货号</label>
+                    <input name="goods_number" type="text" class="inputText widthNormal">
+                </p>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //向下滑动
+
+        setInterval(function(){
+            $("#boxModule").slideDown();
+        },200);
+        setInterval(function(){
+            $("#boxProductList").slideDown();
+        },300);
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+    });
+
+    $(function () {
+
+        $("#search_keyword").focus(function(){
+            if($.trim($(this).val()) == '请输入搜索关键字'){
+                $(this).val("");
+            }
+        }).blur(function(){
+            if($.trim($(this).val()) == ''){
+                $(this).val("请输入搜索关键字");
+            }
+        });
+
+         $("#keyword_btn").on("click",function(){
+            var keyword = $("#search_keyword").val();
+            if(keyword == "" || keyword == null || keyword=="请输入搜索关键字"){
+                keyword = '';
+                jAlert("请输入搜索关键字！", "搜索提示");
+                return;
+                
+            }
+
+            if(keyword.toUpperCase() == 'ALL'){
+                keyword = "";
+            }
+
+            $.post("{:U('Admin/User/ajaxSearch')}", {'keyword': keyword }, function (data) {
+                $("#tableBody").html(data.info.tabelBody);
+            });
+        });
+    });
+
+    /**
+     * AJAX分页处理
+     * @param url
+     */
+    function ajaxPage(url){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+        var urlStr  = $.trim(url);
+        var paraStr = "";
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType : "JSON",
+            success: function(jsonResult){
+                $("#tableBody").html(jsonResult.info.tabelBody);
+                $("#pageBody").html(jsonResult.info.pageBody);
+            }
+        });
+    }
+
+    /**
+     * AJAX分页处理
+     * @param url
+     */
+    function ajaxPageByGo(url,pid){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+
+        var urlStr  = $.trim(url);
+        urlStr = urlStr.replace( /%_p%/, $("#"+pid).val()); // "hxllx"
+
+        var paraStr ='';
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType : "JSON",
+            success: function(jsonResult){
+                $("#tableBody").html(jsonResult.info.tabelBody);
+                $("#pageBody").html(jsonResult.info.pageBody);
+            }
+        });
+    }
+
+
+    function hrefPageByGo(url,pid){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+
+        var urlStr  = $.trim(url);
+        urlStr = urlStr.replace( /%_p%/, $("#"+pid).val()); // "hxllx"
+
+        location.href =urlStr;
+    }
+
+
+
+    $('#check_all').click(function () {
+        $("input[name='admin_checkbox']").prop('checked', $(this).prop("checked"));
+    });
+
+
+    $('#delete_btn').click(function () {
+        var ids = new Array();
+        $("input[name='admin_checkbox']:checked").each(function () {
+            var id = $(this).val();
+            ids.push(id);
+        });
+
+        if(ids.length < 1){
+            jAlert("请选择要删除的信息",'删除提示消息');
+        }else{
+            jConfirm("请确认要删除的信息，删除后无法恢复","确认消息",function(r){
+                if(r){
+                    $.post("{:U('Admin/User/deleteAct')}", {'ids': ids}, function (data) {
+                        var status = data.status;
+                        var info = data.info;
+                        if (status) {
+                            
+                            location.reload();
+                        } else {
+                            jAlert(info);
+                        }
+                    });
+                }else{
+                }
+            });
+        }
+    });
+
+    function deleteUser(id){
+            jConfirm("请确认要删除的信息，删除后无法恢复","确认消息",function(r){
+                if(r){
+                    $.post("{:U('Admin/User/deleteAct')}", {'id': id}, function (data) {
+                        var status = data.status;
+                        var info = data.info;
+                        if (status) {
+                            
+                            location.reload();
+                        } else {
+                            jAlert(info);
+                        }
+                    });
+                }else{
+                }
+            })
+    }
+</script>
+</body>
+</html>

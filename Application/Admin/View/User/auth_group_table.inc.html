@@ -1,0 +1,52 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+   <if condition="!empty($authList)">
+    <thead>
+    <tr>
+        <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+        <th>角色名</th>
+        <th>描述</th>
+        <th>状态</th>
+        <th>设置权限</th>
+        <th>管理</th>
+    </tr>
+    </thead>
+    <tbody >
+    <volist name="authList" id="auth" empty="没有管理员信息" >
+        <tr>
+            <td >
+                <if condition="$auth['status'] neq -1"><input type="checkbox" value="{$auth.id}" name="admin_checkbox"/></if>
+            </td>
+            <td>
+                {$auth.title}
+            </td>
+            <td>
+                {$auth.description}
+            </td>
+            <td>
+                {$auth.status_text}
+            </td>
+            <td>
+                <div class="formGroup">
+                    <a href="{:U('Admin/AuthManager/access?id='.$auth['id'])}" class="button button-rounded button-tiny button-flat-caution">权限设置</a>
+                </div>
+            </td>
+            <td>
+                <div class="formGroup">
+                    <a href="{:U('Admin/AuthManager/groupEdit?id='.$auth['id'])}" class="button button-rounded button-tiny button-flat-caution">编辑</a>
+
+                    <if condition="$auth.status eq 1">
+                        <a href="javascript:changeStatus(0,'{$auth.id}');" class="button button-rounded button-tiny button-flat-caution">禁用</a>
+                    <else/>
+                        <a href="javascript:changeStatus(1,'{$auth.id}');" class="button button-rounded button-tiny button-flat-caution">启用</a>
+                    </if>
+                    <if condition="$auth['status'] neq -1"> <a href="javascript:deleteAuth('{$auth.id}');"  class="button button-rounded button-tiny button-flat-caution"> 删除</a><else /> </if>
+                </div>
+            </td>
+        </tr>
+    </volist>
+
+    </tbody>
+    <else />
+    <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+    </if>
+</table>

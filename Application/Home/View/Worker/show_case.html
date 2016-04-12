@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>滴滴装修</title>
+    <meta name="Description" content=""/>
+    <meta name="Keywords" content=""/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="{$css_dir}/share.css"/>
+    <link rel="stylesheet" type="text/css" href="{$css_dir}/style.css"/>
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script src="{$js_dir}/1.9.0.js" type="text/javascript" charset="utf-8"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a class="home" href="{:U('Home/Home/index')}">
+        <span class="header-icon header-icon-home"><img src="{$img_dir}/icon_home.png"/></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div id="titleString" class="title">完工案例</div>
+    <a class="back" href="javascript:history.go(-1);">
+        <span class="header-icon header-icon-return"><img src="{$img_dir}/icon_return.png"/></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<div class="container">
+    <ul class="unstyled hotel-bar">
+        <li class="first"><a href="{:U('Worker/show?id='.$_GET['id'])}" >简介</a></li>
+        <li><a href="{:U('Worker/show_case?id='.$_GET['id'])}"  class="active">案例</a></li>
+        <li><a href="{:U('Worker/show_review?id='.$_GET['id'])}">评价</a></li>
+    </ul>
+</div>
+<div class="nc">
+     <ul class="unstyled hotellist" id="container">
+     <if condition="$caseList neq ''">
+        <volist name="caseList" id="vo">
+        <li>
+            <a href="__APP__/Worker/show_case_detail?id={$vo.pid}">
+                <img class="hotelimg fl" src="__APP__/Uploads/{$vo.thumb}" onerror="javascript:this.src='__APP__/Uploads/worker.jpg';"  />
+             </a>
+                <div class="inline">
+                    <h3>{$vo.shequ_name}</h3>
+                    <dl>
+                        <dt>简介：<span> {$vo.content}</span></dt> 
+                    </dl>
+                </div>
+                <div class="clear"></div> 
+        </li>
+    </volist>
+        </ul>
+    <else />
+        <div style="text-align: center; margin:30px 0 30px 0"><b>暂无案例信息！</b></div>
+        </if>
+</div>
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+</body>
+</html>

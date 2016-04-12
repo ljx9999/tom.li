@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" />   
+    <script type="text/javascript" src="{$js_dir}/layer.m.js"></script>
+
+    <style type="text/css">
+    *{margin:0;padding:0;list-style-type:none;}
+    a,img{border:0;}
+    body{background:#f2f2f2;font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
+    .stepInfo{position:relative;background:#f2f2f2;margin:20px auto 0 auto;width:500px;}
+    .stepInfo li{float:left;width:48%;height:0.15em;background:#bbb;}
+    .stepIco{border-radius:1em;padding:0.03em;background:#bbb;text-align:center;line-height:1.5em;color:#fff; position:absolute;width:1.4em;height:1.4em;}
+    .stepIco1{top:-0.7em;left:3%;}
+    .stepIco2{top:-0.7em;left:13%;}
+    .stepIco3{top:-0.7em;left:23%;}
+    .stepIco4{top:-0.7em;left:32%;}
+    .stepIco5{top:-0.7em;left:41%;}
+    .stepIco6{top:-0.7em;left:51%;}
+    .stepText{color:#666;margin-top:0.2em;width:4em;text-align:center;margin-left:-1.4em;}
+    .activity{background:#DD0000;}
+    .act{color:#DD0000;};
+    span{
+            font-family:Microsoft YaHei;
+        }
+    </style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">我的订单</div>
+    <a href="{:U('Home/Home/index')}" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<!---->
+<div class="container hotellistbg">
+    <div class="container hotellistbg">
+        <div style="float:left">
+            <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp*温馨提示：</font></label><br>
+                <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp1.在收到定金付款后滴滴装修的工作人员会主动与您联系</font></label><br>
+                <label><font size="2px" face="SimHei">&nbsp&nbsp&nbsp&nbsp&nbsp2.验收时请仔细检查，不满意处可协商修改</font></label>
+            </div>
+</div>
+    <ul class="unstyled hotellist">
+        <if condition="$info neq ''">
+        <foreach name="info" item="vo">
+            <if condition="$vo['status'] eq 1">
+                 <li>
+                    <div>
+                        <h3>订单号：{$vo.order_number}<span style="float: right">待付款</span></h3>
+                        <hr>
+                        <dl>
+                            <dt><span></span></dt>
+                            <font size="3px" face="Microsoft JhengHei"><dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                            <dd>报价：{$vo.quote}元</dd>
+                            <dd>付款：{$vo.firstPay}元&nbsp;&nbsp;&nbsp;(定金1.5%) </dd>
+                            <dd>施工方： <if condition="$vo['sub']['company_name'] neq ''">{$vo.sub.company_name}<else/>{$vo.sub.realname}</if></dd>
+                            <dd>联系电话：<a href="tel:{$vo.sub.mobile}">{$vo.sub.mobile}<img src="{$img_dir}/tel.png"/></a>&nbsp;</dd>
+                        </font>
+
+                        </dl>
+                        <hr>
+                        <div class="stepInfo">
+                             <ul>
+                            </ul>
+                            <div class="stepIco stepIco1 <if condition='$vo["status"] eq 1'>activity </if>" id="create" >1
+                                <div class="stepText <if condition='$vo["status"] eq 0'>act </if>" id="createText">创建订单</div>
+                            </div>
+                            <div class="stepIco stepIco2 <if condition='$vo["status"] eq 5'>activity </if>" >2
+                                <div class="stepText <if condition='$vo["status"] eq 5'>act </if>">已付定金</div>
+                            </div>
+                            <div class="stepIco stepIco3 <if condition='$vo["status"] eq 10'>activity </if>" id="check">3
+                                <div class="stepText <if condition='$vo["status"] eq 10'>act </if>" id="checkText">已首付</div>
+                            </div>
+                            <div class="stepIco stepIco4 <if condition='$vo["status"] eq 15'>activity </if>" id="produce">4
+                                <div class="stepText <if condition='$vo["status"] eq 15'>act </if>" id="produceText">完工</div>
+                            </div>
+                            <div class="stepIco stepIco5 <if condition='$vo["status"] eq 20'>activity </if>" id="delivery">5
+                                <div class="stepText <if condition='$vo["status"] eq 20'>act </if>" id="deliveryText">已付尾款</div>
+                            </div>
+                            <div class="stepIco stepIco6 <if condition='$vo["status"] eq 25'>activity </if>" id="received">6
+                                <div class="stepText <if condition='$vo["status"] eq 25'>act </if>" id="receivedText">完成</div>
+                            </div>
+                        </div>
+                         <br><br><br>
+                        <button type="button" style="width:70px;height:28px;background-color:#ED6100" onclick="readFile('{$vo.id}');" ><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>付款</B></font></button>&nbsp;&nbsp;&nbsp;
+                        <button type="button" style="width:70px;height:28px;background-color:#ED6100" onclick="cancelOrder('{$vo.id}');" ><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>撤单</B></font></button>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            <elseif condition="$vo['status'] eq 5 "/>
+             <li>
+                    <div>
+                        <h3>订单号：{$vo.order_number}<span style="float: right">已付定金</span></h3>
+                        <hr>
+                        <dl>
+                            <dt><span></span></dt>
+                            <font size="3px" face="Microsoft JhengHei"><dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                            <dd>报价：{$vo.quote}元 </dd>
+                            <dd>定金：已付 </dd>
+                            <dd>施工方： <if condition="$vo['sub']['company_name'] neq ''">{$vo.sub.company_name}<else/>{$vo.sub.realname}</if></dd>
+                            <dd>联系电话：<a href="tel:{$vo.sub.mobile}">{$vo.sub.mobile}&nbsp<img src="{$img_dir}/tel.png"/></a></dd>
+                        </font>
+                        </dl>
+                        <hr>
+
+                          <div class="stepInfo">
+                             <ul>
+                            </ul>
+                           <div class="stepIco stepIco1 <if condition='$vo["status"] eq 1'>activity </if>" id="create" >1
+                                <div class="stepText <if condition='$vo["status"] eq 0'>act </if>" id="createText">创建订单</div>
+                            </div>
+                            <div class="stepIco stepIco2 <if condition='$vo["status"] eq 5'>activity </if>"  >2
+                                <div class="stepText <if condition='$vo["status"] eq 5'>act </if>" >已付定金</div>
+                            </div>
+                            <div class="stepIco stepIco3 <if condition='$vo["status"] eq 10'>activity </if>" id="check">3
+                                <div class="stepText <if condition='$vo["status"] eq 10'>act </if>" id="checkText">已首付</div>
+                            </div>
+                            <div class="stepIco stepIco4 <if condition='$vo["status"] eq 15'>activity </if>" id="produce">4
+                                <div class="stepText <if condition='$vo["status"] eq 15'>act </if>" id="produceText">完工</div>
+                            </div>
+                            <div class="stepIco stepIco5 <if condition='$vo["status"] eq 20'>activity </if>" id="delivery">5
+                                <div class="stepText <if condition='$vo["status"] eq 20'>act </if>" id="deliveryText">已付尾款</div>
+                            </div>
+                            <div class="stepIco stepIco6 <if condition='$vo["status"] eq 25'>activity </if>" id="received">6
+                                <div class="stepText <if condition='$vo["status"] eq 25'>act </if>" id="receivedText">完成</div>
+                            </div>
+                        </div>
+                         <br><br><br>
+                        <img src="{$img_dir}/ysf.png"/>
+
+                        <button type="button" style="width:70px;height:28px;background-color:#ED6100" onclick="cancelOrder('{$vo.id}');" ><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>撤单</B></font></button>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+              <elseif condition="$vo['status'] eq 10 "/>
+             <li>
+                    <div>
+                        <h3>订单号：{$vo.order_number}<span style="float: right">已首付</span></h3>
+                        <hr>
+                        <dl>
+                            <dt><span></span></dt>
+                            <font size="3px" face="Microsoft JhengHei"><dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                            <dd>报价：{$vo.quote}元 </dd>
+                            <dd>首付款：已付 </dd>
+                            <dd>施工方： <if condition="$vo['sub']['company_name'] neq ''">{$vo.sub.company_name}<else/>{$vo.sub.realname}</if></dd>
+                            <dd>联系电话：<a href="tel:{$vo.sub.mobile}">{$vo.sub.mobile}&nbsp<img src="{$img_dir}/tel.png"/></a></dd>
+                        </font>
+                        </dl>
+                        <hr>
+
+                          <div class="stepInfo">
+                             <ul>
+                            </ul>
+                            <div class="stepIco stepIco1 <if condition='$vo["status"] eq 1'>activity </if>" id="create" >1
+                                <div class="stepText <if condition='$vo["status"] eq 0'>act </if>" id="createText">创建订单</div>
+                            </div>
+                            <div class="stepIco stepIco2 <if condition='$vo["status"] eq 5'>activity </if>"  >2
+                                <div class="stepText <if condition='$vo["status"] eq 5'>act </if>" >已付定金</div>
+                            </div>
+                            <div class="stepIco stepIco3 <if condition='$vo["status"] eq 10'>activity </if>" id="check">3
+                                <div class="stepText <if condition='$vo["status"] eq 10'>act </if>" id="checkText">已首付</div>
+                            </div>
+                            <div class="stepIco stepIco4 <if condition='$vo["status"] eq 15'>activity </if>" id="produce">4
+                                <div class="stepText <if condition='$vo["status"] eq 15'>act </if>" id="produceText">完工</div>
+                            </div>
+                            <div class="stepIco stepIco5 <if condition='$vo["status"] eq 20'>activity </if>" id="delivery">5
+                                <div class="stepText <if condition='$vo["status"] eq 20'>act </if>" id="deliveryText">已付尾款</div>
+                            </div>
+                            <div class="stepIco stepIco6 <if condition='$vo["status"] eq 25'>activity </if>" id="received">6
+                                <div class="stepText <if condition='$vo["status"] eq 25'>act </if>" id="receivedText">完成</div>
+                            </div>
+                        </div>
+                         <br><br><br>
+                        <img src="{$img_dir}/ysf.png"/>
+
+                        <button type="button" style="width:70px;height:28px;background-color:#ED6100" onclick="cancelOrder('{$vo.id}');" ><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>撤单</B></font></button>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            <elseif condition="$vo['status'] eq 15 " />
+                <li>
+                    <div>
+                        <h3>订单号：{$vo.order_number}<span style="float: right">待付尾款</span></h3>
+                        <hr>
+                        <dl>
+                            <font size="3px" face="Microsoft JhengHei"><dt><span></span></dt>
+                            <dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                            <dd>报价：{$vo.quote}元</dd>
+                            <dd>尾款：待收&nbsp;&nbsp;&nbsp;</dd>
+                            <dd>施工方： <if condition="$vo['sub']['company_name'] neq ''">{$vo.sub.company_name}<else/>{$vo.sub.realname}</if></dd>
+                            <dd>联系电话：<a href="tel:{$vo.sub.mobile}">{$vo.sub.mobile}&nbsp<img src="{$img_dir}/tel.png"/></a></dd>
+                        </font>
+                        </dl>
+                        <hr>
+                          <div class="stepInfo">
+                             <ul>
+                            </ul>
+                           <div class="stepIco stepIco1 <if condition='$vo["status"] eq 1'>activity </if>" id="create" >1
+                                <div class="stepText <if condition='$vo["status"] eq 0'>act </if>" id="createText">创建订单</div>
+                            </div>
+                            <div class="stepIco stepIco2 <if condition='$vo["status"] eq 5'>activity </if>"  >2
+                                <div class="stepText <if condition='$vo["status"] eq 5'>act </if>" >已付定金</div>
+                            </div>
+                            <div class="stepIco stepIco3 <if condition='$vo["status"] eq 10'>activity </if>" id="check">3
+                                <div class="stepText <if condition='$vo["status"] eq 10'>act </if>" id="checkText">已首付</div>
+                            </div>
+                            <div class="stepIco stepIco4 <if condition='$vo["status"] eq 15'>activity </if>" id="produce">4
+                                <div class="stepText <if condition='$vo["status"] eq 15'>act </if>" id="produceText">完工</div>
+                            </div>
+                            <div class="stepIco stepIco5 <if condition='$vo["status"] eq 20'>activity </if>" id="delivery">5
+                                <div class="stepText <if condition='$vo["status"] eq 20'>act </if>" id="deliveryText">已付尾款</div>
+                            </div>
+                            <div class="stepIco stepIco6 <if condition='$vo["status"] eq 25'>activity </if>" id="received">6
+                                <div class="stepText <if condition='$vo["status"] eq 25'>act </if>" id="receivedText">完成</div>
+                            </div>
+                        </div>
+                         <br><br><br>
+                    <!--     <button type="button" style="width:70px;height:28px;background-color:#ED6100" onclick="confirmPayment('{$vo.id}');" ><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>付尾款</B></font></button> -->
+
+                        <button type="button" style="width:70px;height:28px;background-color:#ED6100" onclick="cancelOrder('{$vo.id}');" ><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>撤单</B></font></button>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            <elseif condition="$vo['status'] eq 20 "/>
+                <li>
+                    <div>
+                        <h3>订单号：{$vo.order_number}<span style="float: right">待评价</span></h3>
+                        <hr>
+                        <dl>
+                            <font size="3px" face="Microsoft JhengHei"><dt><span></span></dt>
+                            <dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                            <dd>报价：{$vo.quote}元</dd>
+                            <dd>施工方： <if condition="$vo['sub']['company_name'] neq ''">{$vo.sub.company_name}<else/>{$vo.sub.realname}</if></dd>
+                            <dd>联系电话：<a href="tel:{$vo.sub.mobile}">{$vo.sub.mobile}&nbsp;<img src="{$img_dir}/tel.png"/></a></dd>
+                        </font>
+                        </dl>
+                        <hr>
+                          <div class="stepInfo">
+                             <ul>
+                            </ul>
+                           <div class="stepIco stepIco1 <if condition='$vo["status"] eq 1'>activity </if>" id="create" >1
+                                <div class="stepText <if condition='$vo["status"] eq 0'>act </if>" id="createText">创建订单</div>
+                            </div>
+                            <div class="stepIco stepIco2 <if condition='$vo["status"] eq 5'>activity </if>"  >2
+                                <div class="stepText <if condition='$vo["status"] eq 5'>act </if>" >已付定金</div>
+                            </div>
+                            <div class="stepIco stepIco3 <if condition='$vo["status"] eq 10'>activity </if>" id="check">3
+                                <div class="stepText <if condition='$vo["status"] eq 10'>act </if>" id="checkText">已首付</div>
+                            </div>
+                            <div class="stepIco stepIco4 <if condition='$vo["status"] eq 15'>activity </if>" id="produce">4
+                                <div class="stepText <if condition='$vo["status"] eq 15'>act </if>" id="produceText">完工</div>
+                            </div>
+                            <div class="stepIco stepIco5 <if condition='$vo["status"] eq 20'>activity </if>" id="delivery">5
+                                <div class="stepText <if condition='$vo["status"] eq 20'>act </if>" id="deliveryText">已付尾款</div>
+                            </div>
+                            <div class="stepIco stepIco6 <if condition='$vo["status"] eq 25'>activity </if>" id="received">6
+                                <div class="stepText <if condition='$vo["status"] eq 25'>act </if>" id="receivedText">完成</div>
+                            </div>
+                        </div>
+                        <br><br><br>
+                        <button type="button" onclick="pingjia({$vo.id})" style="width:70px;height:28px;background-color:#ED6100"><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>评&nbsp&nbsp价</B></font></button>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            <elseif condition="$vo['status'] eq 25 "/>
+                <li>
+                    <div>
+                        <h3>订单号：{$vo.order_number}<span style="float: right">已完成</span></h3>
+                        <hr>
+                        <dl>
+                            <font size="3px" face="Microsoft JhengHei"><dt><span></span></dt>
+                            <dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                            <dd>报价：{$vo.quote}元</dd>
+                            <dd>施工方： <if condition="$vo['sub']['company_name'] neq ''">{$vo.sub.company_name}<else/>{$vo.sub.realname}</if></dd>
+                            <dd>联系电话：<a href="tel:{$vo.sub.mobile}">{$vo.sub.mobile}&nbsp<img src="{$img_dir}/tel.png"/></a></dd>
+                        </font>
+                        </dl>
+                   
+                      <div class="stepInfo">
+                             <ul>
+                            </ul>
+                             <div class="stepIco stepIco1 <if condition='$vo["status"] eq 1'>activity </if>" id="create" >1
+                                <div class="stepText <if condition='$vo["status"] eq 0'>act </if>" id="createText">创建订单</div>
+                            </div>
+                            <div class="stepIco stepIco2 <if condition='$vo["status"] eq 5'>activity </if>"  >2
+                                <div class="stepText <if condition='$vo["status"] eq 5'>act </if>" >已付定金</div>
+                            </div>
+                            <div class="stepIco stepIco3 <if condition='$vo["status"] eq 10'>activity </if>" id="check">3
+                                <div class="stepText <if condition='$vo["status"] eq 10'>act </if>" id="checkText">已首付</div>
+                            </div>
+                            <div class="stepIco stepIco4 <if condition='$vo["status"] eq 15'>activity </if>" id="produce">4
+                                <div class="stepText <if condition='$vo["status"] eq 15'>act </if>" id="produceText">完工</div>
+                            </div>
+                            <div class="stepIco stepIco5 <if condition='$vo["status"] eq 20'>activity </if>" id="delivery">5
+                                <div class="stepText <if condition='$vo["status"] eq 20'>act </if>" id="deliveryText">已付尾款</div>
+                            </div>
+                            <div class="stepIco stepIco6 <if condition='$vo["status"] eq 25'>activity </if>" id="received">6
+                                <div class="stepText <if condition='$vo["status"] eq 25'>act </if>" id="receivedText">完成</div>
+                            </div>
+                        </div>
+                        <br><br><br>
+                            
+                         </div>
+                        
+                    <div class="clear"></div>
+                </li>
+             <elseif condition="$vo['status'] eq 30 "/>
+                <li>
+                    <div>
+                        <h3>订单号：{$vo.order_number}<span style="float: right">申请撤单</span></h3>
+                        <hr>
+                        <dl>
+                            <font size="3px" face="Microsoft JhengHei"><dt><span></span></dt>
+                            <dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                            <dd>报价：{$vo.quote}元</dd>
+                            <dd>施工方： <if condition="$vo['sub']['company_name'] neq ''">{$vo.sub.company_name}<else/>{$vo.sub.realname}</if></dd>
+                            <dd>联系电话：<a href="tel:{$vo.sub.mobile}">{$vo.sub.mobile}&nbsp<img src="{$img_dir}/tel.png"/></a></dd>
+                        </font>
+                        </dl>
+
+                         <img src="{$img_dir}/chedan.png" height="130" width="130"/>
+                       <br>
+                            
+                         </div>
+                        
+                    <div class="clear"></div>
+                </li>
+             <elseif condition="$vo['status'] eq 35 "/>
+                <li>
+                    <div>
+                        <h3>订单号：{$vo.order_number}<span style="float: right">已撤单</span></h3>
+                        <hr>
+                        <dl>
+                            <font size="3px" face="Microsoft JhengHei"><dt><span></span></dt>
+                            <dd>下单时间：{$vo.inputtime|date="y-m-d H:i:s",###}</dd>
+                            <dd>报价：{$vo.quote}元</dd>
+                            <dd>施工方： <if condition="$vo['sub']['company_name'] neq ''">{$vo.sub.company_name}<else/>{$vo.sub.realname}</if></dd>
+                            <dd>联系电话：<a href="tel:{$vo.sub.mobile}">{$vo.sub.mobile}&nbsp<img src="{$img_dir}/tel.png"/></a></dd>
+                        </font>
+                        </dl>
+                   
+                         <img src="{$img_dir}/yichedan.png" />
+                       <br>
+                            
+                         </div>
+                        
+                    <div class="clear"></div>
+                </li>
+            </if>
+            <input type="hidden" id="worker_id" value="{$vo.worker_id}">
+            </foreach>
+             <else />
+            <li><div style="text-align: center; margin:30px 0 30px 0"><b>暂无订单信息！</b></div></li>
+            </if>
+    </ul>
+</div>
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+</html>
+<script>
+    function pingjia(id){
+        var order_id = id;
+        var worker_id = $('#worker_id').val();
+        location.href = '__APP__/Home/Order/orderEva?orderId='+order_id+"&worker_id="+worker_id;
+        
+    }
+
+    function confirmPayment(orderId){
+            location.href = '__APP__/Home/WechatPay/weixinJsPay?orderId='+orderId+"&showwxpaytitle=1";
+    }
+
+    function readFile(id){
+        var order_id = id;
+        var worker_id = $('#worker_id').val();
+        var str =""; 
+    str+=" <div style='width:100%'><h2>委托装修协议</h2>";
+    str+="<p>   经双方友好协商，甲方同意将本房屋给乙方进行设计施工装修。</p>";
+    str+="<p>一、施工装修期限：按约定执行。<p/>";
+    str+="<p>二、装修范围：按约定执行。<p/>";
+    str+="<p>三、装修预结算<p/>";
+    str+="<p> 1、装修范围室内项目: 按约定执行<p/>";
+    str+="<p>2、装修范围室外项目: 按约定执行<p/>";
+    str+="<p>3、乙方受甲方委托代购买的项目，按实际采购总额向甲方报账。<p/>";
+    str+="<p>四、支付方式<p/>";
+    str+="<p>所有装修费用由乙方先行垫付，工程标准按甲方的要求进行施工，待工程全面完成后，乙方向甲方提供实际工程结算明细单，甲方在接到乙方明细结算单一个月内完成审核，审核无误后，向乙方支付总工程额的30%，在甲方入住起一个月内将剩余工程款支付给乙方。<p/>";
+    str+="<p>五、安全责任<p/>";
+    str+="<p>本屋装修期间，工人日常工作由乙方负责，做到文明施工，安全生产，装修期内安全责任由乙方完全承担，与甲方无关。<p/>";
+    str+="<p>六、甲方责任<p/>";
+    str+="<p>甲方应及时与乙方协商施工方案，协助乙方办理各项审批手续。<p/>";
+    str+="<p>七、乙方责任<p/>";
+    str+="<p>乙方应在工期内保质、保量、安全生产，装修期限内完成所有的装修项目，在保修期一年内免费提供优质的维修、保养服务。<p/>";
+    str+="<p>八、本协议一式两份，甲乙双方各执一份，均有同等的法律效力，双方签字生效。</p></div>";
+        layer.open({
+            content:  str,
+            btn: ['确认', '取消'],
+            shadeClose: false,
+            fixed:false,
+            style: 'width:100%; height:100%;border:none;line-height: 16px',
+            yes: function(){
+                location.href = '__APP__/Home/WechatPay/weixinJsPay?orderId='+order_id+"&showwxpaytitle=1";
+            }, no: function(){
+                
+            }
+        });
+
+    }
+    $.fn.raty.defaults.path = '{$css_dir}/images';
+    $(document).ready(function(){
+       $('#rate').on.raty();
+    });
+
+    function cancelOrder(id){
+        var str = "";
+            str+="<div title='撤单申请' ><div ><div class='formGroup box'>";
+            str+="<p class='formGroup'><label for='worker_text'>撤单原因</label><textarea name='cancel_info' cols='50' rows='5' id='cancel_info'></textarea></p></div>";
+        layer.open({
+            content:  str,
+            btn: ['确认', '取消'],
+            shadeClose: false,
+            fixed:false,
+            yes: function(){
+                var cancel_info = $('#cancel_info').val();
+                $.post("{:U('Home/Order/cancelOrder')}", {'id':id,'cancel_info':cancel_info}, function (data) {
+                    if (data.status) {;
+                        layer.open({content: '撤单成功！', time: 1}); 
+                        location.reload(); 
+                    } else {
+                         layer.open({content: '撤单失败！', time: 1}); 
+                    }
+                });
+            }, no: function(){
+                
+            }
+        });
+
+    }
+
+</script>

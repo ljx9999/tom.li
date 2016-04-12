@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+
+</head>
+<body>
+<include file="Public/nav.inc"/>
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxBillBoard" class="box disHide">
+            <h2>
+                留言列表
+                <span>Message List</span>
+            </h2>
+            <hr/>
+
+            <!-- 内容开始 -->
+            <div class="formGroup">
+                <a href="javascript:void(0);" id="delete_btn"
+                   class="button button-rounded button-tiny button-flat-caution">批量删除</a>
+                <input name="keyword" id="search_keyword" type="text" placeholder="关键词" class="inputText widthSmall">
+                <input type="button" value="搜索" id="keyword_btn"
+                       class="button button-rounded button-flat-caution button-tiny">
+            </div>
+            <div class="space"></div>
+            <div class="space"></div>
+
+            <div id="tableBody">
+                <include file="Evaluate/content-table.inc"/>
+            </div>
+
+            <p id="pageBody">
+                {$page}
+            </p>
+            <input type="hidden" id="last_page" value="{$last_page}">
+        </div>
+    </div>
+</div>
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        BindingContentTip();
+        setInterval(function () {
+            $("#boxBillBoard").slideDown();
+        }, 300);
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+
+
+        $("#keyword_btn").on("click", function () {
+
+            var keyword = $("#search_keyword").val();
+
+            if (keyword == "" || keyword == null || keyword == "请输入搜索关键字") {
+                keyword = '';
+                jAlert("请输入搜索关键字！", "搜索提示");
+                return;
+            }
+
+            $.post("{:U('Admin/Evaluate/ajaxSearch')}", {'keyword': keyword}, function (data) {
+                $("#tableBody").html(data.info.tabelBody);
+                $("#pageBody").html(data.info.pageBody);
+                BindingContentTip();
+            });
+        });
+
+
+        $('#check_all').click(function () {
+            $("input[name='content_checkbox']").prop('checked', $(this).prop("checked"));
+        });
+
+        $('#delete_btn').click(function () {
+            var ids = new Array();
+            $("input[name='content_checkbox']:checked").each(function () {
+                var id = $(this).val();
+                ids.push(id);
+            });
+
+            if (ids.length < 1) {
+                jAlert("请选择要删除的内容", '删除提示消息');
+            } else {
+                jConfirm("请确认要删除的信息，删除后无法恢复", "确认消息", function (r) {
+                    if (r) {
+                        $.post("{:U('Admin/Evaluate/deleteAct')}", {'ids': ids}, function (data) {
+                            var status = data.status;
+                            var info = data.info;
+                            if (status) {
+                                
+                                location.reload();
+                            } else {
+                                jAlert(info);
+                            }
+                        });
+                    } else {
+                    }
+                });
+            }
+        });
+    });
+
+
+    function deleteContent(id) {
+        jConfirm("请确认要删除的信息，删除后无法恢复", "确认消息", function (r) {
+            if (r) {
+                $.post("{:U('Admin/Evaluate/deleteAct')}", {'id': id}, function (data) {
+                    var status = data.status;
+                    var info = data.info;
+                    if (status) {
+                            location.reload();
+                    } else {
+                        jAlert(info);
+                    }
+                });
+            } else {
+            }
+        })
+    }
+
+     function hrefPageByGo(url,pid){
+            if(url == undefined){
+                return ;
+            }
+            if($.trim(url) == ''){
+                return;
+            }
+            var last_page = $("#last_page").val();
+            var pageId = $("#"+pid).val();
+            if(pageId == ""){
+                return;
+            }
+            if(pageId > last_page || pageId<=0){
+                return;
+            }
+            var urlStr  = $.trim(url);
+            urlStr = urlStr.replace( /%_p%/, $("#"+pid).val()); // "hxllx"
+
+            location.href =urlStr;
+    }
+
+
+    function BindingContentTip() {
+        $(".content_list").tooltip({
+            content: function () {
+                var contentId = "content_list_" + this.id;
+                return $("#" + contentId).html();
+            }
+        });
+    }
+
+    function sortCallBack(jsonResult) {
+        $("#tableBody").html(jsonResult.info.tabelBody);
+        $("#pageBody").html(jsonResult.info.pageBody);
+        BindingContentTip();
+        $.changeSortImage();
+    }
+
+                 /**
+     * AJAX分页处理
+     * @param url
+     */
+    function ajaxPage(url) {
+        if (url == undefined) {
+            return;
+        }
+        if ($.trim(url) == '') {
+            return;
+        }
+        var urlStr = $.trim(url);
+        var paraStr = "";
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType: "JSON",
+            success: function (jsonResult) {
+                $("#tableBody").html(jsonResult.info.tabelBody);
+                $("#pageBody").html(jsonResult.info.pageBody);
+                BindingItemsToolTip();
+            }
+        });
+    }
+    
+</script>
+</body>
+</html>

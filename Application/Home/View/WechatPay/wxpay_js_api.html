@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <script type="text/javascript" src="{$js_dir}/zepto.js"></script>
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $_PayRequest = {$jsApiParameters};
+        function onBridgeReady(){
+            $("#wxPayId").val("正在支付...").attr("disabled","disabled");
+            WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest', $_PayRequest,
+                    function(res){
+                        if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                            // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                            var urlStr = "{:U('Home/Order/confirmPayment')}";
+                            var paraStr = {orderId:$("#orderId").val()};
+                            $.ajax({
+                                type: "POST",
+                                url: urlStr,
+                                data: paraStr,
+                                dataType: "JSON",
+                                success: function (jsonResult) {
+                                    var obj = eval( "(" + jsonResult + ")" );
+                                    if(obj.status == 1){
+                                        location.href = '__APP__/Home/Order/payed/orderId/'+$("#orderId").val();
+                                    }else{
+                                        alert('系统繁忙, 请稍后在试！')
+                                    }
+
+                                }
+                            });
+                        }
+                        else if("get_brand_wcpay_request:cancel" == res.err_msg){
+                            $("#wxPayId").val("确认支付").removeAttr("disabled");
+                        }else{
+                            $("#wxPayId").val("确认支付").removeAttr("disabled");
+                        }
+
+                    }
+            );
+        }
+        $(document).ready(function () {
+            if(typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                }
+            }else{
+                onBridgeReady();
+            }
+        });
+    </script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">订单管理</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<div class="container hotellistbg">
+        <ul class="unstyled hotellist">
+                <li>
+    <div class="container width80 pt20" style="margin:0 0 0 20px">
+        <input type="hidden" id="orderId" value="{$orderInfo.id}">
+        <div class="order_date" style="margin-top:30px">下单时间：{$orderInfo.inputtime|date="y-m-d",###} {$orderInfo.inputtime|date="h:i:m",###}</div>
+        <div class="order_status" style="margin-top:30px">订单编号：{$orderInfo.order_number}</div>
+        
+        <div class="order_price" style="margin-top:30px">合计：<span class="order_sum">￥{$total_fee}元</span></div>
+    
+
+<input class="btn order_submit" type="button" onclick="onBridgeReady();" value="确认支付" id="wxPayId"  style="margin-top:20px"/>
+</div>
+</li>
+</ul>
+</div>
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+</body>
+</html>

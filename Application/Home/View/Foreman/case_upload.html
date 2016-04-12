@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/jquery.form.js"></script>
+     <script type="text/javascript" src="{$js_dir}/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{$js_dir}/ajaxfileupload.js"></script>
+    <style>
+        #footer { clear: both; position: relative; z-index: 10; height: 60px; margin-top: -60px; }
+    </style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index_gz')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">案例上传</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<!--*下拉菜单 *-->
+<!---->
+<div class="container">
+    <h3 style="text-align:center;">案例上传</h3>
+    <form action="{:U('Home/Foreman/addAct')}" method="post" id="cat_dataform">
+        <dl style="text-align:center;">
+            <dt>小区名称：<input type="text" name="shequ_name" id="shequ_name" > </dt>
+            <dt>装修简介：<textarea type="text" name="content" style="background: none repeat scroll 0 0 #F9F9F9;width:210px;height:120px"></textarea></dt>
+        </dl>
+        <div  style="text-align:center;">
+            <br>
+            <include file="Foreman/upload-picture-inc"/>
+        </div>
+        <br>
+         <p style="text-align:center;margin-top:100px" id="footer"><button  type="submit" id="regBtn" class="btn-large green button ">提交</button></p>
+    </form>
+</div>
+
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+<script>
+$(document).ready(function() {
+        $("#regBtn").click(function(){
+            $("#cat_dataform").validate({
+                submitHandler: function(form){
+                    $(form).ajaxSubmit(function (data) {
+                        var status = data.status;
+                        if(status){
+                            alert('添加成功');
+                            location.href = '__APP__/Home/Foreman/index';
+                        }else{
+                            alert('添加失败！');
+                        }
+                    });
+                }
+        })
+    })
+}) 
+</script>
+</html>

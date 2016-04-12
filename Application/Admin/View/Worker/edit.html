@@ -1,0 +1,244 @@
+<html>
+<head>
+<include file="Public/header.inc"/>
+<style>
+.edui-editor{
+	z-index: 100 !important;
+}
+ul{display:block;margin:0;padding:0;list-style:none;}
+li{display:block;margin:0;padding:0;list-style: none;}
+/*imglist*/
+.imglist{clear:both; overflow:hidden; margin-bottom:20px; margin-left:5px;}
+.imglist li{width:188px; border:solid 1px #fff;height:199px;float:left; margin-right:8px; margin-bottom:10px; cursor:pointer;}
+.imglist li:hover{border:solid 1px #d7e4ea;}
+.imglist li span{width:168px; height:126px; margin:8px;}
+.imglist li h2{text-align:center; line-height:25px;}
+.imglist li p{text-align:center; line-height:17px; background:url(../images/line1.png) center center no-repeat;}
+.imglist li p a{color:#1f7cb6;}
+.imglist li p a:hover{color:#F60;}
+</style>
+    <script type="text/javascript" src="{$js_dir}/ajaxfileupload.js"></script>
+</head>
+<body  >
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+<div id="main">
+<!-- 中栏 -->
+<div id="center"  >
+
+<div id="boxProductAdd" class="box disHide">
+<h2>修改施工方信息<span>Edit Worker Detail</span></h2>
+<hr>
+
+<!-- Input Text -->
+<div class="box">
+    <h3>基本信息</h3>
+    <hr>
+    <div style="float:right;"><img src="__APP__/Uploads/20150617/m_55813b743fbf3.jpg" width="150" height="150"></div>
+    <form method="post" id="worker_form">
+    <input type="hidden" id="worker_id" value="{$worker_list.id}">
+    <div class="formGroup">
+        <label for="realname" class="labelTitle">姓名</label>
+        <input type="text" name="realname" id="realname" class="inputText widthNormal" value="{$worker_list.realname}"/>  
+    </div>
+    <div class="formGroup">
+        <label for="age" class="labelTitle">年龄</label>
+        <input type="text" name="age" id="age" class="inputText widthNormal" value="{$worker_list.age}"/>  
+    </div>
+    <div class="formGroup">
+        <label for="product_number" class="labelTitle">公司名</label>
+        <input type="text" name="company_name" id="company_name" class="inputText widthNormal" value="{$worker_list.company_name}"/> 
+    </div>
+    <div class="formGroup">
+        <label for="identity"  class="labelTitle">身份:</label>
+         <label class="disBlock labelCheckBox">
+        <input type="radio"  name="identity" value="0" class="inputCheckBox" <if condition="($worker_list.identity eq 0)"> checked </if>>公司</label>
+    <label class="disBlock labelCheckBox">
+        <input type="radio" name="identity" value="2" class="inputCheckBox"<if condition="($worker_list.identity eq 2)"> checked </if>>个人</label>
+    </div>
+    <div class="formGroup">
+        <label for="type" class="labelTitle">工种</label>
+         <input type="text" name="type" id="type" class="inputText widthNormal" value="{$worker_list.type}" readOnly/> 
+    </div>
+     <div class="formGroup">
+        <label for="mobile" class="labelTitle">电话</label>
+        <input type="text" name="mobile" id="mobile" class="inputText widthNormal" value="{$worker_list.mobile} "/> 
+    </div>
+     <div class="formGroup">
+        <label for="product_place" class="labelTitle">备注</label>
+       <textarea name="msg" id="msg"> {$worker_list.msg}</textarea>
+    </div>
+    <div class="formGroup">
+        <label class="labelTitle">是否审核</label>
+         <label class="disBlock labelCheckBox">
+        <input type="radio"  name="status" value="10" class="inputCheckBox" <if condition="($worker_list.status eq 10)"> checked </if>>审核通过</label>
+    <label class="disBlock labelCheckBox">
+        <input type="radio" name="status" value="20" class="inputCheckBox"<if condition="($worker_list.status eq 20)"> checked </if>>审核不通过</label>
+    </div>
+     <div class="formGroup">
+        <label class="labelTitle">是否实名</label>
+         <label class="disBlock labelCheckBox">
+        <input type="radio"  name="is_real" value="1" class="inputCheckBox" <if condition="($worker_list.is_real eq 1)"> checked </if>>实名认证</label>
+    <label class="disBlock labelCheckBox">
+        <input type="radio" name="is_real" value="0" class="inputCheckBox"<if condition="($worker_list.is_real eq 0)"> checked </if>>非实名认证</label>
+    </div>
+    <div class="formGroup">
+        <label class="labelTitle">是否打折</label>
+         <label class="disBlock labelCheckBox">
+        <input type="radio"  name="is_discout" value="1" class="inputCheckBox" <if condition="($worker_list.is_discout eq 1)"> checked </if>>有折扣</label>
+    <label class="disBlock labelCheckBox" style="margin-left:12px">
+        <input type="radio" name="is_discout" value="0" class="inputCheckBox"<if condition="($worker_list.is_discout eq 0)"> checked </if>>无折扣</label>
+    </div>
+    <div class="formGroup">
+        <label class="labelTitle">是否保障</label>
+         <label class="disBlock labelCheckBox">
+        <input type="radio"  name="is_security" value="1" class="inputCheckBox" <if condition="($worker_list.is_security eq 1)"> checked </if>>有保障</label>
+    <label class="disBlock labelCheckBox" style="margin-left:12px">
+        <input type="radio" name="is_security" value="0" class="inputCheckBox"<if condition="($worker_list.is_security eq 0)"> checked </if>>无保障</label>
+    </div>
+     <div class="formGroup">
+        <label class="labelTitle">是否推荐</label>
+         <label class="disBlock labelCheckBox">
+        <input type="radio"  name="is_recommend" value="1" class="inputCheckBox" <if condition="($worker_list.is_recommend eq 1)"> checked </if>>推荐</label>
+    <label class="disBlock labelCheckBox" style="margin-left:23px">
+        <input type="radio" name="is_recommend" value="0" class="inputCheckBox"<if condition="($worker_list.is_recommend eq 0)"> checked </if>>不推荐</label>
+    </div>
+    <hr>
+     <h3>详细信息</h3>
+    <hr>
+    <div class="formGroup">
+        <label class="labelTitle">工作年限</label>
+         <input type="text" name="work_life" id="work_life" class="inputText widthNormal" value="{$worker_list.work_life} "/> 
+    </div>
+    <div class="formGroup">
+        <label for="address" class="labelTitle">所在地</label>
+       <input type="text" name="address" id="address" class="inputText widthNormal" value="{$worker_list.address} "/> 
+    </div>
+     <p class="formGroup">
+          <label for="listorder" class="labelTitle" >个人介绍</label>
+        <textarea name="content" id="content"> {$worker_list.content}</textarea>
+    </p>
+     <p class="formGroup">
+          <label for="head_img" class="labelTitle" >头像</label>
+           <input  type="file" class="image" name="head_image" id="fileField3"  style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px"  />   
+           <lable style="color: #b60012">{$worker_list.head_image}</lable>  
+    </p>
+     <div class="formGroup">
+          <div class="control-group">
+            身份证(正)： <input  type="file" class="image" name="id_positive_img" id="fileField"  style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px"  />
+            <lable style="color: #b60012">{$worker_list.id_positive_img}</lable>
+        </div>
+        <div class="control-group">
+            身份证(反)： <input  type="file" class="image"  name="id_negative_img" id="fileField2"    style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px"  />
+            <lable style="color: #b60012">{$worker_list.id_negative_img}</lable>
+        </div>
+    </div>
+    <input type="hidden" name="id_positive_img" class="fileField" value="{$worker_list.id_positive_img}" >
+    <input type="hidden" name="id_negative_img" class="fileField2" value="{$worker_list.id_negative_img}" >
+    <input type="hidden" name="head_image" class="fileField3"  value="{$worker_list.head_image}" >
+    <input type="hidden" name="type" value="2" >
+   
+</div>
+
+<hr>
+<!-- Input Buttons -->
+<div class="formGroup">
+     <input type="button" id="sub_button" value="提交" class="button button-rounded button-flat-caution button-tiny"/>
+    <!--<a href="#" class="button button-rounded button-flat-caution button-tiny">确定</a>-->
+    <a href="javascript:void(0)" id="backLink" class="button button-rounded button-tiny button-flat">返回</a>
+</div>
+</form>
+
+</div>
+</div>
+
+</div>
+
+<script type="text/javascript" src="{$js_dir}/jquery.jpage.js"></script>
+
+<script>
+
+var x = jQuery("#center").position().left + jQuery("#center").outerWidth();
+
+$(document).ready(function(){
+
+    setInterval(function(){
+        $("#boxProductAdd").slideDown();
+    },300);
+
+    $('input.inputCheckBox').iCheck({
+        checkboxClass: 'icheckbox_flat-red',
+        radioClass: 'iradio_flat-red',
+        increaseArea: '-10' // optional
+    });
+
+
+    $("#backLink").click(function(event) {
+        event.preventDefault();
+        history.back(1);
+    });
+
+    $("#sub_button").on("click",function(){
+        var ids = $("#worker_id").val();
+
+        var paramStr = $("#worker_form").serialize();
+            paramStr += "&id="+ids;
+        var urlStr = "{:U('editAct')}";
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paramStr,
+            dataType : "JSON",
+            success: function(jsonResult){
+                if(jsonResult.status){
+                    jAlert(jsonResult.info,'编辑提示',function(r){
+                        if(r){
+                            location.href = jsonResult.url;
+                        }
+                    })
+                }else{
+                    jAlert(jsonResult.info,'编辑提示');
+                }
+            }
+        });
+});
+     //上传图片
+        $('.image').on('change', function () {
+            var id = $(this).attr("id");
+            ajaxFileUpload(id);
+        });
+
+});
+
+
+
+       
+
+        function ajaxFileUpload(id) {
+            var urlStr = '__ROOT__/Home/Login/upload';
+            $.ajaxFileUpload({
+                url: urlStr,
+                secureuri: false,
+                fileElementId: id,
+                dataType: 'json',
+                complete: function (data, status) {
+                },
+                success: function (data, status) {
+                    var name = data[0].savename;
+                    if (data.status == 1) {
+                        $('.' + id).val(name);
+                        $html = '<lable style="color: #b60012">' + data[0].name + '</lable>';
+                        $('#' + id).after($html);
+                        alert('上传成功！');
+                    } else {
+                        alert(data.info);
+                    }
+                }
+            });
+        }
+
+</script>
+</body>
+</html>

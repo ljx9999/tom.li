@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/ajaxfileupload.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index_gz')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">公司资料</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+
+
+<div class="container width90">
+    <div class="vip">
+        <div class="center-top2">
+            <form action="{:U('Foreman/editAct')}" method="post" id="sub_form">
+
+            <span>公&nbsp;&nbsp;&nbsp;司&nbsp;&nbsp;&nbsp;名：<input type="text" name="company_name" readonly value="" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" id="company_name" readOnly></span>
+             <span>logo上传：<input type="file" class="images" name="images" style="background: none repeat scroll 0 0 #F9F9F9;"  id="fileField"><div id="image"></div> </span>
+             <span>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<input type="text" name="address" value="" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" id="address"></span>
+
+            <span>公司介绍：<textarea name="content" style="height: 140px;padding: 8px 0px 8px 2px" id="content"></textarea></span>
+            <span></span><br>
+            <input type="hidden" name="id" value="{$info.id}" id="user_id">
+            <input type="hidden" name="images" id="images" class="fileField" value="{$info.head_image}" >
+            <button type="button" class="btn-large green button width100" id="sub_button">保存</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+</html>
+<script type="text/javascript">
+    $(function() {
+        //上传图片
+        $('.images').on('change', function () {
+            var id = $(this).attr("id");
+            ajaxFileUpload(id);
+        });
+
+        function ajaxFileUpload(id) {
+            var urlStr = '__ROOT__/Home/Login/upload';
+            $.ajaxFileUpload({
+                url: urlStr,
+                secureuri: false,
+                fileElementId: id,
+                dataType: 'json',
+                complete: function (data, status) {
+
+                },
+                success: function (data, status) {
+                    var name = data[0].savename;
+                    if (data.status == 1) {
+                        $html = '<lable style="color:#8c8c8c">' + data[0].name + '</lable>';
+                        $("#image").html($html);
+                        $('.' + id).val(name);
+                        alert(data.info);
+                    } else {
+                        alert(data.info);
+                    }
+                }
+            });
+        }
+
+        $("#sub_button").on("click",function(){
+            var paramStr = $("#sub_form").serialize();
+            var urlStr = "{:U('Foreman/editAct')}";
+            $.ajax({
+                type: "POST",
+                url: urlStr,
+                data: paramStr,
+                dataType : "JSON",
+                success: function(jsonResult){
+                    if(jsonResult.status){
+                        alert(jsonResult.info); 
+                                location.href = jsonResult.url;
+                    }else{
+                        alert(jsonResult.info);
+                    }
+                }
+            });
+        });
+
+
+        $.ajax({
+             url:'__APP__/Home/Foreman/getUserInfo',
+             dataType:'json',
+             type:'post',
+             success:function(data){
+                $('#company_name').val(data.company_name);
+                $('#address').val(data.address);
+                $('#content').val(data.content);
+                $('#user_id').val(data.id);
+                $('#images').val(data.head_image);   
+             }
+         });
+    });
+</script>

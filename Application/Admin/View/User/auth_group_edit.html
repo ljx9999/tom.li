@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <include file="Public/header.inc" />
+</head>
+<body>
+
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+    <div id="main">
+        <!-- 中栏 -->
+        <div id="center"  >
+            <div id="boxAuthAdd" class="box disHide">
+                <h2>
+                    修改管理员角色
+                    <span>Auth Modify</span>
+                </h2>
+                <hr>
+                <form action="{:U('AuthManager/authEditAct')}" name="authAddAct" id="authEditActForm" method="post">
+                        <input type="hidden" value="{$authGroup.id}" name="id">
+                        <div class="formGroup">
+                            <label for="title" class="labelTitle">角色名</label>
+                            <input type="text" name="title" id="title" value="{$authGroup.title}" class="inputText widthSmall"  />
+                        </div>
+                        <!-- Input Switch -->
+                        <div class="formGroup">
+                            <label class="labelTitle">状态</label>
+                            <div class="make-switch switch-mini" data-on="danger" data-on-label="启用" data-off-label="禁用">
+                                <input type="checkbox" name="status" value="1" <if condition="$authGroup.status eq 1">checked</if>
+                            </div>
+                        </div>
+
+                        <!-- Input Textarea -->
+                        <div class="formGroup">
+                            <label class="labelTitle ">描述</label>
+                            <textarea class="widthBig heightNormal" name="description">{$authGroup.description}</textarea>
+                        </div>
+                        <div class="space"></div>
+
+                        <div class="formGroup">
+                            <input  type="submit" value="确认" class="button button-rounded button-flat-caution button-tiny"/>
+                            <input type="button" onclick="location.href='{:U('index')}'" class="button button-rounded button-tiny button-flat" value="返回">
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <include file="Public/footer.inc"/>
+
+    <script src="{$js_dir}/jquery.cityselect.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+
+        setInterval(function(){
+            $("#boxAuthAdd").slideDown();
+        },300);
+
+        // 选择框
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+
+    });
+
+    $("#authEditActForm").validate({
+
+        rules: {
+            title: {
+                required :true
+            }
+        },
+        messages: {
+            username:{
+                required:"请输入角色名"
+            }
+        },
+        submitHandler: function(form){
+            $(form).ajaxSubmit(function (data) {
+                var status = data.status;
+                if(status){
+                    jAlert(data.info,'修改管理员角色提示',function(r){
+                        location.href = data.url;
+                    })
+
+                }else{
+                    jAlert(data.info ,'修改管理员角色提示');
+                }
+            });
+        }
+    });
+
+</script>
+
+</body>
+</html>

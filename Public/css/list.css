@@ -1,0 +1,64 @@
+/* CSS Document */
+
+.box {
+    padding: 15px;
+}
+
+
+
+/*************************
+列表头部样式
+*************************/
+
+.sort {
+	overflow: hidden;
+}
+
+.sort a {
+	width: 20%;
+	display: block;
+	float: left;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+	outline: 1px solid #ddd;
+}
+
+/*************************
+列表样式
+*************************/
+
+#pageProductList .list li {
+	overflow: hidden;
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+    background: #fff;
+}
+
+
+#pageProductList .list li img {
+	width: 90px;
+	height: 90px;
+	float: left;
+	margin-right: 10px;
+}
+
+
+#pageProductList .list li h3 {
+	font-weight: bold;
+    color: #333;
+}
+
+
+#pageProductList .list li * {
+	text-align: left;
+}
+
+
+#pageProductList .list li .price {
+	color: #C00;
+	font-size: 16px;
+}
+
+

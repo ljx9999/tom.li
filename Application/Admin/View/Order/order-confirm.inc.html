@@ -1,0 +1,199 @@
+    <div id="order_confirm_dir" class="box">
+        <h4>收货信息确认</h4>
+        <hr>
+
+        <div id="address_sel" class="formGroup">
+            <volist name='orderInfo[userObj][address_list]' id='address'>
+                <label class="disBlock labelCheckBox">
+                    <input type="radio" checked name="address[id]" value="{$address.id}" id="address_{$address.id}" class="inputCheckBox">
+                    {$address.ship_name}({$address.province}{$address.city}{$address.dist}{$address.ship_addr})
+                </label>
+            </volist>
+        </div>
+
+        <div id="address_info_div" class="formGroup">
+            <!-- 开关样式插件 Bootstrap Switch -->
+            <link href="{$js_dir}/switch-master/static/stylesheets/bootstrap-switch.css" rel="stylesheet" type="text/css">
+            <script src="{$js_dir}/switch-master/static/js/bootstrap-switch.js"></script>
+
+            <include file="Order/address-info.inc"/>
+        </div>
+    </div>
+
+    <div id="shipping_div" class="box">
+        <h4>配送方式确认:</h4>
+        <hr>
+        <volist name='orderInfo[shipping]' id='shipping'>
+            <p class="formGroup">
+                <label class="disBlock labelCheckBox">
+                    <input type="radio" checked name="info[shipping_id]"  value="{$shipping.id}"  id="sip_{$shipping.id}" class="inputCheckBox required">
+                    {$shipping.shipping_name}
+                </label>
+            </p>
+            <p class="formGroup">
+                <label class="labelTitle">运费</label>
+                <input type="text" id="cf_{$shipping.id}" name="info[cost_freight][{$shipping.id}]" value="{$shipping.shipping_price}" class="inputText widthNormal">
+            </p>
+        </volist>
+    </div>
+    <div id="payment_div" class="box">
+        <h4>支付方式确认</h4>
+        <hr>
+        <volist name='orderInfo[payment]' id='payment'>
+            <p class="formGroup">
+                <label class="disBlock labelCheckBox">
+                    <input type="radio" checked value="{$payment.id}" name="info[payment_id]" id="pay_{$payment.id}"  class="inputCheckBox required">
+                    {$payment.payment_name}
+                </label>
+            </p>
+        </volist>
+    </div>
+
+    <div id="order_confirm_div" class="box">
+        <h4>支付订单确认</h4>
+        <hr>
+        <p class="formGroup">
+            <label class="labelTitle">商品总价格</label>
+            <span id="span_product_total_price">{$orderInfo.total_price}</span>
+            <input type="hidden" name="info[product_total_price]" value="{$orderInfo.total_price}" id="input_product_total_price">
+        </p>
+        <p class="formGroup">
+            <label class="labelTitle">配送费用</label>
+            <span id="span_cost_freight_total">0</span>
+        </p>
+        <p class="formGroup">
+            <label class="labelTitle">人工调价</label>
+            <input name="info[pmt_amount]" id="pmt_amount" value="0" number="true" class="inputText widthNormal"> 订单人工调价(输入数字大于0升价,小于0降价, 等于0不变)
+        </p>
+        <p class="formGroup">
+            <label class="labelTitle">订单总金额</label>
+            <span id="span_order_total_price">{$orderInfo.total_price}</span>
+            <input type="hidden" name="info[order_total_price]" value="{$orderInfo.total_price}" id="input_order_total_price">
+        </p>
+
+        <p class="formGroup">
+            <label class="labelTitle">是否需要发票</label>
+            <label class="disBlock labelCheckBox">
+                <input type="checkbox" value="1" name="info[is_tax]" id="is_tax" checked  class="inputCheckBox">
+            </label>
+        </p>
+
+        <div id="tax_info_div" style="display: ;" >
+            <p class="formGroup">
+                <label class="labelTitle">发票抬头</label>
+                <input id="tax_company" name="info[tax_company]" class="inputText widthNormal">
+            </p>
+            <p class="formGroup">
+                <label class="labelTitle">发票税金</label>
+                <input id="cost_tax" name="info[cost_tax]" value="0" class="inputText widthNormal">
+            </p>
+        </div>
+        <input type="hidden" name="info[user_id]" value="{$orderInfo.userObj.id}">
+
+        <p class="formGroup">
+            <label class="labelTitle ">订单附言</label>
+            <input name="info[order_emarks]" class="inputText widthNormal" placeholder="订单附言最多50字"/>
+        </p>
+    </div>
+
+    <p class="formGroup">
+        <input type="submit" value="保存" class="button button-rounded button-flat-caution button-tiny">
+        <a href="{:U('index')}" class="button button-rounded button-tiny button-flat">取消</a>
+        <!--<input type="button" value="取消" class="button button-rounded button-tiny button-flat">-->
+    </p>
+</div>
+<script>
+
+    // <!-- 调用多选框样式插件iCheck -->
+    $(document).ready(function(){
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+    });
+
+   $("#shipping_div input.inputCheckBox").on('ifClicked',function(){
+        var cf = "cf_"+$(this).val();
+        var cfPrice = $("#"+cf).val();
+        $("#span_cost_freight_total").html(cfPrice);
+        changeTotalOrderPrice(cfPrice);
+    });
+
+    $("#address_sel input.inputCheckBox").on('ifClicked',function(){
+        var id = $(this).val();
+        changeAddressFun(id);
+    });
+
+    $("#is_tax").on('ifClicked',function(){
+        if($("#is_tax").prop('checked')){
+            $("#tax_info_div").hide();
+        }else{
+            $("#tax_info_div").show();
+
+        }
+    });
+
+    function changeAddressFun(id){
+        if(id == undefined || id < 1){
+            jAlert('地址无效','提示消息');
+            return;
+        }
+        var urlStr = "{:U('Admin/Order/ajaxGetAddressById')}";
+        var paraStr =  "id="+id;
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType : "JSON",
+            success: function(jsonResult){
+                var status = jsonResult.status;
+                var addressHtml = jsonResult.info;
+                if(status){
+                    $("#address_info_div").html(addressHtml);
+                    $("#address_sel input.inputCheckBox").on('ifClicked',function(){
+                        var id = $(this).val();
+                        changeAddressFun(id);
+                    });
+                }else{
+                    jAlert('地址无效','提示消息');
+                }
+            }
+        });
+    }
+
+    $("#pmt_amount").change(function(){
+        var ct_price = 0;
+        if($("#tax_info_div").is(":hidden")){
+        }else{
+            ct_price = $("#cost_tax").val();
+        }
+        var pmt_price = $(this).val();
+        var cfPrice = $("#span_cost_freight_total").html();
+        var pmt_price_f = parseFloat(cfPrice) + parseFloat(pmt_price) + parseFloat(ct_price) + 0;
+        changeTotalOrderPrice(pmt_price_f);
+    });
+
+    $("#cost_tax").change(function(){
+        var ct_price = $(this).val();
+        var pmt_price = $("#pmt_amount").val();
+        var cfPrice = $("#span_cost_freight_total").html();
+        var ct_price_f = 0 + parseFloat(cfPrice) + parseFloat(pmt_price) +parseFloat(ct_price);
+        changeTotalOrderPrice(ct_price_f);
+    });
+
+//    $("#is_tax").click(function(){
+//
+//
+//    });
+
+    function changeTotalOrderPrice(price){
+        if(price == undefined){
+            price = 0;
+        }
+        var price_f = parseFloat(price);
+        var total_price_f = parseFloat($("#input_order_total_price").val());
+        total_price_f += price_f + 0;
+        $("#span_order_total_price").html(total_price_f);
+    }
+</script>

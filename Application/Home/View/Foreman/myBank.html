@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/ajaxfileupload.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index_gz')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">银行卡管理</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+
+
+<div class="container width90">
+    <div class="vip">
+        <div class="center-top2">
+            <span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<input type="text" name="realname"  value="{$banks.realName}" id="realname" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px"  readOnly></span>
+            <span>身份证号：<input type="text" name="card_num" id="card_num"   style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" value="{$banks.card_num}" readOnly></span>
+            <span>开户银行：<input type="text" name="bank_name" id="bank_name"    style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" value="{$banks.bank_name}" readOnly >
+            </span>
+            <span>卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<input type="text" name="bank_num" id="bank_num" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" value="{$banks.bank_num}" readOnly></span>
+        </div>
+        <button type="button" class="btn-large green button width100" onclick="delBank({$banks.id})">删除重置</button>
+    </div>
+</div>
+
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+</html>
+<script type="text/javascript">
+   function delBank(id){
+        if(confirm("确定删除重置银行卡吗？"))
+        {
+            $.ajax({
+                 url:'__APP__/Home/Foreman/delBank',
+                 data:{id:id},
+                 dataType:'json',
+                 type:'post',
+                 success:function(data){
+                    if(data.status==1){ 
+                        alert('删除成功！');
+                        window.location.href="__APP__/Home/Foreman/index";
+                    }else{
+                        alert('删除失败！');
+                        location.reload();
+                    }
+                 }
+             });
+        }else{
+
+        }
+   }
+</script>

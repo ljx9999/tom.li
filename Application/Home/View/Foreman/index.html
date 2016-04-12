@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index_gz')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">账户信息</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+
+
+<div class="container width90">
+    <div class="vip">
+        <div class="vip-header-foreman">
+            <div class="vip-header-l">
+                <div class="vip-header-i img">
+                        <img src="" id="imageId" onerror="this.src='{$img_dir}/1.jpg'"/>
+                </div>
+            </div>
+            <div class="vip-header-t" id="user_info">
+                <div>用户姓名：{$info.realname}</div>
+                <div>账户余额：{$shengyu}元</div>
+                <div>累计收入：{$info.income}元</div>
+                <div>已提现金额：{$cash}元</div>
+                <if condition="$shengyu gt 0">
+                    <button onclick="getMyCash()">提&nbsp&nbsp&nbsp现</button>
+                </if>
+                   
+            </div>
+                <div id="is_member"></div>
+            </div>
+
+        </div>
+        <div class="center-top">
+            <a href="{:U('Foreman/userInfo')}" class="center07" id="defInfos"><span id="datas">个人资料</span><em>></em></a>
+            <a href="{:U('Foreman/uploadCase')}" class="center08"><span>案例上传</span><em>></em></a>
+            <a href="{:U('Order/orderInfo_gz')}" class="center09">我的订单<em>></em></a>
+             <a href="{:U('Foreman/workerManage')}" class="center11"><span>工人管理</span><em></em></a>
+             <a href="{:U('Foreman/customerManage')}" class="center06"><span>客户管理</span><em>></em></a>
+            <a href="{:U('Foreman/bankManage')}" class="center10">银行卡管理<em>></em></a>
+            <a href="{:U('FrontBase/LoginOut')}" class="center05"><span>退出登录</span><em>></em></a>
+        </div>
+    </div>
+</div>
+<div class="footer">
+     <div class="gezifooter">
+
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var image_dirs = '{$image_dirs}';
+        $.ajax({
+            type: "POST",
+            url: "{:U('Home/Foreman/getForemanInfo')}",
+            dataType : "JSON",
+            success: function(obj){
+                $("#imageId").attr("src",image_dirs+"/"+obj.info.head_image); 
+                var str="";
+                   str+="<div>用户姓名："+obj.info.realname+"</div>";
+                   str+="<div>账户余额："+obj.shengyu+"元</div>";
+                   str+="<div>累计收入："+obj.info.income+"元</div>";
+                   str+="<div>已提现金额："+obj.cash+"元</div>";
+                    if(obj.shengyu > 0){
+                       str+="<button onclick='getMyCash()'>提现</button>";
+                    }
+                $("#user_info").html(str);
+                if(obj.info.identity == 0){
+                    $("#datas").html('公司资料');
+                    $("#defInfos").attr('href',"{:U('Foreman/companyInfo')}");
+                }else if(obj.info.identity == 2){
+                    $("#datas").html('个人资料');
+                    $("#defInfos").attr('href',"{:U('Foreman/userInfo')}");
+                }
+
+            }
+    });
+
+
+
+
+    });
+    function getMyCash(){
+        if(confirm("确定进行提现操作吗？"))
+        {
+            $.ajax({
+                 url:'__APP__/Home/Foreman/getMoney',
+                 dataType:'json',
+                 type:'post',
+                 success:function(data){
+                    if(data.status==1){ 
+                        window.location.href="__APP__/Home/Foreman/getMyCash";
+                    }else{
+                        alert('请先绑定银行卡！');
+                        window.location.href="__APP__/Home/Foreman/bankManage";
+                    }
+                 }
+             });
+        }else{
+
+        }
+   }
+
+    function confirmPayment(){
+            location.href = '__APP__/Home/WechatPay/memberJsPay';
+    }
+</script>

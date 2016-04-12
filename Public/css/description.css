@@ -1,0 +1,12 @@
+/*********************
+File:     description.css
+Title:    商品详细介绍页样式
+Version:  2013-09-23
+Author:   Ray
+**********************/
+
+#content {
+    padding: 10px;
+    overflow: hidden;
+    text-align: left;
+}

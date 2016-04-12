@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>滴滴装修</title>
+    <meta name="Description" content=""/>
+    <meta name="Keywords" content=""/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="{$css_dir}/share.css"/>
+    <link rel="stylesheet" type="text/css" href="{$css_dir}/style.css"/>
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script src="{$js_dir}/1.9.0.js" type="text/javascript" charset="utf-8"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a class="home" href="{:U('Home/Home/index')}">
+        <span class="header-icon header-icon-home"><img src="{$img_dir}/icon_home.png"/></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div id="titleString" class="title">完工案例</div>
+    <a class="back" href="javascript:history.go(-1);">
+        <span class="header-icon header-icon-return"><img src="{$img_dir}/icon_return.png"/></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<div class="container">
+    <ul class="unstyled hotel-bar">
+        <li class="first"><a href="{:U('Worker/show?id='.$_GET['id'])}" >简介</a></li>
+        <li><a href="{:U('Worker/show_case?id='.$_GET['id'])}"  class="active">案例</a></li>
+        <li><a href="{:U('Worker/show_review?id='.$_GET['id'])}">评价</a></li>
+    </ul>
+</div>
+<div class="nc">
+     <if condition="$image_list neq ''">
+    <volist name="image_list" id="vo">
+        <div class="shop">
+            <div class="shop_t">
+                <a href="javascript:void(0);" data-reveal-id="myModal{$key}"><img src="{$root_dir}/{$vo.image_src}"/></a>
+            </div>
+            <div class="shop_p">
+                <a href="javascript:void(0);" data-reveal-id="myModal{$key}">{$vo.title}</a>
+            </div>
+        </div>
+    </volist>
+    <else />
+        <li><div style="text-align: center; margin:30px 0 30px 0"><b>暂无案例信息！</b></div></li>
+        </if>
+</div>
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+</body>
+</html>

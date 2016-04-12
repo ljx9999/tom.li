@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+</head>
+<body>
+<include file="Public/banner.inc"/>
+<include file="Public/nav.inc"/>
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxActivityList" class="box disHide">
+            <h2>
+                促销活动列表
+                <span>Activity List</span>
+            </h2>
+            <hr/>
+            <div class="space"></div>
+            <!-- 内容开始 -->
+            <div class="formGroup">
+                <a href="{:U('add')}" class="button button-rounded button-flat-caution button-tiny">添加</a>
+                <a href="javascript:void(0);" id="btn_delete_multi"
+                   class="button button-rounded button-tiny button-flat-caution">批量删除</a>
+
+                 <form method="post" action="{:U('Admin/Activity/searchAct')}" id="searchForm">
+                    <input name="keyword" id="keyword" type="text" placeholder="关键词" class="inputText widthSmall">
+                    <input type="button" value="搜索" id="searchSubmit" class="button button-rounded button-flat-caution button-tiny">
+                </form>
+            </div>
+            <div class="space"></div>
+
+            <div id="tableBody">
+                <include file="Activity/activity-table.inc"/>
+            </div>
+            
+            <input type="hidden" id="last_page" value="{$last_page}">
+            <!-- 输出分页 -->
+            <p id="pageBody">
+                {$page}
+            </p>
+
+        </div>
+    </div>
+</div>
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //向下滑动
+        setInterval(function () {
+            $("#boxModule").slideDown();
+        }, 200);
+        setInterval(function () {
+            $("#boxActivityList").slideDown();
+        }, 300);
+
+        //加载时间控件
+        $("#start_date").datepicker();
+        $("#end_date").datepicker();
+
+
+        //对话框
+        $("#filter_dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                "完成": function () {
+                    $("#discount_filter_form")[0].submit();
+                    $(this).dialog("close");
+                },
+                "取消": function () {
+                    $(this).dialog("close");
+                }
+            },
+            close: function () {
+                $("#discount_filter_form")[0].reset();
+            }
+        });
+
+
+        //过滤
+        $("#filter").click(function () {
+            $("#filter_dialog").dialog("open");
+        });
+
+        //选择所有
+        $('#check_all').click(function () {
+            $("input[name='activity_checkbox']").prop('checked', $(this).prop("checked"));
+        });
+        
+        //搜索
+        $("#searchSubmit").on("click",function(){
+            var keyword = $('#keyword').val();
+           if (keyword == "" || keyword == null || keyword == "请输入搜索关键字") {
+            keyword = '';
+            jAlert("请输入搜索关键字！", "搜索提示");
+            return;
+        } 
+            $('#searchForm').ajaxSubmit(function(data) {
+                if(data.status == 1) {
+                    $("#tableBody").html(data.info.tabelBody);
+                    $("#pageBody").html(data.info.pageBody);
+                }
+            });
+        });
+
+        //删除所有
+        $("#btn_delete_multi").click(function () {
+
+            var ids = new Array();
+            $("input[name='activity_checkbox']:checked").each(function () {
+                var id = $(this).attr('id').split('_')[1];
+                ids.push(id);
+            });
+
+            
+            if(ids.length < 1){
+                jAlert("请选择要删除的信息",'删除提示消息');
+            }else{
+                jConfirm("请确认要删除的信息，删除后无法恢复","确认消息",function(r){
+                    if(r){
+                        $.post("{:U('Admin/Activity/ajaxMultiDeleteAct')}", {'activity_ids': ids}, function (data) {
+                            var status = data.status;
+                            var info = data.info;
+                            if (status) {
+                                location.reload();
+                            } else {
+                                jAlert(info);
+                            }
+                        });
+                    }else{
+                    }
+                });
+            }
+        });
+    });
+    
+    function hrefPageByGo(url,pid){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+        var last_page = $("#last_page").val();
+        var pageId = $("#"+pid).val();
+        if(pageId == ""){
+            return;
+        }
+        if(pageId > last_page || pageId<=0 ){
+            return;
+        }
+        var urlStr  = $.trim(url);
+        urlStr = urlStr.replace( /%_p%/, $("#"+pid).val()); // "hxllx"
+
+        location.href =urlStr;
+    }
+    
+    function deleteBillboard(id){
+        jConfirm("请确认要删除的信息，删除后无法恢复","确认消息",function(r){
+            if(r){
+                $.post("{:U('Admin/Activity/deleteAct')}", {'id': id}, function (data) {
+                    if (data=="succ") {
+                            location.reload();
+                    } else {
+                        jAlert(info);
+                    }
+               
+                });
+                 }
+        })
+    }
+    
+
+</script>
+</body>
+</html>

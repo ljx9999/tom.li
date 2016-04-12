@@ -1,0 +1,48 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+    <if condition="!empty($contentList)">
+        <thead>
+        <tr>
+            <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+            <th>用户名</th>
+            <th>施工方</th>
+            <th>评价</th>
+            <th>评价回复</th>
+            <th>
+                <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('add_time','sortCallBack')"
+                   title="升序">
+                    添加日期
+                    <img src="{$images_dir}/desc.gif" class='add_time' style="cursor: pointer; border: 0;" title="排序">
+                </a>
+            </th>
+            <th>管理</th>
+        </thead>
+        <else/>
+        <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+    </if>
+    <tbody>
+    <volist name="contentList" id="content">
+        <tr>
+            <td>
+                <input type="checkbox" value="{$content.id}" name="content_checkbox"/>
+            </td>
+            <td>
+                <span class="content_list" id="{$content.id}" title="hello tooltip {$content.id}">{$content.user_name}</span>
+            </td>
+            <td>
+                <span class="content_list" id="{$content.id}" title="hello tooltip {$content.id}">{$content.workerName}</span>
+            </td>
+            <td>{$content.message}</td>
+            <td>{$content.re_message}</td>
+            <td>{$content.add_time|date="y-m-d",###}</td>
+            <td>
+                <div class="formGroup">
+                    <a href="javascript:deleteContent('{$content.id}');"
+                       class="button button-rounded button-tiny button-flat-caution"> 删除</a>
+                </div>
+
+            </td>
+        </tr>
+    </volist>
+
+    </tbody>
+</table>

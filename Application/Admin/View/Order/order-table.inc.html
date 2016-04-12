@@ -1,0 +1,85 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+    <if condition="!empty($orderList)">
+        <thead>
+
+        <tr>
+            <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+            <th>订单号</th>
+            <th>
+                <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('inputtime','sortCallBack')"
+                   title="升序">
+                    下单时间
+                    <img src="{$images_dir}/desc.gif" class='inputtime' style="cursor: pointer; border: 0;" title="排序">
+                </a>
+            </th>
+            <th>
+                <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('quote','sortCallBack')"
+                   title="升序">
+                    订单金额
+                    <img src="{$images_dir}/desc.gif" class='quote' style="cursor: pointer; border: 0;"
+                         title="排序">
+                </a>
+            </th>
+            <th>用工方</th>
+            <th>施工方</th>
+            <th>
+                <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('status','sortCallBack')"
+                   title="升序">
+                    订单状态
+                    <img src="{$images_dir}/desc.gif" class='status' style="cursor: pointer; border: 0;"
+                         title="排序">
+                </a>
+            </th>
+            <th>订单简介</th>
+            <th>管理</th>
+        </tr>
+        </thead>
+
+        <else/>
+        <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+    </if>
+    <tbody>
+
+    <volist name="orderList" id="order"
+            empty="">
+        <tr>
+            <td>
+                <input type="checkbox" value="{$order.id}" name="order_checkbox"/>
+            </td>
+            <td>
+                    <span id="{$order.id}" class="imtes_list"
+                          title="hello tooltip {$order.id}">{$order.order_number}</span>
+            </td>
+            <td>
+                <span>{$order.inputtime|date="y-m-d",###}</span>
+            </td>
+            <td>
+                {$order.quote}
+            </td>
+            <td>
+                {$order.userName}
+
+            </td>
+            <td>
+                {$order.workerName}
+            </td>
+            <td>
+               <if condition="$order['status'] eq 1">报价<elseif condition="$order['status'] eq 5"/>已付定金<elseif condition="$order['status'] eq 10"/>已首付<elseif condition="$order['status'] eq 15"/>已完工，待付尾款<elseif condition="$order['status'] eq 20"/>已结尾款<elseif condition="$order['status'] eq 25"/>订单已完成<elseif condition="$order['status'] eq 30"/>申请撤单<elseif condition="$order['status'] eq 35"/>撤单成功<else/>生成订单</if>
+            </td>
+            <td>
+                {$order.title}
+            </td>
+            <td>
+                <div class="formGroup">
+                     <if condition="$order['status'] neq 30"><a href="{:U('Admin/Order/info?id='.$order['id'].'&userName='.$order['userName'])}"
+                       class="button button-rounded button-tiny button-flat-caution">详情</a></if>
+                    <a href="javascript:deleteOrder('{$order.id}');"
+                       class="button button-rounded button-tiny button-flat-caution"> 删除</a>
+                    <if condition="$order['status'] eq 30"><a href="{:U('Admin/Order/cancelInfo?id='.$order['id'].'&userName='.$order['userName'])}" class="button button-rounded button-tiny button-flat-caution">查看撤单</a></if>
+                    <if condition="$order['status'] eq 5"><a href="javascript:changeStatus('{$order.id}')" class="button button-rounded button-tiny button-flat-caution" >已付首付</a><elseif condition="$order['status'] eq 15"/><a href="javascript:changeStatus('{$order.id}')" class="button button-rounded button-tiny button-flat-caution" >已付尾款</a><elseif condition="$order['status'] eq 20"/><a href="javascript:changeStatus('{$order.id}')" class="button button-rounded button-tiny button-flat-caution" >确认完成</a></if>
+                </div>
+            </td>
+        </tr>
+    </volist>
+    </tbody>
+</table>

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">支付提示</div>
+    <a href="{:U('Home/Home/index')}" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<div class="Wrap">
+    <div class="module module-order module-orderList large">
+        <div  style="color: limegreen;margin-left: 60px;font-size:20px">您已成功支付会员费！</div>
+        <div style="margin-left: 60px; margin-top:20px">
+            <table>
+                <tr>
+                    <td>
+                        <span style="color: #808080">订单编号</span>:
+                    </td>
+                    <td>
+                        {$order_number}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="color: #808080">付款金额</span>:
+                    </td>
+                    <td>
+                        {$total_fee}元
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <br/>
+        <div style="margin-left:60px;margin-right:20px;font-size: 10px;color: lightslategrey">您已支付完成，请在关闭该页面后刷新订单状态，请勿重复支付！</div>
+        <br/>
+    </div>
+</div>
+
+<a class="btn order_submit" href="#" onclick="userOrderList();" style="margin-left:60px;">返回订单列表</a>
+<script>
+    function userOrderList(){
+        location.href = '__APP__/Home/Foreman/index/';
+    }
+</script>
+</body>
+</html>

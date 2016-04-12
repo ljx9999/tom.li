@@ -1,0 +1,615 @@
+/*********************
+File:     basic.css
+Title:    基本全局通用样式
+Version:  2013-09-12
+Author:   Ray
+**********************/
+
+
+/*********************
+基本标签样式
+**********************/
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 12px;
+    font-family: arial, "微软雅黑";
+    text-decoration: none;
+    color: black;
+    line-height: 20px;
+}
+body {
+    background: white;
+}
+
+div, ul {
+    overflow: hidden;
+}
+
+img {
+    border: 0;
+}
+
+:focus {
+    outline: none;
+}
+
+body {
+    background: #e9e9e9;
+}
+
+h2 {
+    color: #444;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+h2 span {
+    margin-left: 10px;
+    color: #d11611;
+    font-size: 18px;
+    font-family: "segoe ui light";
+    font-weight: normal;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin-bottom: 5px;
+}
+
+strong {
+    color: #d11611;
+}
+
+form {
+    margin: 10px 0;
+}
+
+
+/*********************
+全局通用样式 - 定位
+**********************/
+
+
+.posLeft {
+    float: left;
+}
+
+.posRight {
+    float: right;
+}
+
+
+/*********************
+全局通用样式 - 表单
+**********************/
+
+.inputText {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 5px;
+}
+
+textarea {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    line-height: 30px;
+    padding: 0 5px;
+}
+
+.inputSubmit {
+    padding: 0 15px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.inputButton {
+    padding: 0 15px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.labelCheckBox {
+    line-height: 30px;
+}
+
+.form .labelTitle {
+    margin: 0 10px 0 0;
+    color: #888;
+}
+
+.form li {
+    margin: 10px 0;
+}
+
+
+
+
+.formGroup {
+    overflow: hidden;
+    line-height: 32px;
+}
+
+.formGroup .labelTitle {
+    width: 100px;
+    float: left;
+    line-height: 32px;
+}
+
+.formGroup .labelCheckBox {
+    float: left;
+    margin-right: 10px;
+}
+
+.formGroup form {
+    display: inline;
+}
+
+/*********************
+全局通用样式 - 布局
+**********************/
+
+
+
+.disBlock {
+    display: block;
+}
+
+.disSpace {
+    margin: 10px;
+}
+
+.disHide {
+    display: none;
+}
+
+.preload {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.space {
+    height: 10px;
+    overflow: hidden;
+}
+
+
+/*********************
+全局通用样式 - 格式
+**********************/
+.widthLarge {
+    width: 800px;
+}
+
+.widthBig {
+    width: 600px;
+}
+
+
+.widthNormal {
+    width: 400px;
+}
+
+.widthMini {
+    width: 200px;
+}
+
+.widthMicro {
+    width: 50px;
+}
+
+.heightNormal {
+    height: 100px;
+}
+
+/*********************
+全局通用框架
+**********************/
+
+#footer {
+    text-align: center;
+    margin: 30px 0;
+    clear: both;
+}
+
+#header {
+    background: url(./images/bgHeader.jpg) #d11611;
+    z-index: 1000;
+}
+
+#header h1 {
+    font-size: 18px;
+    color: #fff;
+    font-weight: normal;
+    padding: 15px 20px;
+}
+
+#bar {
+    background: #444;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+#bar a {
+    margin: 0 5px;
+    float: right;
+}
+
+#main {
+    overflow: hidden !important;
+    padding: 20px;
+}
+
+#center .box {
+    padding: 20px;
+}
+
+#left {
+    width: 220px;
+    float: left;
+    margin: 0 20px 0 0;
+}
+
+#right {
+    width: 220px;
+    float: right;
+    margin: 0 0 0 20px;
+}
+
+.box {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px #ddd;
+    padding: 20px 20px 10px 20px;
+    margin: 0 0 20px 0;
+    border: 1px solid #ddd;
+}
+
+.box1 {
+    background: #fff;
+    box-shadow: 0px 5px 10px #ddd;
+    padding: 5px 20px;
+}
+
+.module {
+    text-align: center;
+    float: left;
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    transition-property: box-shadow border;
+    transition-duration: 0.3s;
+    overflow: hidden;
+}
+
+.module:hover,
+.module.on{
+    background: #f9f9f9;
+    box-shadow: 1px 1px 4px #eee;
+    border: 1px solid #e7e7e7;
+}
+
+.module:active {
+    box-shadow: 1px 1px 4px #ddd inset;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+}
+
+.module > a {
+    /*padding: 45px 0 0;*/
+    width: 70px;
+    height: 25px;
+    text-align: center;
+    display: block;
+    float: left;
+}
+
+.module > div {
+    margin: 0 0 0 80px;
+}
+
+.module > div a {
+    display: block;
+    padding: 2px 10px;
+    float: left;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    transition-property: box-shadow background color border;
+    transition-duration: 0.3s;
+    overflow: hidden;
+    background: #fff;
+    margin: 24px 5px 0;
+    border: 1px solid #e7e7e7;
+}
+
+.module > div a:hover,
+.module > div a.on{
+    box-shadow: 1px 1px 4px #eee;
+    background: #d11611;
+    color: #fff;
+    border: 1px solid #d11611;
+}
+
+.module:hover > a ,
+.module.on > a{
+    color: #d11611;
+}
+/**
+ *----- 左侧导航 字体图标 -----
+ * 2015-01-29
+ * ZwB
+ * */
+@font-face {
+    font-family: 'fonticon';
+    src: url('font/fonticon.eot?83050711');
+    src: url('font/fonticon.eot?83050711#iefix') format('embedded-opentype'),
+    url('font/fonticon.woff?83050711') format('woff'),
+    url('font/fonticon.ttf?83050711') format('truetype'),
+    url('font/fonticon.svg?83050711#font') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+.fonticon,
+#boxBaseSettingMenu a{
+    color: #888;
+}
+.fonticon:before{
+	font-family: "fonticon";
+}
+.fonticon:before,
+#boxBaseSettingMenu a:before{
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    width: 1em;
+    color: #888;
+    font-variant: normal;
+    line-height: 1em;
+    text-align: center;
+    text-decoration: inherit;
+    text-transform: none;
+}
+.fonticon-home:before { content: '\e800'; } /* '' */
+.fonticon-user:before { content: '\e801'; } /* '' */
+.fonticon-clipboard:before { content: '\e802'; } /* '' */
+.fonticon-gift:before { content: '\e803'; } /* '' */
+.fonticon-cog-alt:before { content: '\e804'; } /* '' */
+.fonticon-edit:before { content: '\e805'; } /* '' */
+.fonticon-tag:before { content: '\e806'; } /* '' */
+.fonticon-cube:before { content: '\e807'; } /* '' */
+.fonticon-users:before { content: '\e808'; } /* '' */
+.fonticon-flow-tree:before { content: '\e809'; } /* '' */
+.fonticon-bag:before { content: '\e80a'; } /* '' */
+.fonticon-wechat:before { content: '\e80b'; } /* '' */
+.fonticon-print:before { content: '\e80c'; } /* '' */
+.fonticon-star:before { content: '\e80d'; } /* '' */
+.fonticon-up-open:before { content: '\e80e'; } /* '' */
+.fonticon-down-open:before { content: '\e80f'; } /* '' */
+.fonticon-left-open:before { content: '\e810'; } /* '' */
+.fonticon-right-open:before { content: '\e811'; } /* '' */
+
+#left .module{
+    float: none;
+    height: auto;
+    width: auto;
+    text-align: left;
+}
+#left .fonticon{
+    float: none;
+    position: relative;
+    height: auto;
+    width: auto;
+    padding-left: 30px;
+    line-height: 40px;
+    text-align: left;
+    text-indent: 2em;;
+}
+#left .fonticon:before{
+    position: absolute;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    color: rgb(150, 150, 150);
+    font-size: 20px;
+    line-height: 40px;
+}
+#left .fonticon:hover:before,
+#left .module.on .fonticon:before{
+    color: #d11611;
+}
+
+#main .fonticon:before,
+#boxBaseSettingMenu a:before{
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    font-size: 30px;
+    text-align: center;
+}
+#left .sidebar_close{
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    height: 24px;
+    width: 40px;
+    border: 0;
+    border-radius: 5px 0 0 5px;
+    background: rgb(209, 22, 17);
+    text-indent: 0;
+}
+#left .sidebar_close:before{
+    top: 0;
+    height: 24px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+}
+#left .sidebar_close:hover:before{
+    color: #fff;
+}
+
+/*#moduleUser > a {*/
+    /*background: url(./images/module/icon.png) 0px 0px no-repeat;*/
+    /*transition-property: background;*/
+    /*transition-duration: 0.3s;*/
+/*}*/
+/*#moduleOrder > a {*/
+    /*background: url(./images/module/icon.png) -70px 0px no-repeat;*/
+    /*transition-property: background;*/
+    /*transition-duration: 0.3s;*/
+/*}*/
+/*#moduleProduct > a {*/
+    /*background: url(./images/module/icon.png) -140px 0px no-repeat;*/
+    /*transition-property: background;*/
+    /*transition-duration: 0.3s;*/
+/*}*/
+/*#moduleSetting > a {*/
+    /*background: url(./images/module/icon.png) -210px 0px no-repeat;*/
+    /*transition-property: background;*/
+    /*transition-duration: 0.3s;*/
+/*}*/
+/*#moduleReport > a {*/
+    /*background: url(./images/module/icon.png) -280px 0px no-repeat;*/
+    /*transition-property: background;*/
+    /*transition-duration: 0.3s;*/
+/*}*/
+/*#moduleContent > a {*/
+    /*background: url(./images/module/icon.png) -350px 0px no-repeat;*/
+    /*transition-property: background;*/
+    /*transition-duration: 0.3s;*/
+/*}*/
+/*#modulePromotion > a {*/
+    /*background: url(./images/module/icon.png) -420px 0px no-repeat;*/
+    /*transition-property: background;*/
+    /*transition-duration: 0.3s;*/
+/*}*/
+
+/*#moduleUser > a:hover {*/
+    /*background: url(./images/module/icon.png) 0px -70px no-repeat;*/
+/*}*/
+/*#moduleOrder > a:hover {*/
+    /*background: url(./images/module/icon.png) -70px -70px no-repeat;*/
+/*}*/
+/*#moduleProduct > a:hover {*/
+    /*background: url(./images/module/icon.png) -140px -70px no-repeat;*/
+/*}*/
+/*#moduleSetting > a:hover {*/
+    /*background: url(./images/module/icon.png) -210px -70px no-repeat;*/
+/*}*/
+/*#moduleReport > a:hover {*/
+    /*background: url(./images/module/icon.png) -280px -70px no-repeat;*/
+/*}*/
+/*#moduleContent > a:hover {*/
+    /*background: url(./images/module/icon.png) -350px -70px no-repeat;*/
+/*}*/
+/*#modulePromotion > a:hover {*/
+    /*background: url(./images/module/icon.png) -420px -70px no-repeat;*/
+/*}*/
+
+
+
+/*********************
+列表样式
+**********************/
+
+
+.tableList {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.tableList th {
+    background: #888;
+    color: #fff;
+}
+
+.tableList th label {
+    color: #fff;
+}
+
+.tableList .trTool {
+    background: #f7f7f7;
+}
+
+.tableList td,
+.tableList th {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 0 5px;
+}
+
+.tableList tr:last-child td,
+.tableList tr:last-child th {
+    border-bottom: 0;
+}
+
+.tableList td:last-child,
+.tableList th:last-child {
+    border-right: 0;
+}
+
+
+.box .box {
+    box-shadow: none;
+    border: 2px solid #ccc;
+}
+
+#pageBody {
+clear: both;
+    margin: 5px;
+    height: 40px;
+    line-height: 40px;
+}
+
+#pageBody a,
+#pageBody span {
+    padding: 5px;
+    background: #f7f7f7;
+    border: 1px solid #eee;
+    margin-right: 3px;
+}
+
+#pageBody a:hover,
+#pageBody span{
+    color: #d11611;
+    font-weight: bold;
+}
+
+#dialog_category > ul {
+    float: left;
+    width: 100px;
+    margin-right: 10px;
+}
+
+#dialog_category > ul li.active {
+    background: #d11611;
+    color: #fff;
+}
+
+.tableList td input.inputOrder {
+    border: 1px solid #ccc;
+    width: 50px;
+}
+
+.tableList td input.inputGoods {
+    border: 1px solid #ccc;
+    width: 100px;
+}

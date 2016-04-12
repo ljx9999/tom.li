@@ -1,0 +1,29 @@
+ <table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+            <if condition="!empty($cashes)">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>进账时间</th>
+                    <th>订单编号</th>
+                    <th>付款者</th>
+                    <th>付款金额</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                 <else/>
+                    <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+                </if>
+                <tbody>
+                <foreach item="list" name="cashes">
+                    <tr>
+                        <td>{$list.id}</td>
+                        <td>{$list.log_time}</td>
+                        <td>{$list.log_order_number}</td>
+                        <td>{$list.user_name}</td>
+                        <td style="color:red;">{$list.log_quote}元</td>
+                        <td >{$list.log_desc}元</td>
+                    </tr>
+                </foreach>
+                </tbody>  
+            </table>
+       

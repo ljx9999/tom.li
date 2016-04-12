@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+
+    <script type="text/javascript" src="{$js_dir}/ajax_dialog.js"></script>
+
+    <link rel="stylesheet" href="{$js_dir}/jqwidgets/styles/jqx.base.css" type="text/css" />
+</head>
+<body>
+<include file="Public/nav.inc" />
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxProductList" class="box disHide">
+            <h2>
+                 辅助材料列表
+                <span>Product List</span>
+            </h2>
+            <hr />
+            <div class="space"></div>
+
+            <!-- 内容开始 -->
+            <div class="formGroup">
+                <div>
+                <a href="{:U('add')}"  class="button button-rounded button-flat-caution button-tiny">添加</a>
+                <a href="javascript:void(0);" id="delete_btn" class="button button-rounded button-tiny button-flat-caution">批量删除</a>
+                <input name="keyword" id="search_keyword" type="text" placeholder="关键词" class="inputText widthSmall">
+                <input type="button" value="搜索" id="keyword_btn" class="button button-rounded button-flat-caution button-tiny">     
+            </div>
+
+            <div class="space"></div>
+
+            <div id="tableBody">
+                <include file="Product/product-table.inc"/>
+            </div>
+
+            <p id="pageBody">
+                {$page}
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        var countries = eval('{$categoryJsonStr}');
+
+        //向下滑动
+
+        setInterval(function(){
+            $("#boxModule").slideDown();
+        },200);
+        setInterval(function(){
+            $("#boxProductList").slideDown();
+        },300);
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+    });
+
+    $(function () {
+
+        $("#search_keyword").focus(function(){
+            if($.trim($(this).val()) == '请输入搜索关键字'){
+                $(this).val("");
+            }
+        }).blur(function(){
+            if($.trim($(this).val()) == ''){
+                $(this).val("请输入搜索关键字");
+            }
+        });
+
+        $("#keyword_btn").on("click",function(){
+            var keyword = $("#search_keyword").val();
+            if(keyword == "" || keyword == null || keyword=="请输入搜索关键字"){
+                keyword = '' ;
+                jAlert('请输入搜索关键字！','搜索提示',function(r){
+                })
+                return;
+            }
+
+            if(keyword.toUpperCase() == 'ALL'){
+                keyword = "";
+            }
+
+            $.post("{:U('Admin/Product/ajaxSearch')}", {'keyword': keyword }, function (data) {
+                $("#tableBody").html(data.info.tabelBody);
+                $("#pageBody").html(data.info.pageBody);
+               
+            });
+        });
+
+       
+        $( "#search_btn" ).click(function() {
+            $( "#product_search" ).dialog( "open" );
+        });
+    });
+
+    /**
+     * AJAX分页处理
+     * @param url
+     */
+    function ajaxPage(url){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+        var urlStr  = $.trim(url);
+        var paraStr = "";
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType : "JSON",
+            success: function(jsonResult){
+                $("#tableBody").html(jsonResult.info.tabelBody);
+                $("#pageBody").html(jsonResult.info.pageBody);
+               
+            }
+        });
+    }
+    /**
+     * AJAX分页处理
+     * @param url
+     */
+    function ajaxPageByGo(url,pid){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+
+        var urlStr  = $.trim(url);
+        urlStr = urlStr.replace( /%_p%/, $("#"+pid).val()); // "hxllx"
+
+        var paraStr ='';
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType : "JSON",
+            success: function(jsonResult){
+                $("#tableBody").html(jsonResult.info.tabelBody);
+                $("#pageBody").html(jsonResult.info.pageBody);
+            
+            }
+        });
+    }
+
+
+    function hrefPageByGo(url,pid){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+        
+        var last_page = $("#last_page").val();
+        var pageId = $("#"+pid).val();
+        if(pageId == ""){
+            return;
+        }
+        if(pageId > last_page || pageId <= 0){
+            return;
+        }
+
+        var urlStr  = $.trim(url);
+        urlStr = urlStr.replace( /%_p%/, $("#"+pid).val()); // "hxllx"
+
+        location.href =urlStr;
+    }
+
+
+    function BindingGoodsToolTip(){
+        $(".goods_list").tooltip({
+            content: function() {
+                var contentId = "goods_list_"+this.id;
+                return $("#"+contentId).html();
+            }
+        });
+    }
+
+
+
+    $('#check_all').click(function () {
+        $("input[name='product_checkbox']").prop('checked', $(this).prop("checked"));
+    });
+
+
+    $('#delete_btn').click(function () {
+        var ids = new Array();
+        $("input[name='product_checkbox']:checked").each(function () {
+            var id = $(this).val();
+            ids.push(id);
+        });
+
+        if(ids.length < 1){
+            jAlert("请选择要删除的商品",'删除提示消息');
+        }else{
+            jConfirm("确认要删除,删除后无法恢复","确认消息",function(r){
+                if(r){
+                    $.post("{:U('Admin/Product/deleteAct')}", {'ids': ids}, function (data) {
+                        var status = data.status;
+                        var info = data.info;
+                        if (status) {
+                            
+                            location.reload();
+                        } else {
+                            jAlert(info);
+                        }
+                    });
+                }else{
+                }
+            });
+        }
+    });
+
+    function deleteProduct(id){
+            jConfirm("确认要删除,删除后无法恢复","确认消息",function(r){
+                if(r){
+                    $.post("{:U('Admin/Product/deleteAct')}", {'id': id}, function (data) {
+                        var status = data.status;
+                        var info = data.info;
+                        if (status) {
+                            
+                            location.reload();
+                        } else {
+                            jAlert(info);
+                        }
+                    });
+                }else{
+                }
+            })
+    }
+
+    function sortCallBack(jsonResult){
+        $("#tableBody").html(jsonResult.info.tabelBody);
+        $("#pageBody").html(jsonResult.info.pageBody);
+        BindingGoodsToolTip();
+        $.changeSortImage();
+    }
+
+
+</script>
+
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxcore.js"></script>
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxbuttons.js"></script>
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxscrollbar.js"></script>
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxlistbox.js"></script>
+<script type="text/javascript" src="{$js_dir}/jqwidgets/jqxcombobox.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+    <if condition="!empty($billboardList)">
+        <thead>
+        <tr>
+            <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+            <th>类别</th>
+            <th>用户名</th>
+            <th>提问内容</th>
+            <th>回复内容</th>
+            <th>状态</th>
+            <th>
+                <a href="javascript:void(0);" onclick="javascript:$.mbizTableSort('add_time','sortCallBack')"
+                   title="升序">
+                    提问时间
+                    <img src="{$images_dir}/desc.gif" class='add_time' style="cursor: pointer; border: 0;"
+                         title="排序">
+                </a>
+            </th>
+            <th>管理</th>
+        </thead>
+        <else/>
+        <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+    </if>
+    <tbody>
+    <volist name="List" id="billboard" empty="">
+        <tr>
+            <td style="text-align:center;">
+                <input type="checkbox" value="{$billboard.id}" name="billboard_checkbox"/>
+            </td>
+            <td style="text-align:center;">{$billboard.cat_name}</td>
+            <td style="text-align:center;">{$billboard.user_name}</td>
+            <td style="text-align:center;width:180px" title="{$billboard.message}">{$billboard.short_message}</td>
+            <td style="text-align:center;width:180px" title="{$billboard.answer}">{$billboard.short_answer}</td>
+            <td style="text-align:center;"> <if condition="$billboard['status'] eq 1">已回复<else /> 未回复</if></td>
+            <td style="text-align:center;">{$billboard.add_time|date="y-m-d",###}</td>
+            <td style="text-align:center;">
+                <div class="formGroup">
+                    <if condition="$billboard['status'] eq 0"><a href="#"
+                       class="button button-rounded button-tiny button-flat-caution answer" item="{$billboard.id}">回复</a></if>
+                    <a href="javascript:deleteBillboard('{$billboard.id}');"
+                       class="button button-rounded button-tiny button-flat-caution"> 删除</a>
+                </div>
+
+            </td>
+        </tr>
+    </volist>
+
+    </tbody>
+</table>

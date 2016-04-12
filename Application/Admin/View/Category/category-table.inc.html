@@ -1,0 +1,64 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+<if condition="!empty($ret)">
+    <thead>
+    <tr>
+        <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+        <th>名称</th>
+        <th class="">发布日期</th>
+        <th class="">状态</th>
+        <th>排序</th>
+        <th>管理</th>
+    </tr>
+    </thead>
+    <tbody >
+        {$ret}
+    </tbody>
+     <else />
+    <span style="display:block;margin:0 auto;width:500px;">没有符合搜索条件的信息</span>
+    </if>
+
+</table>
+
+
+<script type="text/javascript">
+    $(".tableList .edit_input").click(function(){
+        var keyStr = $(this).attr('name');
+        $(this).hide();
+        $("#input_"+keyStr).show().focus().change(function(){
+            var idObj = $(this).attr('id').split("_");
+            var catId = idObj[2];
+            var paramKey = idObj[1];
+            var newValue = $(this).val();
+            var keyStr = paramKey+"_"+catId;
+
+            var urlStr = "{:U('Admin/Category/ajaxDynamicModify')}";
+            var paramStr = "cat_id="+catId;
+            paramStr += "&"+paramKey+"="+newValue;
+            $.ajax({
+                type: "POST",
+                url: urlStr,
+                data: paramStr,
+                dataType : "JSON",
+                success: function(jsonResult){
+                    if(jsonResult.status){
+                        $("#input_"+keyStr).hide();
+                        $("#span_"+keyStr).show()
+                        $("#span_"+keyStr).html(newValue);
+                    }else{
+                        jAlert(jsonResult.info ,"修改失败");
+                    }
+                }
+            });
+        });
+
+        $("#input_"+keyStr).on('blur',function(){
+            var idObj = $(this).attr('id').split("_");
+            var productId = idObj[2];
+            var paramKey = idObj[1];
+            var keyStr = paramKey+"_"+productId;
+            $("#input_"+keyStr).hide();
+            $("#span_"+keyStr).show()
+        });
+
+    });
+</script>

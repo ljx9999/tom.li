@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>滴滴装修</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+<link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{$css_dir}/StarRating.css">
+<script type="text/javascript" src="{$js_dir}/zepto.js"></script>
+<script type="text/javascript" src="{$js_dir}/layer.m.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+<body>
+    <div class="header">
+        <a href="{:U('Home/Home/index_gz')}" class="home">
+                <span class="header-icon header-icon-home"></span>
+                <span class="header-name">主页</span>
+        </a>
+        <div class="title" id="titleString">查看留言</div>
+        <a href="javascript:history.go(-1);" class="back">
+                <span class="header-icon header-icon-return"></span>
+                <span class="header-name">返回</span>
+         </a>
+    </div>
+
+        <div class="container">
+            <div class="hotel-comment-list" id="container">
+                <volist name="eva_list" id="vo">
+                <div class="hotel-user-comment">
+                    <span class="hotel-user"><img width="32" height="32" src="{$img_dir}/company-icon.png">会员{$vo.realname}:</span>
+                    <div class="hotel-user-comment-cotent">
+                        <p> {$vo.message}</p>
+                        <span>{$vo.add_time|date="y-m-d",###}</span>
+                    </div>
+                </div>
+                  <if condition="empty($vo['re_message'])">
+                    <div class="hotel-apply-comment">
+                        <div class="hotel-apply-div"><span class="hotel-user" onclick="tishi({$vo.id})">回复</span></div>
+                    </div>
+                    <else />
+                    <div class="hotel-user-comment hotel-apply-user-comment">
+                        <div class="hotel-apply-comment">
+                            <div class="hotel-apply-div"><span class="hotel-user">工长回复</span></div>
+                            <div class="hotel-user-comment-cotent">
+                                <p style="padding-left: 10px;">{$vo.re_message} </p>
+                                <span style="padding-left: 10px;">{$vo.add_time|date="y-m-d",###}</span>
+                            </div>
+                        </div>
+                </div>
+                </if>
+                </volist>
+            </div>
+        </div>
+<div class="nodata"></div> 
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+</body>
+<script type="text/javascript">
+function tishi(id){
+  var str=" <p><label for='question' >评价回复</label><textarea name='answer' cols='50' rows='5' id='answer_info'></textarea></p>";
+   layer.open({
+        content:  str,
+        btn: ['确认', '取消'],
+        shadeClose: false,
+        yes: function(){
+            var re_message = $('#answer_info').val();
+            $.post("{:U('Home/Evaluate/reMessage')}", {'id': id,'re_message':re_message}, function (data) {
+                 var obj = eval( "(" + data + ")" );
+                var status = obj.status;
+                if (status) {
+                    layer.open({content: '回复成功！', time: 1}); 
+                    location.reload(); 
+                } else {
+                     layer.open({content: '回复失败！', time: 1}); 
+                }
+            });
+        }, no: function(){
+            
+        }
+    });
+}
+$(document).ready(function () {
+     $.ajax({
+        type: "POST",
+        url: "{:U('Home/Evaluate/getMessage')}",
+        data: {'page': 0},
+        dataType : "JSON",
+        success: function(jsonResult){
+           var obj = eval( "(" + jsonResult + ")" );
+            if(obj.length > 0){
+            var str = "";
+            var htmlStr ="";
+            $.each(obj,function(index,array){ 
+                str+="<div class='hotel-user-comment'>";
+                str+="<span class='hotel-user'><img width='32' height='32' src='{$img_dir}/1.jpg'>会员"+array['realname']+":</span>";
+                str+="<div class='hotel-user-comment-cotent'>";
+                str+="<p><div id='star'><ul><span>服务评价：</span><br>";
+                for(i=0;i<array['fw_score'];i++){
+                    str+=" <li class='on'><a href='javascript:;'>1</a></li>";
+                }
+                str+=" </ul><p></p><br></div></p>";
+                str+="<p><div id='star'><ul><span>技术评价：</span><br>";
+                for(i=0;i<array['score'];i++){
+                    str+=" <li class='on'><a href='javascript:;'>1</a></li>";
+                }
+                str+=" </ul><p></p><br></div></p>";
+                str+="<p style='margin-left:10px;'> "+array['message']+"</p>";
+                str+="<span>"+array['add_time']+"</span></div></div>";
+                if(!array['re_message']){
+                    str+="<div class='hotel-apply-comment'>";
+                    str+="<div class='hotel-apply-div'><span class='hotel-user' onclick='tishi("+array['id']+")'>回复</span></div></div>";
+                }else{
+                    str+="<div class='hotel-user-comment hotel-apply-user-comment'>";
+                    str+="<div class='hotel-apply-comment'>"
+                    str+="<div class='hotel-apply-div'><span class='hotel-user'>工长回复</span></div>";
+                    str+="<div class='hotel-user-comment-cotent'><p style='padding-left: 10px;'>"+array['re_message']+"</p>";
+                    str+="<span style='padding-left: 10px;'>"+array['add_time']+"</span></div></div></div>";
+                }
+            });
+            $('#container').append(str);
+            }else{
+                $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>没有更多信息了</b></div></li>"); 
+                return false; 
+            }       
+
+
+        }
+    });
+
+        var winH = $(window).height(); //页面可视区域高度 
+        var i = 1; //设置当前页数 
+        $(window).scroll(function () { 
+            var pageH = $(document.body).height(); 
+            var scrollT = $(window).scrollTop(); //滚动条top 
+            var aa = (pageH-winH-scrollT)/winH;
+            var id = $('#cat_id').val(); 
+            if(aa<0.02){ 
+                $.ajax({
+                type: "POST",
+                url: "{:U('Home/Evaluate/getMessage')}",
+                data: {'page': i},
+                dataType : "JSON",
+                success: function(jsonResult){
+                    var obj = eval( "(" + jsonResult + ")" );
+                    if(obj.length > 0){
+                        var str = "";
+                        var htmlStr ="";
+                        $.each(obj,function(index,array){ 
+                            str+="<div class='hotel-user-comment'>";
+                            str+="<span class='hotel-user'><img width='32' height='32' src='{$img_dir}/1.jpg'>会员"+array['realname']+":</span>";
+                            str+="<div class='hotel-user-comment-cotent'>";
+                            str+="<p><div id='star'><ul><span>服务评价：</span><br>";
+                            for(i=0;i<array['fw_score'];i++){
+                                str+=" <li class='on'><a href='javascript:;'>1</a></li>";
+                            }
+                            str+=" </ul><p></p><br></div></p>";
+                            str+="<p><div id='star'><ul><span>技术评价：</span><br>";
+                            for(i=0;i<array['score'];i++){
+                                str+=" <li class='on'><a href='javascript:;'>1</a></li>";
+                            }
+                            str+=" </ul><p></p><br></div></p>";
+                            str+="<p style='margin-left:10px;'> "+array['message']+"</p>";
+                            str+="<span>"+array['add_time']+"</span></div></div>";
+                           if(!array['re_message']){
+                                str+="<div class='hotel-apply-comment'>";
+                                str+="<div class='hotel-apply-div'><span class='hotel-user' onclick='tishi("+array['id']+")'>回复</span></div></div>";
+                            }else{
+                                str+="<div class='hotel-user-comment hotel-apply-user-comment'>";
+                                str+="<div class='hotel-apply-comment'>"
+                                str+="<div class='hotel-apply-div'><span class='hotel-user'>工长回复</span></div>";
+                                str+="<div class='hotel-user-comment-cotent'><p style='padding-left: 10px;'>"+array['re_message']+"</p>";
+                                str+="<span style='padding-left: 10px;'>"+array['add_time']+"</span></div></div></div>";
+                            }
+                        });
+                        $('#container').append(str);
+                        i++; 
+                    }else{
+                        $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>没有更多信息了</b></div></li>"); 
+                        return false; 
+                    }       
+
+
+                }
+            });
+
+           
+    } 
+    });
+});
+</script>
+</html>

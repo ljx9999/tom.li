@@ -1,0 +1,182 @@
+/*********************
+File:     basic.css
+Title:    基本全局通用样式
+Version:  2013-09-27
+Author:   Ray
+**********************/
+
+
+
+
+/*********************
+基本标签样式
+**********************/
+
+
+* {
+    list-style: none;
+    text-decoration: none;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+a {
+    color: #555;
+}
+
+
+body {
+    text-align: center;
+    max-width: 640px;
+    min-width: 320px;
+    margin: 0 auto 20px;
+}
+
+form {
+    overflow: hidden;
+}
+
+ul.ui-listview {
+    margin: 0 !important;
+    overflow: hidden;
+}
+
+/*********************
+框架样式
+**********************/
+
+#container {
+    max-width: 640px;
+    min-width: 320px;
+    margin: 0 auto;
+}
+
+
+#logo {
+    text-align: center;
+    padding: 10px 20px;
+}
+
+#search {
+    padding: 5px 10px;
+}
+
+
+/*********************
+布局样式
+**********************/
+
+
+
+.toLeft {
+    float: left;
+}
+
+.toRight {
+    float: right;
+}
+
+
+.jqm-content {
+    padding: 0 !important;
+}
+
+/*************************
+面包屑样式
+*************************/
+
+.breadcrumb {
+    height: 35px;
+    line-height: 35px;
+    text-align: left;
+    background: #888;
+    border-bottom: 1px solid #ddd;
+}
+
+.breadcrumb a {
+    height: 35px;
+    line-height: 35px;
+    padding: 10px 10px 10px 25px;
+    background: url(../images/arrow.png) left center no-repeat;
+    color: #fff !important;
+    text-shadow: none;
+
+}
+
+.breadcrumb a.home {
+    padding-left: 15px;
+    background: none;
+}
+
+
+#pagination {
+    margin: 20px 0;
+}
+
+a.ui-li-count {
+    color: #000 !important;
+}
+
+.ui-panel-inner {
+    padding: 0 !important;
+}
+
+.ui-collapsible-set {
+    padding: 15px;
+}
+
+.ui-collapsible-content {
+    padding: 0 !important;
+}
+/*
+.ui-bar-c {
+    background: linear-gradient(#77c3f4,#96d3f9) !important;
+}
+*/
+
+
+#footer {
+    padding: 10px 0;
+    border-top: 1px solid #ccc;
+    font-size: 12px;
+}
+
+h1 {
+    font-size: 18px !important;
+}
+
+#addCommentForm > .ui-body-d {
+    background: none !important;
+}
+
+#addCommentForm > .ui-body-d > .ui-field-contain {
+    border: 0;
+}
+
+#comment h3 {
+    font-weight: bold;
+    font-size: 16px;
+    display:block !important;
+}
+
+.productList .ui-link {
+    color: #888 !important;
+    font-size: 12px;
+}
+
+
+
+.attrTable td {
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    padding: 3px;
+}
+
+.attrTable {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    border-collapse:collapse;
+}

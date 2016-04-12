@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/jquery.validate.min.js"></script>
+     <script type="text/javascript" src="{$js_dir}/jquery.cityselect.js"></script>
+    <script type="text/javascript" src="{$js_dir}/ajaxfileupload.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <div class="title" id="titleString">注册</div>
+</div>
+<div id="headerfilter-bar">
+    <ul class="nav" style="margin-bottom:0;">
+        <li>
+        <a href="{:U('register_gr')}"  class="active">
+            <span>个人注册</span>
+        </a></li><li>
+            <a href="{:U('register_gs')}" >
+                <span>公司注册</span>
+            </a></li>
+    </ul>
+</div>
+<div class="container width80 pt20">
+    <form name="form" method="post" action="{:U('Login/regStoreAct')}" id="regform">
+        <div class="control-group">
+            <input type="text"  class="input width100 " id="mobile" name="mobile" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" placeholder="手机号码" />
+        </div>
+        <div class="control-group">
+            <input type="text"  class="input width100"  id="realname" name="realname" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px " placeholder="请输入称呼" />
+        </div>
+         <div class="control-group">
+            <label for="address" class="labelTitle">所在地区</label>
+            <div id='address'>
+                <select name="address[prov]" id="select-native-14" class="prov" style="width:30%;"></select>
+                <select name="address[city]" id="select-native-15" class="city" style="width:30%;"></select>
+                <select name="address[dist]" id="select-native-16" class="dist" style="width:30%;"></select>
+            </div>
+        </div>
+        <div class="control-group">
+            您的工种是：
+            <input type="checkbox"  class="width100 input" id="gongzhang"   value="工长" /><label for="gongzhang">工长</label>
+            <input type="checkbox"  class="width100 input" id="youqi"   value="油漆工"/><label for="youqi">油漆工</label>
+            <input type="checkbox"  class="width100 input" id="shuidian"  value="水电工"  /><label for="shuidian">水电工</label>
+            <input type="checkbox"  class="width100 input" id="mugong"  value="木工" /><label for="mugong">木工</label>
+            <input type="checkbox"  class="width100 input" id="niwa"  value="泥瓦工"  /><label for="niwa">泥瓦工</label>
+            <input type="checkbox"  class="width100 input" id="dabai"  value="大白工"  /><label for="niwa">大白工</label>
+            <input type="checkbox"  class="width100 input" id="ligong"  value="力工"  /><label for="niwa">力工</label>
+            <input type="checkbox"  class="width100 input" id="weixiu"  value="维修工"  /><label for="niwa">维修工</label>
+            <input type="checkbox"  class="width100 input" id="sheji"  value="设计师"  /><label for="niwa">设计师</label>
+            <input type="checkbox"  class="width100 input" id="qita"  value="其他"  /><label for="niwa">其他</label>
+            <input type="hidden"  class="width100 input" id="CheckAll"  name="checkType"  />
+        </div>
+        <div class="control-group">
+            <input  type="text"  class="input" name="sms_code" style="background: none repeat scroll 0 0 #F9F9F9;" placeholder="短信验证码" id="sms_code"  />
+            <input type="button" id="send_sms" value="短信验证码" style="width: 102px;"  >
+        </div>
+        <div class="control-group">
+            <button id="regBtn" class="btn-large green button width100">立即注册</button>
+        </div>
+        <div class="control-group">
+            已有账号？<a href="{:U('Login/index_gz')}" >立即登录</a>
+        </div>
+        <input type="hidden" name="id_positive_img" class="fileField" >
+        <input type="hidden" name="id_negative_img" class="fileField2"  >
+        <input type="hidden" name="type" value="2" >
+    </form>
+</div>
+
+<div class="footer">
+    <div class="gezifooter">
+        <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('input[type=checkbox]').change(function(){
+            $('#CheckAll').val($('input[type=checkbox]:checked').map(function(){return this.value}).get().join(','))
+        });
+    });
+</script>
+<script type="text/javascript">
+    var jsDir = '{$js_dir}';
+    $(document).ready(function(){
+         
+        $("#regBtn").click(function () {
+            var CheckAll = $('#CheckAll').val();
+            if(CheckAll == "" ){
+                alert('请选择工种！');
+            }
+            var validate = $("#regform").validate({
+                debug: false, //调试模式取消submit的默认提交功能
+                focusInvalid: false, //当为false时，验证无效时，没有焦点响应
+                onkeyup: false,
+                submitHandler: function (form) {   //表单提交句柄,为一回调函数，带一个参数：form
+                    ajaxSumbmit();   //提交表单
+                },
+                rules: {
+                    mobile: {
+                        required: true,
+                        isMobile: true
+
+                    },
+                    
+                },
+                messages: {
+                    mobile: {
+                        required: "请填写手机号码",
+                        isMobile: "请正确填写您的手机号码"
+                    },
+                    isMobile: {
+                        required: "请正确填写您的手机号码"
+                    }
+                }
+            });
+
+            // 手机号码验证
+            jQuery.validator.addMethod("isMobile", function (value, element) {
+                var length = value.length;
+                var mobile = /^1[3|4|5|8][0-9]\d{4,8}$/;
+                return this.optional(element) || (length == 11 && mobile.test(value));
+            }, "请正确填写您的手机号码");
+            function ajaxSumbmit(form) {
+                var formData = $("form").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "{:U('Home/Login/regStoreAct')}",
+                    data:formData,
+                    dataType: "JSON",
+                    success:function(jsonResult){
+                        if (jsonResult.status == 1) {
+                            alert('注册成功！');
+                            window.location.href = "__APP__/Home/Home/index_gz";
+                        } else {
+                            alert(jsonResult.info);
+                        }
+                    }
+                });
+            }
+        });
+        
+        //发送验证码
+        $('#send_sms').click(function(){
+            var phone_obj = $('input[name="mobile"]');
+            var send_obj = $('#send_sms');
+            var val = phone_obj.val();
+            var sends = send_obj.val();
+            if(sends == "重新发送"){
+                //30秒后重新启动发送按钮
+                start_sms_button(send_obj);
+                $.ajax({
+                    url:'__APP__/Home/Login/smsCode',
+                    data:{'mobile':val},
+                    dataType:'json',
+                    type:'post',
+                    beforeSend:function(){
+                    },
+                    complete:function(){
+                    },
+                    success:function(data){
+                        console.log(data);
+                        if(data.status!=undefined && (data.status == 'ok' || data.status == 'error')){
+                            alert(data.msg);
+                        }
+                    }
+                });
+            }else{
+                if(val){
+                    if(IsMobile(val)){  
+                        checkSmsCode(); 
+                    }else{
+                        alert("手机号的格式错误");
+                    }
+                }else{
+                    alert('手机号不能为空');
+                }
+            }
+        });
+
+        var provStr = '{$deliveryAddressInfo.province}';
+        var cityStr = '{$deliveryAddressInfo.city}';
+        var distStr = '{$deliveryAddressInfo.dist}';
+          //地区选择控件
+        $("#address").citySelect({
+            prov:(provStr != '')?provStr:"辽宁",
+            city:(cityStr != '')?cityStr:"大连",
+            dist:(distStr != '')?distStr:"中山",
+            nodata:"none"
+        });
+
+    });
+
+    function start_sms_button(obj){
+        var count = 1 ;
+        var sum = 30;
+        var i = setInterval(function(){
+            if(count > 30){
+                obj.attr('disabled',false);
+                obj.val('重新发送');
+                clearInterval(i);
+            }else{
+                obj.val('剩余'+parseInt(sum - count)+'秒');
+            }
+            count++;
+        },1000);
+    }
+
+   
+    function IsMobile(sMobile){
+        if(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function checkSmsCode(){
+        var send_obj = $('#send_sms');
+        var mobile = $("#mobile").val();
+        //30秒后重新启动发送按钮
+        start_sms_button(send_obj);
+        $.ajax({
+            url:'__APP__/Home/Login/smsCode',
+            data:{'mobile':mobile},
+            dataType:'json',
+            type:'post',
+            beforeSend:function(){
+            },
+            complete:function(){
+            },
+            success:function(data){
+                console.log(data);
+                if(data.status!=undefined && (data.status == 'ok' || data.status == 'error')){
+                    alert(data.msg);
+                }
+            }
+        });      
+    }
+
+</script>
+
+</body>
+</html>

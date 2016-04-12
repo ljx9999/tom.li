@@ -1,0 +1,67 @@
+<table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+<if condition="!empty($adminList)">
+    <thead>
+    <tr>
+        <th width="70"><input type="checkbox" id="check_all"><label for="check_all">全选</label></th>
+        <th>登陆用户名</th>
+        <th>中文名</th>
+        <th>管理员邮箱</th>
+        <th>最后登陆时间</th>
+        <th>最后登陆ip</th>
+        <th>管理员添加时间</th>
+        <th>管理员状态</th>
+        <th>管理员类型</th>
+        <th>设置角色</th>
+        <th>管理</th>
+    </tr>
+    </thead>
+    <tbody >
+    <volist name="adminList" id="admin" empty="没有管理员信息" >
+        <tr>
+            <td >
+                <input type="checkbox" value="{$admin.id}" name="admin_checkbox"/>
+            </td>
+            <td>
+                {$admin.username}
+            </td>
+            <td>
+                {$admin.china_name}
+            </td>
+            <td>
+                {$admin.email}
+
+            </td>
+            <td>
+                {$admin.last_time}
+            </td>
+            <td>
+                {$admin.last_ip_str}
+            </td>
+            <td>
+                {$admin.create_time}
+            </td>
+            <td>
+                <if condition="$admin['admin_status'] eq 1">正常<else />停用</if>
+            </td>
+            <td>
+                <if condition="$admin['admin_type'] eq 1">普通管理员<else/>其他管理员</if>
+            </td>
+            <td>
+                <div class="formGroup">
+                    <a href="{:U('Admin/User/group?id='.$admin['id'])}" class="button button-rounded button-tiny button-flat-caution">设置角色</a>
+                </div>
+            </td>
+            <td>
+                <div class="formGroup">
+                    <a href="{:U('Admin/User/edit?id='.$admin['id'])}" class="button button-rounded button-tiny button-flat-caution">编辑</a>
+                    <a href="javascript:deleteUser('{$admin.id}');"  class="button button-rounded button-tiny button-flat-caution"> 删除</a>
+                </div>
+            </td>
+        </tr>
+    </volist>
+
+    </tbody>
+    <else />
+    <span style="display:block;margin:0 auto;width:500px;">没有符合搜索条件的信息</span>
+    </if>
+</table>

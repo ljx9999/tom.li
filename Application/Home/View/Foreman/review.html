@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index_gz')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">业主留言</div>
+    <a href="javascript:history.go(-1);" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+
+<form name="aspnetForm" method="post" action="" id="aspnetForm">
+    <div class="container">
+        <div class="hotel-comment-list">
+
+            <div class="hotel-user-comment">
+                <span class="hotel-user"><img width="32" height="32" src="http://www.gridinn.com//images/user02.png">会员韩*芳:</span>
+                <div class="hotel-user-comment-cotent">
+                    <p>	一如既往的不错~</p>
+                    <span>2014-04-10</span>
+                </div>
+            </div>
+            <!--<div class="hotel-user-comment hotel-apply-user-comment">-->
+                <!--<div class="hotel-apply-comment">-->
+                    <!--<div class="hotel-apply-div"><span class="hotel-user">回复</span></div>-->
+                    <!--<div class="hotel-user-comment-cotent">-->
+                        <!--<input type="text" style="margin-left: 15px;" ><button>提交</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+            <div class="hotel-user-comment">
+                <span class="hotel-user"><img width="32" height="32" src="http://www.gridinn.com//photos/201306/6426.jpg">会员陈*蓉:</span>
+                <div class="hotel-user-comment-cotent">
+                    <p>	房间空调是坏了还是老化了16度的温度和26度似的，坐厕也是坏的，老是冲不下去。酒店的过道地毯可能应该清洗了，走过去一阵阵臭味。办理入住的时候前台也没说阁楼要加10块电脑费啊以前都不用的，退房的时候又加收了10块钱。总之没有以前住的舒坦。</p>
+                    <span>2014-04-10</span>
+                </div>
+            </div>
+            <!--<div class="hotel-user-comment hotel-apply-user-comment">-->
+                <!--<div class="hotel-apply-comment">-->
+                    <!--<div class="hotel-apply-div"><span class="hotel-user">回复</span></div>-->
+                    <!--<div class="hotel-user-comment-cotent">-->
+                        <!--<input type="text" style="margin-left: 15px;" ><button>提交</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+</form>
+
+<div class="footer">
+    <div class="gezifooter">
+        <p style="color:#bbb;">装修滴滴 &copy; 版权所有 2015</p>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+    window.onload = function ()
+    {
+        var oStar = document.getElementById("star");
+        var aLi = oStar.getElementsByTagName("li");
+        var oUl = oStar.getElementsByTagName("ul")[0];
+        var oSpan = oStar.getElementsByTagName("span")[1];
+        var oP = oStar.getElementsByTagName("p")[0];
+        var i = iScore = iStar = 0;
+        var aMsg = [
+            "|失望",
+            "|一般",
+            "|满意",
+            "|赞",
+            "|超赞"
+        ]
+
+        for (i = 1; i <= aLi.length; i++)
+        {
+            aLi[i - 1].index = i;
+            //鼠标移过显示分数
+            aLi[i - 1].onmouseover = function ()
+            {
+                fnPoint(this.index);
+                //浮动层显示
+                oP.style.display = "block";
+                //计算浮动层位置
+                oP.style.left = oUl.offsetLeft + this.index * this.offsetWidth - 104 + "px";
+                //匹配浮动层文字内容
+                oP.innerHTML = "<em><b>" + this.index + "</b> 分 " + aMsg[this.index - 1].match(/(.+)\|/)[1] + "</em>" + aMsg[this.index - 1].match(/\|(.+)/)[1]
+            };
+            //鼠标离开后恢复上次评分
+            aLi[i - 1].onmouseout = function ()
+            {
+                fnPoint();
+                //关闭浮动层
+                oP.style.display = "none"
+            };
+            //点击后进行评分处理
+            aLi[i - 1].onclick = function ()
+            {
+                iStar = this.index;
+                oP.style.display = "none";
+                oSpan.innerHTML = "<strong>" + (this.index) + " 分</strong> (" + aMsg[this.index - 1].match(/\|(.+)/)[1] + ")"
+            }
+        }
+        //评分处理
+        function fnPoint(iArg)
+        {
+            //分数赋值
+            iScore = iArg || iStar;
+            for (i = 0; i < aLi.length; i++) aLi[i].className = i < iScore ? "on" : "";
+        }
+    };
+</script>
+</html>

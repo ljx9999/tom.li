@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>滴滴装修</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/iscroll.min.js"></script>
+    <link href="{$css_dir}/style.min.css" rel="stylesheet" type="text/css" /> 
+    <script type="text/javascript" src="{$js_dir}/layer.m.js"></script>
+
+    <style type="text/css">
+    *{margin:0;padding:0;list-style-type:none;}
+    a,img{border:0;}
+    body{background:#f2f2f2;font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
+    .stepInfo{position:relative;background:#f2f2f2;margin:20px auto 0 auto;width:500px;}
+    .stepInfo li{float:left;width:48%;height:0.15em;background:#bbb;}
+    .stepIco{border-radius:1em;padding:0.03em;background:#bbb;text-align:center;line-height:1.5em;color:#fff; position:absolute;width:1.4em;height:1.4em;}
+    .stepIco1{top:-0.7em;left:3%;}
+    .stepIco2{top:-0.7em;left:14%;}
+    .stepIco3{top:-0.7em;left:25%;}
+    .stepIco4{top:-0.7em;left:35%;}
+    .stepIco5{top:-0.7em;left:45%;}
+    .stepText{color:#666;margin-top:0.2em;width:4em;text-align:center;margin-left:-1.4em;}
+    .activity{background:#DD0000;}
+    .act{color:#DD0000;};
+    span{
+            font-family:Microsoft YaHei;
+        }
+    </style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</head>
+
+<body>
+<div class="header">
+    <a href="{:U('Home/Home/index')}" class="home">
+        <span class="header-icon header-icon-home"></span>
+        <span class="header-name">主页</span>
+    </a>
+    <div class="title" id="titleString">客户管理</div>
+    <a href="{:U('Home/Foreman/index')}" class="back">
+        <span class="header-icon header-icon-return"></span>
+        <span class="header-name">返回</span>
+    </a>
+</div>
+<!---->
+<div class="container hotellistbg">
+    <div class="container hotellistbg">
+</div>
+ <div style="text-align:center;font-size:16px">您还可以添加新的客户！<B><a href="__APP__/Foreman/addCustomer">添加</a></B></div>
+    <ul class="unstyled hotellist"  id="container">
+       <!--  <if condition="$list neq ''">
+        <volist name="list" id="vo">
+                 <li>
+                    <div>
+                        <h3>姓名：{$vo.user_name}<span style="float: right">{$vo.address}</span></h3>
+                        <hr>
+                        <dl>
+                            <dt><span></span></dt>
+                            <dd>电话：{$vo.mobile}</dd>
+                            <dd>总价：{$vo.total_fee}元</dd>
+                            <dd>工期：{$vo.protect_time}天</dd>
+                            <dd>记录时间：{$vo.add_time|date="y-m-d H:i:s",###}</dd>
+                            <dd>备注：{$vo.msg}</dd>
+                        </dl>
+                        <hr>
+                         <br><br><br>
+                        <button type="button" style="width:70px;height:28px;background-color:#ED6100" onclick="deleteInfo('{$vo.id}');" ><font color="#FFFFFF" face="Microsoft YaHei" size="3px"><B>删除</B></font></button>&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            </volist>
+            </if> -->
+            </ul>
+            <div class="nodata"></div>
+        </div>
+
+<div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+
+</body>
+</html>
+<script>
+   function deleteInfo(id){
+      if(confirm("确定要删除该客户信息吗？")){
+         $.ajax({
+            type: "POST",
+            url: "{:U('Home/Foreman/deleteCustomers')}",
+            data: {'id':id},
+            dataType : "JSON",
+            success: function(jsonResult){
+                if(jsonResult.status==1){
+                    alert(jsonResult.info);
+                    window.location.href="__APP__/Home/Foreman/customerManage";
+                }else{
+                    alert(jsonResult.info);
+                    location.reload();
+                }
+            }
+        });
+    }
+   }
+
+   $(document).ready(function () {
+     $.ajax({
+        type: "POST",
+        url: "{:U('Home/Foreman/getCustomerInfo')}",
+        dataType : "JSON",
+        success: function(obj){
+            if(obj.info.length > 0){
+            var str = "";
+            var htmlStr ="";
+            $.each(obj.info,function(index,array){ 
+                str+="<li><div><h3>姓名:"+array['user_name']+"<span style='float: right'>"+array['address']+"</span></h3><hr><dl><dt><span></span></dt>";
+                str+="<dd>电话："+array['mobile']+"</dd>";
+                str+="<dd>总价："+array['total_fee']+"元</dd>";
+                str+="<dd>工期："+array['protect_time']+"天</dd>";
+                str+="<dd>记录时间："+array['add_time']+"</dd>";
+                str+="<dd>备注："+array['msg']+"</dd></dl><hr><br>";
+                str+="<button type='button' style='width:70px;height:28px;background-color:#ED6100' onclick='deleteInfo("+array['id']+");'><font color='#FFFFFF' face='Microsoft YaHei' size='3px'><B>删除</B></font></button>&nbsp;&nbsp;&nbsp;</div> <div class='clear'></div></li>";
+               
+            });
+            $('#container').append(str);
+            }else{
+                $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>暂时没有客户信息，请添加！</b></div></li></li>"); 
+                return false; 
+            }       
+        }
+    });
+});
+</script>

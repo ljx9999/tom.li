@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>滴滴装修</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+    <link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+    <script type="text/javascript" src="{$js_dir}/1.9.0.js"></script>
+    <script type="text/javascript" src="{$js_dir}/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{$js_dir}/jquery.cityselect.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+<div class="header">
+    <div class="title" id="titleString">注册</div>
+</div>
+
+<div class="container width80 pt20">
+    <form name="form" method="post" action="{:U('Login/regAct')}" id="regform">
+        <div class="control-group">
+            <input type="text"  class="input width100" maxlength="11" id="mobile" name="mobile" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px " placeholder="请输入手机号" />
+        </div>
+        <div class="control-group">
+            <input type="text"  class="input width100"  id="realname" name="realname" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px " placeholder="请输入称呼" />
+        </div>
+         <div class="control-group">
+            <label for="address" class="labelTitle">所在地区</label>
+            <div id='address'>
+                <select name="address[prov]" id="select-native-14" class="prov" style="width:30%;"></select>
+                <select name="address[city]" id="select-native-15" class="city" style="width:30%;"></select>
+                <select name="address[dist]" id="select-native-16" class="dist" style="width:30%;"></select>
+            </div>
+        </div>
+        <div class="control-group">
+            <input  type="text"  class=" input" name="sms_code" id="sms_code" style="background: none repeat scroll 0 0 #F9F9F9;padding: 8px 0px 8px 4px" placeholder="短信验证码" />
+            <input type="button" id="send_sms" value="短信验证码" style="width: 102px;border-radius:3px;height:35px; margin-bottom: 11px;" >
+        </div>
+        <div class="control-group">
+            <button  type="submit" id="regBtn" class="btn-large green button width100"  >立即注册</button>
+        </div>
+        <div class="control-group">
+            已有账号？<a href="{:U('Login/index')}" >立即登录</a>
+        </div>
+
+    </form>
+</div>
+<div class="footer">
+    <div class="gezifooter">
+        <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+    </div>
+</div>
+<script type="text/javascript">
+    var jsDir = '{$js_dir}';
+    $(document).ready(function() {
+        $("#regBtn").click(function(){
+            $("#regform").validate({
+                debug: false, //调试模式取消submit的默认提交功能
+                focusInvalid: false, //当为false时，验证无效时，没有焦点响应
+                onkeyup: false,
+                submitHandler: function(form){   //表单提交句柄,为一回调函数，带一个参数：form
+                    var formData = $("form").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "{:U('Home/Login/regAct')}",
+                        data: formData,
+                        dataType : "JSON",
+                        success: function(jsonResult){
+                            if(jsonResult.status==1){
+                                alert('注册成功！');
+                                window.location.href="__APP__/Home/Home/index";
+                            }else{
+                                alert(jsonResult.info);
+                            }
+                        }
+                    }); 
+                },
+                rules:{
+                    mobile:{
+                        required:true,
+                        isMobile:true
+                    },
+                    
+                    sms_code:{
+                        required:true
+                    }
+                },
+                messages:{
+                    mobile:{
+                        required:"请填写手机号码",
+                        isMobile:"请正确填写您的手机号码"
+                    },
+                   
+                    sms_code:{
+                        required:"请输入短信验证码"
+                    }
+                }
+            });
+            // 手机号码验证
+            jQuery.validator.addMethod("isMobile", function(value, element) {
+                var length = value.length;
+                var mobile = /^1[3|4|5|8][0-9]\d{4,8}$/;
+                return this.optional(element) || (length == 11 && mobile.test(value));
+            }, "请正确填写您的手机号码");
+        });
+
+         //发送验证码
+        $('#send_sms').click(function(){
+            var phone_obj = $('input[name="mobile"]');
+            var send_obj = $('#send_sms');
+            var val = phone_obj.val();
+            var sends = send_obj.val();
+            if(sends == "重新发送"){
+                //30秒后重新启动发送按钮
+                start_sms_button(send_obj);
+                $.ajax({
+                    url:'__APP__/Home/Login/smsCode',
+                    data:{'mobile':val},
+                    dataType:'json',
+                    type:'post',
+                    beforeSend:function(){
+                    },
+                    complete:function(){
+                    },
+                    success:function(data){
+                        console.log(data);
+                        if(data.status!=undefined && (data.status == 'ok' || data.status == 'error')){
+                            alert(data.msg);
+                        }
+                    }
+                });
+            }else{
+                if(val){
+                    checkSmsCode();     
+                }else{
+                    alert('手机号不能为空');
+                }
+            }
+        });
+
+        var provStr = '{$deliveryAddressInfo.province}';
+        var cityStr = '{$deliveryAddressInfo.city}';
+        var distStr = '{$deliveryAddressInfo.dist}';
+          //地区选择控件
+        $("#address").citySelect({
+            prov:(provStr != '')?provStr:"辽宁",
+            city:(cityStr != '')?cityStr:"大连",
+            dist:(distStr != '')?distStr:"中山",
+            nodata:"none"
+        });
+
+
+    });
+
+
+    function start_sms_button(obj){
+        var count = 1 ;
+        var sum = 30;
+        var i = setInterval(function(){
+            if(count > 30){
+                obj.attr('disabled',false);
+                obj.val('重新发送');
+                clearInterval(i);
+            }else{
+                obj.val('剩余'+parseInt(sum - count)+'秒');
+            }
+            count++;
+        },1000);
+    }
+
+    function checkSmsCode(){
+        var send_obj = $('#send_sms');
+        var mobile = $("#mobile").val();    
+        start_sms_button(send_obj);
+        $.ajax({
+            url:'__APP__/Home/Login/smsCode',
+            data:{'mobile':mobile},
+            dataType:'json',
+            type:'post',
+            beforeSend:function(){
+
+            },
+            complete:function(){
+
+            },
+            success:function(data){
+                console.log(data);
+                if(data.status!=undefined && (data.status == 'ok' || data.status == 'error')){
+                    alert(data.msg);
+                }
+            }
+        });                        
+    }
+
+
+</script>
+</body>
+</html>

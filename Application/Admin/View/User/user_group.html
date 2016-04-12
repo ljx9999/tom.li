@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+</head>
+<body>
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxRoleAccess" class="box disHide">
+            <h2>
+                管理员角色设置
+                <span>Admin Role</span>
+            </h2>
+            <hr/>
+
+            <div id="auth_groups" class="box">
+                <h4>管理员角色列表</h4>
+                <hr>
+                <form class="form-horizontal" id="addToGroupFromId" action="{:U('addToGroup')}" method="post" enctype="application/x-www-form-urlencoded" >
+                    <div class="formGroup">
+                    <volist name="auth_groups" id="vo">
+                            <label class="checkbox disBlock labelCheckBox" title='{$child.tip}'>
+                                <input class="auth_groups inputCheckBox" type="checkbox" name="group_id[]" value="{$vo.id}"/>{$vo.title}
+                            </label>
+                    </volist>
+                    </div>
+                    <input type="hidden" name="uid" value="{$uid}">
+                    <input type="hidden" name="batch" value="true">
+                    <div style="margin-top: 10px;">
+                        <button type="submit" class="button button-rounded button-tiny button-flat-caution" target-form="form-horizontal">确 定</button>
+                        <button class="button button-rounded button-tiny button-flat" onclick="javascript:history.back(-1);return false;">返 回</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript">
+    $(function(){
+        setInterval(function(){
+            $("#boxRoleAccess").slideDown();
+        },300);
+
+        $('input.inputCheckBox').iCheck({
+            checkboxClass: 'icheckbox_flat-red',
+            radioClass: 'iradio_flat-red',
+            increaseArea: '-10' // optional
+        });
+        var group = [{$user_groups}];
+        $('.auth_groups').each(function(){
+            if( $.inArray( parseInt(this.value,10),group )>-1 ){
+                $(this).iCheck('check');
+            }
+        });
+    });
+
+    $("#addToGroupFromId").validate({
+        submitHandler: function(form){
+            $(form).ajaxSubmit(function (data) {
+                var status = data.status;
+                if(status){
+                    jConfirm(data.info,'角色设置提示',function(r){
+                        location.href = "{:U('index')}";
+                    })
+
+                }else{
+                    jAlert(data.info ,'角色设置提示');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

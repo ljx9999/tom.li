@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>滴滴装修</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<link href="{$css_dir}/bootstrap.min.css" rel="stylesheet" />
+<link href="{$css_dir}/NewGlobal.css" rel="stylesheet" />
+<script type="text/javascript" src="{$js_dir}/zepto.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?86bfaea4ac004bd92ee341c781c4c83c";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+<body>
+ <div class="header">
+ <a href="__APP__/Home/Home/index_gz" class="home">
+            <span class="header-icon header-icon-home"></span>
+            <span class="header-name">主页</span>
+</a>
+<div class="title" id="titleString">{$cat_name}</div>
+<a href="javascript:history.go(-1);" class="back">
+            <span class="header-icon header-icon-return"></span>
+            <span class="header-name">返回</span>
+        </a>
+ </div>
+<input type="hidden" value="{$id}" id="cat_id">
+        
+<div class="container hotellistbg">
+    <ul class="unstyled hotellist" id="container">
+       
+    </ul>
+</div>
+<div class="nodata"></div> 
+ <script type="text/javascript">
+        $(document).ready(function () {
+            var id = $('#cat_id').val(); 
+             $.ajax({
+                type: "POST",
+                url: "{:U('Home/Product/ajaxProductList')}",
+                data: {'page': 0,'id':id},
+                dataType : "JSON",
+                success: function(jsonResult){
+                    var obj = eval( "(" + jsonResult + ")" );
+                    if(obj.length > 0){
+                    var str = "";
+                    $.each(obj,function(index,array){ 
+                        str+="<li><img src='__APP__\/Uploads\/"+array['product_image']+"' style='width:120px;height:120px;margin:37px 5px 10px 0px;float:left' />";
+                        str+="<div class='inline'><h3>"+array['product_name']+"</h3> <dl>"; 
+                        str+="<dd>商品货号："+array['product_number']+"</dd>";
+                        str+="<dd>商品产地："+array['product_place']+"</dd>";
+                        str+="<dd>参考价格："+array['product_price']+"元</dd>";
+                        str+="<dd>产品规格："+array['product_spec']+"</dd>";
+                        str+="<dd>推荐商户："+array['product_merchant']+"</dd>";
+                        str+="<dd>商家电话："+array['product_mobile']+"</dd></dl>";
+                        str+="</div><div class='clear'></div> </li>";
+                    });
+                    $('#container').append(str);
+                    }else{
+                        $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>没有更多信息了</b></div></li>"); 
+                        return false; 
+                    }       
+
+
+                }
+            });
+
+            var winH = $(window).height(); //页面可视区域高度 
+            var i = 1; //设置当前页数 
+            $(window).scroll(function () { 
+                var scrollTop = $(this).scrollTop();
+                var scrollHeight = $(document).height();
+                var windowHeight = $(this).height();
+                if (scrollTop + windowHeight == scrollHeight) {
+                    var id = $('#cat_id').val(); 
+                    $.ajax({
+                        type: "POST",
+                        url: "{:U('Home/Product/ajaxProductList')}",
+                        data: {'page': i,'id':id},
+                        dataType : "JSON",
+                        success: function(jsonResult){
+                            var obj = eval( "(" + jsonResult + ")" );
+                            if(obj.length > 0){
+                            var str = "";
+                            $.each(obj,function(index,array){ 
+                                str+="<li><img class='hotelimg fl' src='__APP__\/Uploads\/"+array['product_image']+"' style='width:150px;height:150px'/>";
+                                str+="<div class='inline'><h3>"+array['product_name']+"</h3> <dl>"; 
+                                str+="<dd>商品货号："+array['product_number']+"</dd>";
+                                str+="<dd>商品产地："+array['product_place']+"</dd>";
+                                str+="<dd>参考价格："+array['product_price']+"元</dd>";
+                                str+="<dd>产品规格："+array['product_spec']+"</dd>";
+                                str+="<dd>推荐商户："+array['product_merchant']+"</dd>";
+                                str+="<dd>商家电话："+array['product_mobile']+"</dd></dl>";
+                                str+="</div><div class='clear'></div> </li>";
+                            });
+                            $('#container').append(str);
+                            i++;
+                            }else{
+                                $(".nodata").html("<li><div style='text-align: center; margin:30px 0 30px 0'><b>没有更多信息了</b></div></li>"); 
+                                return false; 
+                            }       
+                        }
+                    });
+                } 
+            }); 
+        });
+    </script>
+
+ <div class="footer">
+     <div class="gezifooter">
+         <p style="color:#bbb;">滴滴装修 &copy; 版权所有 2015</p>
+     </div>
+ </div>
+</body>
+</html>

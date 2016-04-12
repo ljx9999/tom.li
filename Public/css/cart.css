@@ -1,0 +1,84 @@
+/* CSS Document */
+
+.box {
+    padding: 15px;
+}
+
+
+
+/*************************
+列表头部样式
+*************************/
+
+.sort {
+	overflow: hidden;
+}
+
+.sort a {
+	width: 20%;
+	display: block;
+	float: left;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+	outline: 1px solid #ddd;
+}
+
+/*************************
+列表样式
+*************************/
+
+.list label {
+	overflow: hidden;
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+}
+
+.list label img {
+	width: 90px;
+	height: 90px;
+	float: left;
+	margin-right: 10px;
+}
+
+.list label h3 {
+	font-weight: bold;
+    color: #333;
+}
+
+.list label * {
+	text-align: left;
+}
+
+.list label .price {
+	color: #C00;
+	font-size: 16px;
+}
+
+.list label .number {
+    position: absolute;
+    padding-left: 105px;
+    width: 450px;
+}
+
+
+form li .ui-controlgroup {
+    display:inline;
+}
+
+form li .pic input {
+    float:left;margin-right:10px;margin-top:40px;
+}
+
+form li .pic img {
+    width:90px;height:90px;float:left;margin-right:10px;
+}
+
+form li .number input {
+    position:static;height:20px;line-height:20px;width:20px;
+}
+
+form li h3 {
+    margin:0 !important;
+}

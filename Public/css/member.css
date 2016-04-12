@@ -1,0 +1,32 @@
+/* CSS Document */
+
+.login {
+    padding: 15px;
+}
+
+.login label {
+    text-align: left;
+}
+
+.reg {
+    text-align: center;
+    margin: 20px;
+}
+
+em {
+    color: #d10000 !important;
+}
+
+#memberInfo {
+    background: url(../images/bgMemberInfo.png) center;
+    padding: 40px 20px 20px;
+    text-align: left;
+    text-shadow: none;
+    color: #fff;
+}
+
+#memberInfo strong {
+    font-weight: bold;
+    color: #fff;
+    font-size: 16px;
+}

@@ -1,0 +1,201 @@
+<html>
+<head>
+<include file="Public/header.inc"/>
+<style>
+.edui-editor{
+	z-index: 100 !important;
+}
+ul{display:block;margin:0;padding:0;list-style:none;}
+li{display:block;margin:0;padding:0;list-style: none;}
+/*imglist*/
+.imglist{clear:both; overflow:hidden; margin-bottom:20px; margin-left:5px;}
+.imglist li{width:188px; border:solid 1px #fff;height:199px;float:left; margin-right:8px; margin-bottom:10px; cursor:pointer;}
+.imglist li:hover{border:solid 1px #d7e4ea;}
+.imglist li span{width:168px; height:126px; margin:8px;}
+.imglist li h2{text-align:center; line-height:25px;}
+.imglist li p{text-align:center; line-height:17px; background:url(../images/line1.png) center center no-repeat;}
+.imglist li p a{color:#1f7cb6;}
+.imglist li p a:hover{color:#F60;}
+</style>
+</head>
+<body  >
+<include file="Public/banner.inc" />
+<include file="Public/nav.inc" />
+
+<div id="main">
+<!-- 中栏 -->
+<div id="center"  >
+
+<div id="boxProductAdd" class="box disHide">
+<h2>施工方详情<span>Worker Detail</span></h2>
+<hr>
+
+<!-- Input Text -->
+<div class="box">
+    <h3>基本信息</h3>
+    <hr>
+    <div style="float:right;"><img src="__APP__/Uploads/20150617/m_55813b743fbf3.jpg" width="150" height="150"></div>
+    <div class="formGroup">
+        <label for="realname" class="labelTitle">姓名</label>
+        {$worker_list.realname}
+    </div>
+    <div class="formGroup">
+        <label for="realname" class="labelTitle">年龄</label>
+        {$worker_list.age}
+    </div>
+    <div class="formGroup">
+        <label for="product_number" class="labelTitle">公司名</label>
+        {$worker_list.company_name}
+    </div>
+    <div class="formGroup">
+        <label for="category_name"  class="labelTitle">身份:</label>
+        <if condition="$worker_list['identity'] eq 1">工长<elseif condition="$worker_list['identity'] eq 2"/>个人<else/>公司</if></td>
+    </div>
+    <div class="formGroup">
+        <label for="product_brand" class="labelTitle">工种</label>
+        {$worker_list.type}
+    </div>
+     <div class="formGroup">
+        <label for="product_brand" class="labelTitle">电话</label>
+        {$worker_list.mobile}
+    </div>
+     <div class="formGroup">
+        <label for="product_place" class="labelTitle">备注</label>
+        {$worker_list.msg}
+    </div>
+     <div class="formGroup">
+        <label for="product_price" class="labelTitle">注册时间</label>
+        {$worker_list.regtime|date="y-m-d",###}
+    </div>
+    <div class="formGroup">
+        <label class="labelTitle">是否审核</label>
+        <span style="color:#F00"><if condition="$worker_list['status'] eq 10">审核通过<elseif condition="$worker_list['status'] eq 20"/>审核未通过<else/>未审核</if></span>
+    </div>
+    <hr>
+     <h3>详细信息</h3>
+    <hr>
+    <div class="formGroup">
+        <label class="labelTitle">工作年限</label>
+        {$worker_list.work_life}
+    </div>
+    <div class="formGroup">
+        <label for="product_merchant" class="labelTitle">工种</label>
+       {$worker_list.type}
+    </div>
+    <div class="formGroup">
+        <label for="address" class="labelTitle">所在地</label>
+       {$worker_list.address}
+    </div>
+     <p class="formGroup">
+          <label for="listorder" class="labelTitle" >个人介绍</label>
+             <p> {$worker_list.content}</p>    
+    </p>
+     <div class="formGroup">
+        <label for="product_spec" class="labelTitle">证件/资质</label>
+         <img src="__APP__/Uploads/{$worker_list.id_positive_img}" width="150" height="150">&nbsp;&nbsp;&nbsp;
+         <img src="__APP__/Uploads/{$worker_list.id_negative_img}" width="150" height="150">
+    </div>
+    <hr>
+     <h3>案例展示</h3>
+    <hr>
+     <ul class="imglist">
+    
+    <li class="selected">
+    <span><img src="__APP__/Uploads/20150617/m_55813f6b799bb.jpg" width="168" height="126"/></span>
+    <h2><a href="#">1</a></h2>
+    </li>
+    
+    <li>
+    <span><img src="__APP__/Uploads/20150617/m_55813f6b799bb.jpg"  width="168" height="126"/></span>
+    <h2><a href="#">2</a></h2>
+  
+    </li>
+    
+    <li>
+    <span><img src="__APP__/Uploads/20150617/m_55813f6b799bb.jpg"  width="168" height="126"/></span>
+    <h2><a href="#">3</a></h2>
+    
+    </li>
+    
+    <li>
+    <span><img src="__APP__/Uploads/20150617/m_55813f6b799bb.jpg" width="168" height="126"/></span>
+    <h2><a href="#">4</a></h2>
+   
+    </li>
+    
+    </ul>
+</div>
+
+<hr>
+<!-- Input Buttons -->
+<div class="formGroup">
+    <if condition="$worker_list['status'] eq 0"><input type="button" value="审核" class="button button-rounded button-flat-caution button-tiny" onclick="isDone({$worker_list.id})"></if>
+    <!--<a href="#" class="button button-rounded button-flat-caution button-tiny">确定</a>-->
+    <a href="javascript:void(0)" id="backLink" class="button button-rounded button-tiny button-flat">返回</a>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<script type="text/javascript" src="{$js_dir}/jquery.jpage.js"></script>
+
+<script>
+
+var x = jQuery("#center").position().left + jQuery("#center").outerWidth();
+
+$(document).ready(function(){
+
+    setInterval(function(){
+        $("#boxProductAdd").slideDown();
+    },300);
+
+    $('input.inputCheckBox').iCheck({
+        checkboxClass: 'icheckbox_flat-red',
+        radioClass: 'iradio_flat-red',
+        increaseArea: '-10' // optional
+    });
+
+
+    $("#backLink").click(function(event) {
+        event.preventDefault();
+        history.back(1);
+    });
+
+});
+
+$(function () {
+    $("#open").click(function(){
+        $(this).hide();
+        $("#close").show();
+        $("#product_describe_id").slideDown();
+    });
+    $("#close").click(function(){
+        $(this).hide();
+        $("#open").show();
+        $("#product_describe_id").slideUp();
+    });
+});
+
+function isDone(id){
+    jConfirm("确认已审核该施工方信息？", "确认消息", function (r) {
+        if (r) {
+            $.post("{:U('Admin/Worker/isDone')}", {'id': id}, function (data) {
+                var status = data.status;
+                var info = data.info;
+                if (status) {
+                    jAlert(info);
+                    location.reload();
+                } else {
+                    jAlert(info);
+                }
+            });
+        } else {
+        }
+    });
+}
+
+</script>
+</body>
+</html>

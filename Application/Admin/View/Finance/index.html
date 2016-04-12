@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <include file="Public/header.inc"/>
+</head>
+<body>
+<include file="Public/banner.inc"/>
+<include file="Public/nav.inc"/>
+
+<div id="main">
+    <!-- 中栏 -->
+    <div id="center">
+        <div id="boxActivityList" class="box disHide">
+            <h2>
+                财务管理
+                <span>Finance Manage</span>
+            </h2>
+             <a href="__APP__/Admin/Finance/index" class="button button-rounded button-flat-caution button-tiny tieson">提现管理</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+             <a href="javascript:void(0)" class="button button-rounded button-flat-caution button-tiny" id="cashInput">进账管理</a>
+            <hr/>
+            <div class="space"></div>
+            <!-- 内容开始 -->
+        
+            <div class="space"></div>
+
+            <div id="tableBody">
+                <div class="formGroup">
+                 <form method="post" action="{:U('Admin/Finance/searchAct')}" id="searchForm">
+                    <input name="keyword" id="keyword" type="text" placeholder="关键词" class="inputText widthSmall">
+                    <input type="button" value="搜索" id="searchSubmit" class="button button-rounded button-flat-caution button-tiny">
+                </form>
+            </div>
+
+                <include file="Finance/finance-table.inc"/>
+            </div>
+            
+            <input type="hidden" id="last_page" value="{$last_page}">
+            <!-- 输出分页 -->
+            <p id="pageBody">
+                {$page}
+            </p>
+
+        </div>
+    </div>
+</div>
+
+<include file="Public/footer.inc"/>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //向下滑动
+        setInterval(function () {
+            $("#boxModule").slideDown();
+        }, 200);
+        setInterval(function () {
+            $("#boxActivityList").slideDown();
+        }, 300);
+
+        //搜索
+        $("#searchSubmit").on("click",function(){
+            var keyword = $('#keyword').val();
+           if (keyword == "" || keyword == null || keyword == "请输入搜索关键字") {
+            keyword = '';
+            jAlert("请输入搜索关键字！", "搜索提示");
+            return;
+        } 
+            $('#searchForm').ajaxSubmit(function(data) {
+                if(data.status == 1) {
+                    $("#tableBody").html(data.info.tabelBody);
+                    $("#pageBody").html(data.info.pageBody);
+                }
+            });
+        });
+
+        $("#cashInput").on("click",function(){
+            $.ajax({
+                type: "POST",
+                url: "{:U('Admin/Finance/cashInput')}",
+                dataType: "JSON",
+                success: function (data) {
+                    if(data.status == 1) {
+                        $("#tableBody").html(data.info.tabelBody);
+                        $("#pageBody").html(data.info.pageBody);
+                    }
+                }
+            });
+
+        });
+
+    });
+    
+    function hrefPageByGo(url,pid){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+        var last_page = $("#last_page").val();
+        var pageId = $("#"+pid).val();
+        if(pageId == ""){
+            return;
+        }
+        if(pageId > last_page || pageId<=0 ){
+            return;
+        }
+        var urlStr  = $.trim(url);
+        urlStr = urlStr.replace( /%_p%/, $("#"+pid).val()); // "hxllx"
+
+        location.href =urlStr;
+    }
+    
+ 
+          function haveDone(id,status){
+            jConfirm("确认更改提现状态","确认消息",function(r){
+                if(r){
+                    $.ajax({
+                        type: "POST",
+                        url: "{:U('Admin/Finance/changeBankStatus')}",
+                        data: {'id': id,'status':status},
+                        dataType: "JSON",
+                        success: function (jsonResult) {
+                            if(jsonResult.status == 1){
+                                 jAlert(jsonResult.info,'操作提示');
+                                 location.reload();
+                            }else{
+                                 jAlert(jsonResult.info,'操作提示');
+                                 location.reload();
+                            }
+                        }
+                    });
+            }else{
+
+            }
+            });
+        }
+
+        /**
+     * AJAX分页处理
+     * @param url
+     */
+    function ajaxPage(url){
+        if(url == undefined){
+            return ;
+        }
+        if($.trim(url) == ''){
+            return;
+        }
+        var urlStr  = $.trim(url);
+        var paraStr = "";
+
+        $.ajax({
+            type: "POST",
+            url: urlStr,
+            data: paraStr,
+            dataType : "JSON",
+            success: function(jsonResult){
+                $("#tableBody").html(jsonResult.info.tabelBody);
+                $("#pageBody").html(jsonResult.info.pageBody);
+               
+            }
+        });
+    }
+    
+
+       
+
+</script>
+</body>
+</html>

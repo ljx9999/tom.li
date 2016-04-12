@@ -1,0 +1,100 @@
+/*********************
+File:     signin.css
+Title:    登录页样式
+Version:  2013-09-12
+Author:   Ray
+**********************/
+
+
+
+/*********************
+框架样式
+**********************/
+
+body {
+    background: url(./images/bgSignIn.jpg) top center #eee;
+}
+
+#formSignIn {
+    width: 560px;
+    height: 300px;
+    background: white;
+    border-radius: 5px;
+    margin: 150px auto 0;
+    box-shadow: 0px 5px 10px #ddd;
+}
+
+#formSignIn div.posLeft {
+    width: 55%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+#formSignIn div.posRight {
+    width: 45%;
+    background: url(./images/bgSignInRight.jpg) #db1c18;
+    height: 100%;
+    border-radius: 0 5px 5px 0;
+}
+
+#formSignIn h1 {
+    font-size: 22px;
+    color: black;
+    font-weight: normal;
+    padding: 50px 40px 30px;
+    font-family: "segoe ui light", "微软雅黑";
+}
+
+
+#formSignIn p {
+    margin: 0 40px 20px;
+    color: #999;
+}
+
+#footer {
+    color: #777;
+    margin: 40px 0;
+}
+
+
+/*********************
+表单样式
+**********************/
+
+#formSignIn .inputText {
+    margin: 0 40px 20px;
+    font-size: 16px;
+    line-height: 40px;
+    height: 40px;
+    padding: 0 10px;
+	transition-property: border;
+	transition-duration: 0.5s;
+}
+
+#formSignIn .inputText:focus {
+    border: 1px solid #ef5551;
+}
+
+#formSignIn .inputSubmit {
+    font-size: 18px;
+    line-height: 50px;
+    height: 50px;
+    background: #222;
+    color: #fff;
+    border: 0;
+    margin: 100px auto 0;
+    padding: 0 30px;
+    font-family: "segoe ui light", "微软雅黑";
+	transition-property: background;
+	transition-duration: 0.3s;
+}
+
+#formSignIn .inputSubmit:hover {
+    background: #333;
+    color: #fff;
+}
+
+#formSignIn label {
+    margin: 40px 60px 0;
+    color: #fff;
+}

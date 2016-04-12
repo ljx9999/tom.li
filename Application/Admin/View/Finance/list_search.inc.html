@@ -1,0 +1,56 @@
+ <table cellspacing="0" width="100%" cellpadding="5" border='0' class="tableList">
+            <if condition="!empty($cashes)">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>申请人</th>
+                    <th>身份证号</th>
+                    <th>手机号</th>
+                    <th>银行名</th>
+                    <th>银行卡号</th>
+                    <th>提现金额</th>
+                    <th>申请时间</th>
+                    <th>提现状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                 <else/>
+                    <span style="display:block;margin:0 auto;width:500px;">{$empty}</span>
+                </if>
+                <tbody>
+                <foreach item="activity" name="cashes">
+                    <tr>
+                        <td>{$activity.id}</td>
+                        <td>{$activity.user_name}</td>
+                        <td>{$activity.card_num}</td>
+                        <td>{$activity.mobile}</td>
+                        <td>{$activity.bank_name}</td>
+                        <td>{$activity.bank_num}</td>
+                        <td>{$activity.income}元</td>
+                        <td> {$activity.add_time|date="y-m-d",###}</td>
+                        <if condition="$activity['bank_status'] eq 0">
+                            <td>提现申请中</td>
+                        <elseif condition="$activity['bank_status'] eq 1"/>
+                             <td>审核通过，待打款</td>
+                        <elseif condition="$activity['bank_status'] eq 2"/>
+                             <td>打款成功</td>
+                        <else/>
+                              <td>审核未通过</td>  
+                        </if>
+                        <td>
+                            <div class="formGroup">
+                                <if condition="$activity['bank_status'] eq 0">
+                                <a href="Javascript:void(0)"
+                                   class="button button-rounded button-tiny button-flat-caution" onclick="haveDone({$activity.id},1)">审核通过</a>
+                                 <a href="Javascript:void(0)"
+                                   class="button button-rounded button-tiny button-flat-caution" onclick="haveDone({$activity.id},-1)">审核失败</a>
+                                <elseif condition="$activity['bank_status'] eq 1"/>
+                                <a href="Javascript:void(0)"
+                                   class="button button-rounded button-tiny button-flat-caution" onclick="haveDone({$activity.id},2)">已打款</a>
+                                </if>
+                            </div>
+                        </td>
+                    </tr>
+                </foreach>
+                </tbody>  
+            </table>
